@@ -1,50 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 17:59:53 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 17:03:46 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/10/09 15:55:03 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/10/09 16:53:05 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*p_s;
-	int		i;
+	char		*res;
+	size_t		i;
 
-	p_s = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!p_s)
+	res = (char *)malloc((len + 1) * sizeof(char));
+	if (!res || start > ft_strlen(s))
 		return (NULL);
 	i = 0;
-	while (s[i] != '\0')
+	while (i < len && s[i + start] != '\0')
 	{
-		p_s[i] = s[i];
+		res[i] = s[i + start];
 		i++;
 	}
-	p_s[i] = '\0';
-	return (p_s);
+	res[i] = '\0';
+	return (res);
 }
 
 /* #include <stdio.h>
-#include <string.h>
-int	main(void)
+int	main()
 {
-	char *dest;
-	char src[6] = "hello";
-
-	dest = ft_strdup(src);
-	printf("%s\n", dest);
-	free(dest);
-
-	char *dest1;
-	char src1[6] = "hello";
-
-	dest1 = strdup(src1);
-	printf("%s\n", dest1);
-	free(dest1);
-}  */
+	char *s = ft_substr("Hello, World!", 10, 3);
+	printf("%s", s);
+	free(s);
+} */

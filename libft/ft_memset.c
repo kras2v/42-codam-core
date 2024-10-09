@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:26:57 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/08 14:33:52 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/09 10:13:07 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,34 @@ int	main(void)
 	s2[5] = '\0';
 	printf("AFTER memset with chars:\t %s\n", s2);
 
-	// printf("\n________________________\n\n");
-	// int	i;
+	printf("\n________________________\n\n");
+	int	i;
 	
-	// int	i1[5] = {1, 1, 1, 1, 1};
-	// printf("BEFORE ft_memset with ints:\t ");
-	// i = 0;
-	// while(i < 5)
-	// 	printf("%d ", i1[i++]);
-	// printf("\n");
+	int	i1[5] = {-1, -51, -4651, 155555555, 6661};
+	printf("BEFORE ft_memset with ints:\t ");
+	i = 0;
+	while(i < 5)
+		printf("%d ", i1[i++]);
+	printf("\n");
 	
-	// ft_memset(i1, sizeof(i1));
-	// i = 0;
-	// printf("AFTER ft_memset with ints:\t ");
-	// while(i < 5)
-	// 	printf("%d ", i1[i++]);
-	// printf("\n\n");
+	ft_memset(i1, 257, sizeof(i1));
+	i = 0;
+	printf("AFTER ft_memset with ints:\t ");
+	while(i < 5)
+		printf("%d ", i1[i++]);
+	printf("\n\n");
 
-	// int	i2[5] = {1, 1, 1, 1, 1};
-	// printf("BEFORE memset with ints: \t ");
-	// i = 0;
-	// while(i < 5)
-	// 	printf("%d ", i2[i++]);
-	// printf("\n");
-	
-	// ft_memset(i2, sizeof(i2));
-	// i = 0;
-	// printf("AFTER memset with ints:  \t ");
-	// while(i < 5)
-	// 	printf("%d ", i2[i++]);
-	// printf("\n");
+	int	i2[5] = {-1, -51, -4651, 155555555, 6661};
+	printf("BEFORE memset with ints: \t ");
+	i = 0;
+	while(i < 5)
+		printf("%d ", i2[i++]);
+	printf("\n");
+
+	memset(i2, 1, sizeof(i2));
+	i = 0;
+	printf("AFTER memset with ints:  \t ");
+	while(i < 5)
+		printf("%d ", i2[i++]);
+	printf("\n");
 } */

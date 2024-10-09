@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:41:42 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/08 18:21:27 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:52:58 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,24 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	size_t	i;
 
 	i = 0;
-	if(size == 0 || nmemb == 0 || nmemb > SIZE_MAX / size)
+	if (size == 0 || nmemb == 0 || nmemb > SIZE_MAX / size)
 		return (0);
 	arr = (char *)malloc(nmemb * size);
 	if (!arr)
-		return (0);
+		return (NULL);
 	while (i < nmemb * size)
 	{
 		arr[i] = 0;
 		i++;
 	}
-	return (arr);
+	return ((void *)arr);
 }
 
-/* include <stdio.h>
+/* #include <stdio.h>
 int	main(void)
 {
 	int	*a;
-	int	nmemb;
+	unsigned long	nmemb;
 	int	i;
 
 	nmemb = 18446744073709551615UL;
@@ -48,12 +48,12 @@ int	main(void)
 	free(a);
 	printf("\n");
 	
-	int *a1;
-	a1 = calloc(nmemb, sizeof(int));
-	if(a1 == NULL)
-		return (1);
-	i = 0;
-	while(i < 5)
-		printf("%d", a1[i++]);
-	free(a1);
+	// int *a1;
+	// a1 = calloc(nmemb, sizeof(int));
+	// if(a1 == NULL)
+	// 	return (1);
+	// i = 0;
+	// while(i < 5)
+	// 	printf("%d", a1[i++]);
+	// free(a1);
 } */

@@ -1,50 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 17:59:53 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 17:03:46 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/10/09 16:17:59 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/10/09 16:52:21 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s)
+static char	*ft_join(char *res, char const *s)
 {
-	char	*p_s;
-	int		i;
+	while (*s != '\0')
+		*res++ = *s++;
+	return (res);
+}
 
-	p_s = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!p_s)
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*res;
+	char	*p_res;
+
+	res = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!p_res)
 		return (NULL);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		p_s[i] = s[i];
-		i++;
-	}
-	p_s[i] = '\0';
-	return (p_s);
+	p_res = res;
+	p_res = ft_join(p_res, s1);
+	p_res = ft_join(p_res, s2);
+	*p_res = '\0';
+	return (res);
 }
 
 /* #include <stdio.h>
-#include <string.h>
 int	main(void)
 {
-	char *dest;
-	char src[6] = "hello";
+	char *s1 = "Hello, ";
+	char *s2 = "World!";
 
-	dest = ft_strdup(src);
-	printf("%s\n", dest);
-	free(dest);
-
-	char *dest1;
-	char src1[6] = "hello";
-
-	dest1 = strdup(src1);
-	printf("%s\n", dest1);
-	free(dest1);
-}  */
+	char *res = ft_strjoin(s1, s2);
+	printf("%s", res);
+	free(res);
+} */
