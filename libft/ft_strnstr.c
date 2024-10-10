@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:29:41 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 15:53:09 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:51:59 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	while (*big && len-- > 0)
 	{
 		match = 0;
-		while (*big == little[match])
+		while (*big == little[match] && len-- > 0)
 		{
 			big++;
 			match++;
@@ -38,12 +38,11 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 
 /* #include <stdio.h>
 #include <string.h>
-
 int main() {
 	// Test Case 1: Basic test with a match
-	char big1[] = "This is a simple test.";
-	char little1[] = "simple";
-	char *expected1 = ft_strnstr(big1, little1, strlen(big1));
+	char big1[] = "lorem ipsum dolor sit amet";
+	char little1[] = "dolor";
+	char *expected1 = ft_strnstr(big1, little1, 15);
 	printf("%s", expected1);
 	return 0;
 } */

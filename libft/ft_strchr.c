@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:22:12 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 15:16:11 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:39:02 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ char	*ft_strchr(const char *s, int c)
 	char	*p_s;
 
 	p_s = (char *)s;
-	if (*p_s == c)
-		return (p_s);
 	while (*p_s != '\0')
 	{
 		if (*p_s == c)
 			return (p_s);
 		p_s++;
 	}
+	if (*p_s == c)
+		return (p_s);
 	return (0);
 }
 
