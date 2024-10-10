@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:30:42 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 15:53:39 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:16:15 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (0);
 }
+
+/* #include <string.h>
+#include <stdio.h>
+int main(){
+	int tab[7] = {-49, 49, 1, -1, 0, -2, 2};
+	printf("%s", (char *)ft_memchr(tab, -1, 7));
+} */
 
 /* #include <string.h>
 #include <stdio.h>

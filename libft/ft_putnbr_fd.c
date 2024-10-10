@@ -1,41 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 15:55:03 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/10 15:59:18 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/10/10 16:59:16 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/10/10 17:24:26 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char		*res;
-	size_t		i;
+	long	lnum;
 
-	if (!s)
-		return (NULL);
-	res = (char *)malloc((len + 1) * sizeof(char));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (i < len && s[i + start] != '\0')
+	lnum = n;
+	if (n < 0)
 	{
-		res[i] = s[i + start];
-		i++;
+		lnum = -lnum;
+		ft_putchar_fd('-', fd);
 	}
-	res[i] = '\0';
-	return (res);
+	if (lnum >= 10)
+		ft_putnbr_fd(lnum / 10, fd);
+	ft_putchar_fd((lnum % 10 + '0'), fd);
 }
 
-/* #include <stdio.h>
-int	main()
+/* int	main(void)
 {
-	char *s = ft_substr("lorem ipsum dolor sit amet", 0, 10);
-	printf("%s", s);
-	free(s);
+	int fd = open("./test.txt", O_WRONLY);
+	ft_putnbr_fd(-2147483648, 0);
+	close(fd);
+	return (0);
 } */

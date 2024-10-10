@@ -6,25 +6,15 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:16:26 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/08 13:34:08 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:18:37 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-void	*ft_bzero(void *s, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
-	size_t			i;
-	unsigned char	*p;
-
-	i = 0;
-	p = (unsigned char *)s;
-	while (i < n)
-	{
-		p[i] = 0;
-		i++;
-	}
-	return (s);
+	ft_memset(s, 0, n);
 }
 
 /* #include <stdio.h>

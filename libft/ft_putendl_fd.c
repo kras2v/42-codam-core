@@ -1,41 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 15:55:03 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/10 15:59:18 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/10/10 16:48:12 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/10/10 16:50:16 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	ft_putendl_fd(char *s, int fd)
 {
-	char		*res;
-	size_t		i;
-
-	if (!s)
-		return (NULL);
-	res = (char *)malloc((len + 1) * sizeof(char));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (i < len && s[i + start] != '\0')
-	{
-		res[i] = s[i + start];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }
 
-/* #include <stdio.h>
-int	main()
+/* int	main(void)
 {
-	char *s = ft_substr("lorem ipsum dolor sit amet", 0, 10);
-	printf("%s", s);
-	free(s);
+	int fd = open("./test.txt", O_WRONLY);
+	ft_putendl_fd("abcdef", fd);
+	close(fd);
+	return (0);
 } */

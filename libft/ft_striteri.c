@@ -1,41 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 15:55:03 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/10 15:59:18 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/10/10 15:59:34 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/10/10 16:07:31 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	char		*res;
-	size_t		i;
+	int	i;
 
-	if (!s)
-		return (NULL);
-	res = (char *)malloc((len + 1) * sizeof(char));
-	if (!res)
-		return (NULL);
 	i = 0;
-	while (i < len && s[i + start] != '\0')
+	if (!s)
+		return ;
+	while (s[i] != '\0')
 	{
-		res[i] = s[i + start];
+		f(i, &s[i]);
 		i++;
 	}
-	res[i] = '\0';
-	return (res);
 }
 
-/* #include <stdio.h>
+/* static void func(unsigned int index, char *c)
+{
+	*c += index;
+}
+
+#include <stdio.h>
 int	main()
 {
-	char *s = ft_substr("lorem ipsum dolor sit amet", 0, 10);
-	printf("%s", s);
-	free(s);
+	void (*pointer_func)(unsigned int, char*) = func;
+	char res[] = "abc";
+	ft_striteri(res, pointer_func);
+	printf("%s", res);
 } */

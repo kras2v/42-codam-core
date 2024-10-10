@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:07:50 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 18:12:50 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:59:10 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	ft_count_words(const char *s, char c)
 	int	words;
 
 	words = 0;
+	if (!s)
+		return (0);
 	while (*s != '\0')
 	{
 		while (*s == c)
@@ -25,7 +27,6 @@ static int	ft_count_words(const char *s, char c)
 			words++;
 		while (*s != c && *s != '\0')
 			s++;
-		s++;
 	}
 	return (words);
 }
@@ -84,7 +85,7 @@ char	**ft_split(char const *s, char c)
 
 	res = (char **)malloc((ft_count_words(s, c) + 1) * sizeof(char *));
 	words_index = 0;
-	if (!res)
+	if (!res || !s)
 		return (NULL);
 	while (*s)
 	{
@@ -106,11 +107,17 @@ char	**ft_split(char const *s, char c)
 /* #include <stdio.h>
 int	main()
 {
-	char	*s = "hello 1 world k ";
+	char	*s = "hello world this is a test";
 	char	**res = ft_split(s, ' ');
 	int	i = 0;
-	while(res[i] != NULL)
+
+	if (!res)
+		return (1);
+
+	while (res[i] != NULL)
 		printf("%s|", res[i++]);
+	printf("\n");
+
 	i = 0;
 	while (res[i] != NULL)
 	{
@@ -118,5 +125,5 @@ int	main()
 		i++;
 	}
 	free(res);
-		return (0);
+	return (0);
 } */

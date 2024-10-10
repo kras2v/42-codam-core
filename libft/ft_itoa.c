@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 21:45:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/09 22:43:28 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:41:12 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int	ft_calc_num_len(size_t n)
 	size_t	len;
 
 	len = 0;
-	if(n == 0)
+	if (n == 0)
 		return (1);
-	while(n > 0)
+	while (n > 0)
 	{
 		n /= 10;
 		len++;
@@ -36,7 +36,7 @@ static int	ft_handle_sign(long *lnum, int n)
 	return (n < 0);
 }
 
-char *ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*res;
 	int		num_len;
@@ -46,10 +46,12 @@ char *ft_itoa(int n)
 	sign = ft_handle_sign(&lnum, n);
 	num_len = ft_calc_num_len(lnum);
 	res = (char *)malloc((num_len + sign + 1) * sizeof(char));
-	if(sign)
+	if (!res)
+		return (NULL);
+	if (sign)
 		res[0] = '-';
 	res[num_len + sign] = '\0';
-	while(num_len-- > 0)
+	while (num_len-- > 0)
 	{
 		res[num_len + sign] = lnum % 10 + '0';
 		lnum /= 10;
@@ -57,7 +59,7 @@ char *ft_itoa(int n)
 	return (res);
 }
 
-int	main()
+/* int	main(void)
 {
 	printf("%s", ft_itoa(0));
-}
+} */

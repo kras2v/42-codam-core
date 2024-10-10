@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:26:57 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 10:13:07 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:16:04 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_memset(void *s, int c, size_t n)
 		p[i] = (unsigned char)c;
 		i++;
 	}
-	return (s);
+	return ((void *)s);
 }
 
 /* #include <stdio.h>
