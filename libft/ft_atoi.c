@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:28:01 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/08 17:59:18 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/11 19:16:28 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	ft_atoi(const char *nptr)
 	return (res *= sign);
 }
 
-/* #include <stdio.h>
+#include <stdio.h>
 #include <string.h>
 int	main(void)
 {
 	printf("%d\n", ft_atoi(" \n  -523555"));
 	printf("%d\n", atoi(" \n  -523555"));
-} */
+}
