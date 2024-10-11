@@ -6,11 +6,12 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:53:46 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/10 18:14:30 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:44:41 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*res;
@@ -20,6 +21,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		len;
 
 	start = 0;
+	if (!s1 || !set)
+		return (NULL);
 	s1_len = ft_strlen(s1);
 	if (!s1 || !set)
 		return (NULL);
@@ -38,10 +41,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 	return (res);
 }
 
-#include <stdio.h>
+/* #include <stdio.h>
 int	main()
 {
 	char *s = ft_strtrim("  5        ", " ");
 	printf("%s", s);
 	free(s);
-}
+} */

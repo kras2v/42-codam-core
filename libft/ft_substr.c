@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:55:03 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/10 15:59:18 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:38:46 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char		*res;
-	size_t		i;
+	char			*res;
+	const char		*s_end;
+	size_t			i;
 
 	if (!s)
 		return (NULL);
@@ -23,7 +24,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!res)
 		return (NULL);
 	i = 0;
-	while (i < len && s[i + start] != '\0')
+	s_end = s + ft_strlen(s);
+	while (i < len && (s + i + start) <= s_end)
 	{
 		res[i] = s[i + start];
 		i++;
@@ -31,11 +33,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	res[i] = '\0';
 	return (res);
 }
-
 /* #include <stdio.h>
 int	main()
 {
-	char *s = ft_substr("lorem ipsum dolor sit amet", 0, 10);
+	char *s = ft_substr("l", 1, 10);
 	printf("%s", s);
 	free(s);
 } */

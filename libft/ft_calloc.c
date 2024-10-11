@@ -6,28 +6,36 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:41:42 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 16:52:58 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:49:41 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+static int	ft_is_overflow(size_t nmemb, size_t size)
+{
+	return (nmemb > SIZE_MAX / size);
+}
+
+static int	ft_is_size_or_nmem_valid(size_t nmemb, size_t size)
+{
+	return (size == 0 || nmemb == 0);
+}
+
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	char	*arr;
-	size_t	i;
+	size_t	total_size;
 
-	i = 0;
-	if (size == 0 || nmemb == 0 || nmemb > SIZE_MAX / size)
-		return (0);
-	arr = (char *)malloc(nmemb * size);
+	if (ft_is_size_or_nmem_valid(nmemb, size))
+		return ((void *)malloc(1));
+	if (ft_is_overflow(nmemb, size))
+		return (NULL);
+	total_size = nmemb * size;
+	arr = (char *)malloc((total_size) * sizeof(char));
 	if (!arr)
 		return (NULL);
-	while (i < nmemb * size)
-	{
-		arr[i] = 0;
-		i++;
-	}
+	ft_bzero(arr, total_size);
 	return ((void *)arr);
 }
 
@@ -35,16 +43,16 @@ void	*ft_calloc(size_t nmemb, size_t size)
 int	main(void)
 {
 	int	*a;
-	unsigned long	nmemb;
 	int	i;
+	size_t nmemb = 18446744073709551615UL + 1;
+	size_t size = 18446744073709551615UL; 
 
-	nmemb = 18446744073709551615UL;
-	a = ft_calloc(nmemb, sizeof(int));
-	if(a == NULL)
-		return (1);
+	a = ft_calloc(nmemb, size);
+	// if(a == NULL)
+	// 	return (1);
 	i = 0;
-	while (i < 5)
-		printf("%d", a[i++]);
+	// while (i < 5)
+	// 	printf("%d", a[i++]);
 	free(a);
 	printf("\n");
 	

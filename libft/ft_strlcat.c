@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:30:20 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/08 17:28:31 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:13:56 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	size_t		dst_len;
 	size_t		src_len;
 
+	if (!dst && size == 0)
+		return (0);
 	i = 0;
 	dst_len = ft_strlen(dst);
 	src_len = ft_strlen(src);
@@ -36,14 +38,14 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 #include <string.h>
 int	main(void)
 {
-	char dest[15] = "";
-	char src[6] = "hell";
+	char *dest = NULL;
+	char *src = "";
 
-	printf("%ld\n", ft_strlcat(dest, src, 0));
+	printf("%d\n", ft_strlcat(dest, src, 0));
 	printf("%s\n", dest);
 
-	char dest1[6]= "";
-	char src1[6] = "hell";
+	char *dest1 = NULL;
+	char *src1 = "";
 
 	printf("%d\n", strlcat(dest1, src1, 0));
 	printf("%s\n", dest1);

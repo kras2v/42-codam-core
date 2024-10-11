@@ -6,11 +6,17 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:29:41 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/10 11:14:49 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:39:42 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static void	ft_rollback(const char *big, size_t *len, size_t *match)
+{
+	big -= *match;
+	*len += *match;
+}
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
@@ -20,7 +26,9 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	little_len = ft_strlen(little);
 	if (little_len == 0)
 		return ((char *)big);
-	while (*big && len-- > 0)
+	if (!big && len == 0)
+		return (0);
+	while (*big && len > 0)
 	{
 		match = 0;
 		while (*big == little[match] && len-- > 0)
@@ -30,8 +38,8 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 			if (match == little_len)
 				return ((char *)big - little_len);
 		}
-		big -= match;
-		len += match;
+		ft_rollback(big, &len, &match);
+		len--;
 		big++;
 	}
 	return (NULL);
@@ -40,9 +48,9 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 /* #include <stdio.h>
 #include <string.h>
 int main() {
-	char *big1 = "f";
-	char *little = NULL;
-	char *expected1 = ft_strnstr(big1, little, 0);
+	char *big1 = "abcdadhcdd";
+	char *little = "cdd";
+	char *expected1 = ft_strnstr(big1, little, 10);
 	printf("%s", expected1);
 	return 0;
 } */

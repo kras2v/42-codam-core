@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:31:18 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 10:18:44 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:09:11 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	unsigned char	*p_dest;
 	unsigned char	*p_src;
 
+	if (!dest && !src)
+		return (NULL);
 	i = 0;
 	p_dest = (unsigned char *)dest;
 	p_src = (unsigned char *)src;
@@ -33,15 +35,16 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 #include <string.h>
 int	main(void)
 {
-	char dest[6] = "world";
-	char src[6] = "hello";
+	char *dest = NULL;
+	char *src = NULL;
 
-	ft_memcpy(dest, src, 20);
+	ft_memcpy(dest, src, 5);
 	printf("%s\n", dest);
 
-	char dest1[6] = "world";
-	char src1[6] = "hello";
+	char *dest1 = NULL;
+	char *src1 = NULL;
 
-	memcpy(dest1, src1, 20);
+	memcpy(dest1, src1, 5);
 	printf("%s\n", dest1);
-} */
+}
+ */

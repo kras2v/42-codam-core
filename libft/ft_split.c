@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:07:50 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/10 15:59:10 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:48:59 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	ft_count_word_len(const char *s, char c)
 	return (word_len);
 }
 
-int	ft_is_res_word_index(char **res, int words_index)
+static int	ft_is_res_word_index(char **res, int words_index)
 {
 	int	j;
 
@@ -62,21 +62,6 @@ int	ft_is_res_word_index(char **res, int words_index)
 	return (1);
 }
 
-static char	*ft_write_into_word(const char **src, char *dest, char c)
-{
-	char	*p_dest;
-
-	p_dest = dest;
-	while (**src != c && **src != '\0')
-	{
-		*p_dest = **src;
-		p_dest++;
-		(*src)++;
-	}
-	*p_dest = '\0';
-	return (dest);
-}
-
 char	**ft_split(char const *s, char c)
 {
 	char	**res;
@@ -89,16 +74,18 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	while (*s)
 	{
-		while (*s == c)
+		while (*s == c && *s != '\0')
 			s++;
 		word_len = ft_count_word_len(s, c);
 		if (word_len != 0)
 		{
-			res[words_index] = (char *)malloc((word_len + 1) * sizeof(char));
+			res[words_index] = ft_substr(s, 0, word_len);
 			if (!ft_is_res_word_index(res, words_index))
 				return (NULL);
-			ft_write_into_word(&s, res[words_index++], c);
+			words_index++;
 		}
+		while (*s != c && *s != '\0')
+			s++;
 	}
 	res[words_index] = NULL;
 	return (res);

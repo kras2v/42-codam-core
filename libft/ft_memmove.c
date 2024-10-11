@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 14:47:48 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 12:25:55 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:45:22 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,12 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	char	*char_dest;
 	char	*char_src;
 
+	if (!dest && !src)
+		return (NULL);
 	char_dest = (char *) dest;
 	char_src = (char *) src;
 	if (char_dest < char_src)
-	{
-		i = 0;
-		while (i < n)
-		{
-			char_dest[i] = char_src[i];
-			i++;
-		}
-	}
+		ft_memcpy(dest, src, n);
 	else
 	{
 		i = n;
