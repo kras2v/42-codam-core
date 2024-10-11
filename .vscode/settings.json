@@ -3,6 +3,14 @@
 		"stdio.h": "c",
 		"string.h": "c",
 		"ctype.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"stdlib.h": "c",
+		"array": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"ranges": "c",
+		"span": "c",
+		"utility": "c",
+		"random": "c"
 	}
 }
