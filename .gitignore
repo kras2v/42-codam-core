@@ -2,3 +2,4 @@ a.out
 libft.so
 *.a
 *.o
+libft-unit-test
