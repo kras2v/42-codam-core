@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:41:42 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/11 18:49:41 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:50:40 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	size_t	total_size;
 
 	if (ft_is_size_or_nmem_valid(nmemb, size))
-		return ((void *)malloc(1));
+		return ((void *)malloc(0));
 	if (ft_is_overflow(nmemb, size))
 		return (NULL);
 	total_size = nmemb * size;

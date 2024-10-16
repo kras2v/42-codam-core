@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:53:46 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/11 18:44:41 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:33:08 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 /* #include <stdio.h>
 int	main()
 {
-	char *s = ft_strtrim("  5        ", " ");
+	char *s = ft_strtrim("abcd", "");
 	printf("%s", s);
 	free(s);
 } */
