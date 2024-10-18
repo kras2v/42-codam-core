@@ -6,6 +6,7 @@ ft_substr.c ft_bzero.c ft_strncmp.c ft_tolower.c ft_strjoin.c ft_isalnum.c ft_is
 ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
 ft_lstclear.c ft_lstiter.c ft_lstmap.c
+
 BONUS := ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
 ft_lstclear.c ft_lstiter.c ft_lstmap.c
 OBJC := $(SRCS:%.c=%.o)
@@ -18,10 +19,6 @@ all : $(NAME)
 
 $(NAME) : $(OBJC)
 	ar $(ARFLAGS) $(NAME) $(OBJC)
-
-so:
-	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRCS)
-	gcc -nostartfiles -shared -o libft.so $(OBJC)
 
 bonus : $(BONUS_OBJC) $(OBJC)
 	ar $(ARFLAGS) $(NAME) $(OBJC) $(BONUS_OBJC)
