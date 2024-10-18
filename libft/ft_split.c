@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:07:50 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/11 18:48:59 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:37:35 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,27 +90,3 @@ char	**ft_split(char const *s, char c)
 	res[words_index] = NULL;
 	return (res);
 }
-
-/* #include <stdio.h>
-int	main()
-{
-	char	*s = "hello world this is a test";
-	char	**res = ft_split(s, ' ');
-	int	i = 0;
-
-	if (!res)
-		return (1);
-
-	while (res[i] != NULL)
-		printf("%s|", res[i++]);
-	printf("\n");
-
-	i = 0;
-	while (res[i] != NULL)
-	{
-		free(res[i]);
-		i++;
-	}
-	free(res);
-	return (0);
-} */

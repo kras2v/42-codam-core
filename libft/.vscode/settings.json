@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"stdio.h": "c",
-		"libft.h": "c",
-		"ft_strtrim.C": "cpp",
-		"unistd.h": "c",
-		"stdint.h": "c"
-	}
-}

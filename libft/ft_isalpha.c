@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 10:31:10 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/08 12:18:39 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:50:41 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,3 @@ int	ft_isalpha(int c)
 {
 	return (ft_isupper(c) || ft_islower(c));
 }
-
-/* #include <stdio.h>
-#include <ctype.h>
-int	main(void)
-{
-	printf("%d\n", ft_isalpha(100));
-	printf("%d\n", isalpha(100));
-} */

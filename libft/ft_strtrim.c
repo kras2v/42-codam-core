@@ -6,45 +6,58 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:53:46 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/16 13:33:08 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:47:07 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static int	ft_calc_start_index(char const *s1, char const *set)
+{
+	int	start;
+
+	start = 0;
+	while (ft_strchr(set, s1[start]) && s1[start] != '\0')
+		start++;
+	return (start);
+}
+
+static int	ft_calc_end_index(char const *s1, char const *set)
+{
+	int	end;
+
+	end = 0;
+	end = ft_strlen(s1) - 1;
+	while (ft_strchr(set, s1[end]) && end > 0)
+		end--;
+	return (end);
+}
+
+static int	ft_calc_len(int start, int end)
+{
+	int	len;
+
+	if (start > end)
+		len = 0;
+	else
+		len = end - start + 1;
+	return (len);
+}
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*res;
 	int		start;
 	int		end;
-	int		s1_len;
 	int		len;
 
-	start = 0;
 	if (!s1 || !set)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	if (!s1 || !set)
-		return (NULL);
-	while (ft_strchr(set, s1[start]) && s1[start] != '\0')
-		start++;
-	end = s1_len;
-	while (ft_strchr(set, s1[end]) && end > 0)
-		end--;
-	if (start <= end)
-		len = end - start + 1;
-	else
-		len = s1_len - end - start;
+	start = ft_calc_start_index(s1, set);
+	end = ft_calc_end_index(s1, set);
+	len = ft_calc_len(start, end);
 	res = ft_substr(s1, start, len);
-	if (res == NULL)
+	if (!res)
 		return (NULL);
 	return (res);
 }
-
-/* #include <stdio.h>
-int	main()
-{
-	char *s = ft_strtrim("abcd", "");
-	printf("%s", s);
-	free(s);
-} */

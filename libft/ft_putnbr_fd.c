@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:59:16 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/10 17:24:26 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:36:29 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,3 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(lnum / 10, fd);
 	ft_putchar_fd((lnum % 10 + '0'), fd);
 }
-
-/* int	main(void)
-{
-	int fd = open("./test.txt", O_WRONLY);
-	ft_putnbr_fd(-2147483648, 0);
-	close(fd);
-	return (0);
-} */

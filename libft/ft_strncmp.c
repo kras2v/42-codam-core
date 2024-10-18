@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:21:45 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/09 23:49:03 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:05:17 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
-
-/* #include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-	printf("%d\n", ft_strncmp("test\200", "test\00", 6));
-	printf("%d\n", strncmp("test\200", "test\00", 6));
-} */

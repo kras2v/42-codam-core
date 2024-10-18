@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:17:59 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/11 16:39:29 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:44:25 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	*p_res = '\0';
 	return (res);
 }
-
-/* #include <stdio.h>
-int	main(void)
-{
-	char *s1 = "Hello, ";
-	char *s2 = "World!";
-
-	char *res = ft_strjoin(s1, s2);
-	printf("%s", res);
-	free(res);
-} */

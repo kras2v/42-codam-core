@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:55:03 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/16 15:26:20 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:27:31 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		res[i] = s[i + start];
 		i++;
 	}
-	res[i] = 0;
+	res[i] = '\0';
 	return (res);
 }
-
-/* #include <stdio.h>
-int	main()
-{
-	char *s = ft_substr("hola", 2, 3);
-	printf("%s", s);
-	free(s);
-} */

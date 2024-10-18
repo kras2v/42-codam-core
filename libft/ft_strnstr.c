@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:29:41 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/16 12:24:47 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:04:46 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,3 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	}
 	return (NULL);
 }
-
-/* #include <stdio.h>
-#include <string.h>
-int main() {
-	char *big1 = "aaabcabcd";
-	char *little = "cd";
-	char *expected1 = ft_strnstr(big1, little, 8);
-	printf("%s", expected1);
-	return 0;
-} */

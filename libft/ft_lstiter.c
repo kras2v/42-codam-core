@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 18:30:37 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/16 18:33:44 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:16:20 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	if (lst == NULL)
-		return ;
 	while (lst != NULL)
 	{
 		f(lst->content);

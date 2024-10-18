@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:05:49 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/08 17:27:05 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:27:42 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,3 @@ int	ft_toupper(int c)
 		return (c - 32);
 	return (c);
 }
-
-/* #include <stdio.h>
-#include <ctype.h>
-int	main(void)
-{
-	printf("%c\n", ft_toupper('A'));
-	printf("%c\n", toupper('A'));
-} */

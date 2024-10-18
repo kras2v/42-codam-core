@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:22:12 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/16 15:34:00 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:42:13 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,5 @@ char	*ft_strrchr(const char *s, int c)
 			return ((char *)p_s_end);
 		p_s_end--;
 	}
-	if (*p_s_end == c)
-		return ((char *)p_s_end);
 	return (0);
 }
-
-/* #include <string.h>
-#include <stdio.h>
-int	main()
-{
-	char s[] = "tripouille";
-	printf("%s", ft_strrchr(s, 't' + 256));
-} */

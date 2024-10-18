@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:16:15 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/16 18:35:04 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:19:42 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <unistd.h>
-# include <fcntl.h>
 
 typedef struct s_list
 {

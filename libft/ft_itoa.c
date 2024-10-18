@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 21:45:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/10 17:41:12 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:52:55 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,3 @@ char	*ft_itoa(int n)
 	}
 	return (res);
 }
-
-/* int	main(void)
-{
-	printf("%s", ft_itoa(0));
-} */

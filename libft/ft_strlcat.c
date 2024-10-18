@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:30:20 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/11 13:13:56 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:47:15 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,3 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	dst[i + dst_len] = '\0';
 	return (dst_len + src_len);
 }
-
-/* #include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-	char *dest = NULL;
-	char *src = "";
-
-	printf("%d\n", ft_strlcat(dest, src, 0));
-	printf("%s\n", dest);
-
-	char *dest1 = NULL;
-	char *src1 = "";
-
-	printf("%d\n", strlcat(dest1, src1, 0));
-	printf("%s\n", dest1);
-} */

@@ -19,6 +19,10 @@ all : $(NAME)
 $(NAME) : $(OBJC)
 	ar $(ARFLAGS) $(NAME) $(OBJC)
 
+so:
+	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRCS)
+	gcc -nostartfiles -shared -o libft.so $(OBJC)
+
 bonus : $(BONUS_OBJC) $(OBJC)
 	ar $(ARFLAGS) $(NAME) $(OBJC) $(BONUS_OBJC)
 
@@ -33,4 +37,4 @@ fclean : clean
 
 re : fclean $(NAME)
 
-.PHONY : clean fclean all re
+.PHONY : clean fclean all re bonus

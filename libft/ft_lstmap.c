@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 18:35:18 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/16 18:55:56 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:38:05 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,25 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list *res;
-	t_list *next;
-	
-	res = (t_list *)malloc(sizeof(t_list));
-	if (!res || !lst)
+	t_list	*root;
+	t_list	*new;
+	void	*content;
+
+	if (!lst)
 		return (NULL);
+	root = NULL;
 	while (lst != NULL)
 	{
-		res->content = f(lst->content);
-		next = (t_list *)malloc(sizeof(t_list));
-		if (!next)
+		content = f(lst->content);
+		new = ft_lstnew(content);
+		if (!new)
 		{
-			ft_lstclear(&next, del);
-			return res;
+			del(content);
+			ft_lstclear(&root, del);
+			return (NULL);
 		}
-		ft_lstadd_back(&res, next);
+		ft_lstadd_back(&root, new);
 		lst = lst->next;
 	}
-	return (res);
+	return (root);
 }
