@@ -6,12 +6,11 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 21:45:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/18 14:52:55 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/19 11:13:26 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int	ft_calc_num_len(size_t n)
 {

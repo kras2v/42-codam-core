@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 18:13:41 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/18 19:18:38 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/19 11:53:48 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	t_list	*curr;
 	t_list	*next;
 
-	if (lst == NULL)
+	if (!lst || !del)
 		return ;
 	curr = (*lst);
 	while (curr != NULL)

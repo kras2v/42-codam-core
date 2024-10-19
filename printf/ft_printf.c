@@ -6,23 +6,23 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 21:04:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/19 16:38:52 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:06:42 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int ft_is_conversion(const char *a)
+static int ft_is_conversion(const char a)
 {
-	return (*a == 'c'
-		|| *a == 's'
-		|| *a == 'p'
-		|| *a == 'd'
-		|| *a == 'i'
-		|| *a == 'u'
-		|| *a == 'x'
-		|| *a == 'X'
-		|| *a == '%');
+	return (a == 'c'
+		|| a == 's'
+		|| a == 'p'
+		|| a == 'd'
+		|| a == 'i'
+		|| a == 'u'
+		|| a == 'x'
+		|| a == 'X'
+		|| a == '%');
 }
 
 int	ft_check_conv_format_and_move(const char **a)
@@ -35,87 +35,87 @@ int	ft_check_conv_format_and_move(const char **a)
 	return (0);
 }
 
-static int ft_choose_convension(const char *a, void *arg)
+static void ft_choose_convension(va_list list, const char *format)
 {
-	if (*a == 'c')
+	if (*format == 'c')
 	{
-		ft_printf_c((char)arg);
+		ft_printf_c(va_arg(list, int));
 	}
-	else if(*a == 's')
+	else if(*format == 's')
 	{
-		ft_printf_s((char *)arg);
+		ft_printf_s(va_arg(list, char *));
 	}
-	else if(*a == 'p')
+	else if(*format == 'd')
+	{
+		ft_printf_d(va_arg(list, int));
+	}
+	else if(*format == 'i')
+	{
+		ft_printf_d(va_arg(list, int));
+	}
+	/* else if(*format == 'p')
 	{
 		ft_printf_p();
 	}
-	else if(*a == 'd')
-	{
-		ft_printf_d();
-	}
-	else if(*a == 'i')
-	{
-		ft_printf_i();
-	}
-	else if(*a == 'u')
+	else if(*format == 'u')
 	{
 		ft_printf_u();
 	}
-	else if(*a == 'x')
+	else if(*format == 'x')
 	{
 		ft_printf_x();
 	}
-	else if(*a == 'X')
+	else if(*format == 'X')
 	{
 		ft_printf_X();
 	}
-	else if(*a == '%')
+	*/
+	else if(*format == '%')
 	{
-		ft_printf_percent();
-}
+		ft_printf_c('%');
+	} 
 }
 
 int	ft_count_args(const char * a)
 {
 	int		args_amount;
-	void	*arg;
 	
 	args_amount = 0;
 	while (*a != '\0')
 	{
 		if (ft_check_conv_format_and_move(&a))
 		{
-			ft_choose_convension();
+			args_amount++;
 		}
 		a++;
 	}
 	return (args_amount);
 }
 
-int ft_printf(const char * a, ...)
+int ft_printf(const char * format, ...)
 {
 	va_list	list;
 	int		args_amount;
-	int		i;
 
-	args_amount = ft_count_args(a);
-	va_start(list, args_amount);
-	i = 0;
-	while (a[i] != '\0')
+	args_amount = ft_count_args(format);
+	va_start(list, format);
+	while (*format)
 	{
-		if (ft_check_conv_format_and_move(&a))
+		if (ft_check_conv_format_and_move(&format))
 		{
-			
+			if (ft_is_conversion(*format))
+				ft_choose_convension(list, format);
 		}
-		i++;
+		else
+			ft_printf_c(*format);
+		format++;
 	}
-	ft_putstr_fd((char *)a, 0);
 	va_end(list);
 	return (1);
 }
 
-#include <stdio.h>
+/* #include <stdio.h>
 int main(void)
 {
-	ft_printf("%s", "fasfa", 531531);
-}
+	ft_printf("%c", '0');
+} */

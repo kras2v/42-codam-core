@@ -6,13 +6,13 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:55:03 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/18 17:27:31 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/19 11:07:00 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_alloc_empty_str(void)
+static char	*ft_alloc_empty_str(void)
 {
 	char	*res;
 

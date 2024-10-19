@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:07:50 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/18 16:37:35 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:55:49 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,27 @@ static int	ft_is_res_word_index(char **res, int words_index)
 	return (1);
 }
 
+static void	ft_skip(char const **s, char c, int is_space)
+{
+	while ((**s == c) == is_space && **s != '\0')
+		(*s)++;
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**res;
 	int		words_index;
 	int		word_len;
 
+	if (!s)
+		return (NULL);
 	res = (char **)malloc((ft_count_words(s, c) + 1) * sizeof(char *));
 	words_index = 0;
-	if (!res || !s)
+	if (!res)
 		return (NULL);
 	while (*s)
 	{
-		while (*s == c && *s != '\0')
-			s++;
+		ft_skip(&s, c, 1);
 		word_len = ft_count_word_len(s, c);
 		if (word_len != 0)
 		{
@@ -84,9 +91,37 @@ char	**ft_split(char const *s, char c)
 				return (NULL);
 			words_index++;
 		}
-		while (*s != c && *s != '\0')
-			s++;
+		ft_skip(&s, c, 0);
 	}
 	res[words_index] = NULL;
 	return (res);
 }
+
+// #include <stdio.h>
+// int main()
+// {
+//  	char *s = "olol                     ";  // input string
+//     char **result = ft_split(s, 0);       // split based on space
+
+//     if (!result)
+//         return (1); // handle error if result is NULL
+    
+//     // Print the resulting split strings
+//     for (int i = 0; result[i] != NULL; i++)
+//     {
+//         printf("result[%d]: %s\n", i, result[i]);
+//     }
+
+//     // Free the allocated memory for each string
+//     int i = 0;
+//     while (result[i] != NULL)
+//     {
+//         free(result[i]);  // free each string
+//         i++;
+//     }
+
+//     // Free the array of pointers itself
+//     free(result);
+
+//     return 0;
+// }

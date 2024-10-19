@@ -6,8 +6,13 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 21:04:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/19 12:43:04 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:27:29 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+void	ft_printf_d(int num)
+{
+	ft_putnbr_fd(num, 0);
+}

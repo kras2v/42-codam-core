@@ -1,14 +1,20 @@
 NAME := libftprintf.a
-LIBFT := libft/libft.a
+LIBFT := ./libft/libft.a
+
 ARFLAGS := -r -s -c
-SRCS := ft_printf.c 
+SRCS := ft_printf.c ft_printf_c.c ft_printf_s.c ft_printf_d.c
+
 OBJS := $(SRCS:%.c=%.o)
 CFLAGS := -Wall -Werror -Wextra
+AR := ar rcs
 
 all : $(NAME)
 
-$(NAME) : $(LIBFT) $(OBJS)
+$(NAME) : $(OBJS) $(LIBFT)
 	ar $(ARFLAGS) $(NAME) $(OBJS)
+	ar x $(LIBFT)
+	ar $(ARFLAGS) $(NAME) *.o
+	rm -f *.o
 
 #! to remove
 ft_printf : $(OBJS) $(LIBFT)
@@ -25,7 +31,8 @@ clean :
 	$(MAKE) -C ./libft clean
 
 fclean : clean
-	rm -f $(NAME) $(LIBFT)
+	rm -f $(NAME)
+	$(MAKE) -C ./libft fclean
 
 re : fclean all
 
