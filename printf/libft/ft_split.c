@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:07:50 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/19 14:55:49 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:55:07 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,32 +96,3 @@ char	**ft_split(char const *s, char c)
 	res[words_index] = NULL;
 	return (res);
 }
-
-// #include <stdio.h>
-// int main()
-// {
-//  	char *s = "olol                     ";  // input string
-//     char **result = ft_split(s, 0);       // split based on space
-
-//     if (!result)
-//         return (1); // handle error if result is NULL
-    
-//     // Print the resulting split strings
-//     for (int i = 0; result[i] != NULL; i++)
-//     {
-//         printf("result[%d]: %s\n", i, result[i]);
-//     }
-
-//     // Free the allocated memory for each string
-//     int i = 0;
-//     while (result[i] != NULL)
-//     {
-//         free(result[i]);  // free each string
-//         i++;
-//     }
-
-//     // Free the array of pointers itself
-//     free(result);
-
-//     return 0;
-// }

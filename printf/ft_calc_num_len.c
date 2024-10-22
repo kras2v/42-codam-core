@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_c.c                                      :+:      :+:    :+:   */
+/*   ft_calc_num_len.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/18 21:04:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/21 17:39:54 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/10/21 17:54:53 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/10/21 18:54:15 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "printf.h"
 
-int	ft_printf_c(char a)
+int	ft_calc_num_len(int n)
 {
-	ft_putchar_fd(a, 1);
-	return (1);
+	int	len;
+
+	len = 0;
+	if (n == 0)
+		return (1);
+	while (n != 0)
+	{
+		len++;
+		n /= 10;
+	}
+	return (len);
 }

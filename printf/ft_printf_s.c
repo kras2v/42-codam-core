@@ -6,13 +6,25 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 21:04:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/19 16:32:11 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:32:55 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_printf_s(char *a)
+static char *ft_assign_str(char *a)
 {
-	ft_putstr_fd(a, 0);
+	if (a)
+		return (a);
+	else
+		return ("(null)");
+}
+
+int	ft_printf_s(char *a)
+{
+	char *res;
+	
+	res = ft_assign_str(a);
+	ft_putstr_fd(res, 1);
+	return (ft_strlen(res));
 }

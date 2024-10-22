@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 21:04:10 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/19 17:37:56 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:42:55 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,19 @@
 
 # include "./libft/libft.h" 
 # include "stdarg.h"
+# include <limits.h>
 
-void	ft_printf_c(char a);
-void	ft_printf_s(char *a);
-void	ft_printf_d(int num);
-int		ft_printf(const char * format, ...);
+int	ft_printf(const char * format, ...);
+int	ft_printf_c(char a);
+int	ft_printf_s(char *a);
+int	ft_printf_d(int num);
+int	ft_printf_i(int num);
+int	ft_printf_percent();
+int	ft_printf_u(unsigned int dec);
+int	ft_printf_x(unsigned long dec);
+int	ft_printf_X(unsigned long dec);
+int	ft_printf_p(unsigned long dec);
+int	ft_convert_to_base(unsigned long dec, char *base, int base_len);
+int	ft_calc_num_len(int n);
 
 #endif

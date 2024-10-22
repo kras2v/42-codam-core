@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:30:20 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/18 17:47:15 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:15:27 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	size_t		dst_len;
 	size_t		src_len;
 
-	if (!dst && size == 0)
+	if (size == 0)
 		return (0);
 	i = 0;
 	dst_len = ft_strlen(dst);
