@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:29:41 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/30 10:24:05 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:07:47 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 		return (0);
 	while (*big && len > 0)
 	{
-		if (ft_strncmp(big, little, little_len) == 0)
+		if (len >= little_len && ft_strncmp(big, little, little_len) == 0)
 			return ((char *)big);
 		big++;
+		len--;
 	}
 	return (NULL);
 }
