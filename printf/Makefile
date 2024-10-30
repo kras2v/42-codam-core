@@ -7,13 +7,12 @@ SRCS := ft_printf.c \
 		ft_printf_s.c \
 		ft_printf_d.c \
 		ft_printf_x.c \
-		ft_printf_X.c \
+		ft_printf_ux.c \
 		ft_printf_p.c \
 		ft_printf_u.c \
 		ft_printf_i.c \
 		ft_printf_percent.c \
 		ft_convert_to_base.c \
-		ft_calc_num_len.c
 
 OBJS := $(SRCS:%.c=%.o)
 CFLAGS := -Wall -Werror -Wextra
@@ -23,14 +22,12 @@ AR := ar rcs
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(LIBFT)
-	ar $(ARFLAGS) $(NAME) $(OBJS)
-	ar x $(LIBFT)
+	mv $(LIBFT) $(NAME)
 	ar $(ARFLAGS) $(NAME) *.o
-	rm -f *.o
-
+	
 #! to remove
 ft_printf : $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $^ -L./libft -lft -o ft_printf 
+	$(CC) $^ -L./libft -lft -o ft_printf 
 
 $(LIBFT) :
 	$(MAKE) -C ./libft

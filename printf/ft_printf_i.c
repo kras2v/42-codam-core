@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 21:04:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/21 18:57:41 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:54:35 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 int	ft_printf_i(int num)
 {
-	ft_putnbr_fd(num, 1);
-	return (ft_calc_num_len(num) + (num < 0));
+	return (ft_printf_d(num));
 }

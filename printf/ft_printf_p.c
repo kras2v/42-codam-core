@@ -6,18 +6,13 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 21:04:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/22 11:40:09 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:55:01 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	ft_is_null(unsigned long dec)
-{
-	return (!dec);
-}
-
-static int	ft_handle_null()
+static int	ft_handle_null(void)
 {
 	char	*res;
 
@@ -30,7 +25,7 @@ int	ft_printf_p(unsigned long dec)
 {
 	char	*base;
 
-	if (ft_is_null(dec))
+	if (!dec)
 		return (ft_handle_null());
 	base = "0123456789abcdef";
 	ft_putstr_fd("0x", 1);

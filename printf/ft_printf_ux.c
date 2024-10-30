@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calc_num_len.c                                  :+:      :+:    :+:   */
+/*   ft_printf_ux.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/21 17:54:53 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/21 18:54:15 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/10/18 21:04:07 by valeriia          #+#    #+#             */
+/*   Updated: 2024/10/30 10:53:42 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 
-int	ft_calc_num_len(int n)
+int	ft_printf_ux(unsigned long dec)
 {
-	int	len;
+	char	*base;
 
-	len = 0;
-	if (n == 0)
-		return (1);
-	while (n != 0)
-	{
-		len++;
-		n /= 10;
-	}
-	return (len);
+	base = "0123456789ABCDEF";
+	return (ft_convert_to_base(dec, base, ft_strlen(base)));
 }
