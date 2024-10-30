@@ -1,7 +1,6 @@
 NAME := libftprintf.a
 LIBFT := ./libft/libft.a
 
-ARFLAGS := -r -s -c
 SRCS := ft_printf.c \
 		ft_printf_c.c \
 		ft_printf_s.c \
@@ -22,12 +21,8 @@ AR := ar rcs
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(LIBFT)
-	mv $(LIBFT) $(NAME)
-	ar $(ARFLAGS) $(NAME) *.o
-	
-#! to remove
-ft_printf : $(OBJS) $(LIBFT)
-	$(CC) $^ -L./libft -lft -o ft_printf 
+	mv $(LIBFT) $@
+	$(AR) $@ $(OBJS)
 
 $(LIBFT) :
 	$(MAKE) -C ./libft
