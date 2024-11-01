@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:26:12 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/01 14:56:18 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:28:35 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	ft_strlen(const char *s)
 {
-	int	len;
+	size_t	len;
 
 	len = 0;
 	while (s[len] != '\0')
@@ -37,7 +37,6 @@ char	*ft_strncpy(char *dst, const char *src, size_t size)
 		dst[i] = '\0';
 		i++;
 	}
-	dst[i] = '\0';
 	return (dst);
 }
 
@@ -83,6 +82,11 @@ char	*ft_create_new_stash(char *old_stash, size_t new_line, size_t total_size)
 {
 	char	*new_stash;
 
+	if (new_line > total_size)
+	{
+		free(old_stash);
+		return (ft_strndup("", 1));
+	}
 	new_stash = ft_strndup(old_stash + new_line, total_size - new_line);
 	if (!new_stash)
 		return (NULL);
@@ -113,23 +117,28 @@ char *get_next_line(int fd)
 	}
 	total_size = ft_strlen(stash);
 	line = NULL;
-	if (bytes_read == 0 && total_size > 0)
-		line = ft_strndup(stash, total_size);
 	while (bytes_read > 0)
 	{
 		stash = ft_strjoin(stash, buffer, total_size, bytes_read);
 		total_size += bytes_read;
 		new_line_index = ft_find_index_in_range(stash, '\n', total_size - bytes_read, total_size);
+		if (bytes_read < BUFFER_SIZE && new_line_index > total_size)
+			new_line_index = total_size;
 		if (new_line_index <= total_size)
 		{
 			line = ft_strndup(stash, new_line_index + 1);
 			if (!line)
+			{
+				//free(stash);
 				return (NULL);
+			}
 			stash = ft_create_new_stash(stash, new_line_index + 1, total_size);
 			if (!stash)
+			{
+				//free(line);
 				return (NULL);
-			total_size -= new_line_index;
-			return line;
+			}
+			return (line);
 		}
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
@@ -138,8 +147,28 @@ char *get_next_line(int fd)
 			return (NULL);
 		}
 	}
+	if (bytes_read == 0 && total_size > 0)
+	{
+		new_line_index = ft_find_index_in_range(stash, '\n', 0, total_size);
+		line = ft_strndup(stash, new_line_index + 1);
+		if (!line)
+		{
+			free (stash);
+			return (NULL);
+		}
+		stash = ft_create_new_stash(stash, new_line_index + 1, total_size);
+		if (!stash)
+		{
+			free(line);
+			return (NULL);
+		}
+		return (line);
+	}
 	if (bytes_read == 0 && !line)
+	{
 		free(stash);
+		stash = NULL;
+	}
 	return (line);
 }
 
@@ -156,6 +185,7 @@ int	main(void)
 		printf("%s", r);
 		free(r);
 	}
-	
+	char *r = get_next_line(fd);
+	printf("%s", r);
 	return (0);
 }
