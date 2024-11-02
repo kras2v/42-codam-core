@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:26:12 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/01 16:28:35 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:34:46 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ char	*ft_strjoin(char *stash, char *buffer,
 
 size_t	ft_find_index_in_range(char *s, char c, size_t start, size_t end)
 {
-	while(start <= end)
+	while(start < end && *s)
 	{
 		if (s[start] == c)
-			break;
+			return (start);
 		start++;
 	}
-	return (start);
+	return (end);
 }
 
 char	*ft_create_new_stash(char *old_stash, size_t new_line, size_t total_size)
@@ -94,15 +94,35 @@ char	*ft_create_new_stash(char *old_stash, size_t new_line, size_t total_size)
 	return (new_stash);
 }
 
+char	*ft_assign_new_line_and_clean_stash(char **stash, size_t new_line_index, size_t total_size)
+{
+	char *line;
+
+	if (new_line_index > total_size)
+		new_line_index = total_size - 1;
+	line = ft_strndup(*stash, new_line_index + 1);
+	if (!line)
+		return (NULL);
+	(*stash) = ft_create_new_stash((*stash), new_line_index + 1, total_size);
+	if (!(*stash))
+	{
+		free(line);
+		return (NULL);
+	}
+	return (line);
+}
+
 char *get_next_line(int fd)
 {
 	static char	*stash;
 	ssize_t		bytes_read;
 	size_t		total_size;
-	char		buffer[BUFFER_SIZE];
+	char		buffer[BUFFER_SIZE + 1];
 	char		*line;
 	size_t		new_line_index;
 
+	if (fd < 0)
+		return (NULL);
 	if(!stash)
 	{
 		stash = ft_strndup("", 1);
@@ -112,33 +132,30 @@ char *get_next_line(int fd)
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read < 0)
 	{
-		free(stash);
+		//free(stash);
 		return (NULL);
 	}
 	total_size = ft_strlen(stash);
 	line = NULL;
 	while (bytes_read > 0)
 	{
+		buffer[bytes_read] = 0;
 		stash = ft_strjoin(stash, buffer, total_size, bytes_read);
 		total_size += bytes_read;
-		new_line_index = ft_find_index_in_range(stash, '\n', total_size - bytes_read, total_size);
-		if (bytes_read < BUFFER_SIZE && new_line_index > total_size)
-			new_line_index = total_size;
-		if (new_line_index <= total_size)
+		if (ft_find_index_in_range(buffer, '\n', 0, bytes_read) == bytes_read)
 		{
-			line = ft_strndup(stash, new_line_index + 1);
-			if (!line)
+			new_line_index = ft_find_index_in_range(stash, '\n', 0, total_size);
+			if (bytes_read < BUFFER_SIZE && new_line_index > total_size)
+				new_line_index = total_size;
+			if (new_line_index <= total_size)
 			{
-				//free(stash);
-				return (NULL);
+				line = ft_assign_new_line_and_clean_stash(&stash, new_line_index, total_size);
+				if (!line)
+				{
+					free(stash);
+				}
+				return (line);
 			}
-			stash = ft_create_new_stash(stash, new_line_index + 1, total_size);
-			if (!stash)
-			{
-				//free(line);
-				return (NULL);
-			}
-			return (line);
 		}
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
@@ -150,42 +167,35 @@ char *get_next_line(int fd)
 	if (bytes_read == 0 && total_size > 0)
 	{
 		new_line_index = ft_find_index_in_range(stash, '\n', 0, total_size);
-		line = ft_strndup(stash, new_line_index + 1);
-		if (!line)
-		{
-			free (stash);
-			return (NULL);
-		}
-		stash = ft_create_new_stash(stash, new_line_index + 1, total_size);
-		if (!stash)
-		{
-			free(line);
-			return (NULL);
-		}
+		if (new_line_index == total_size)
+			new_line_index = total_size - 1;
+		line = ft_assign_new_line_and_clean_stash(&stash, new_line_index, total_size);
 		return (line);
 	}
 	if (bytes_read == 0 && !line)
 	{
-		free(stash);
+		if (stash)
+			free(stash);
 		stash = NULL;
 	}
-	return (line);
+	return (NULL);
 }
 
-int	main(void)
-{
-	int fd = open("test.txt", O_RDONLY);
-	char c;
-	while ((1))
-	{
-		scanf("%c", &c);
-		char *r = get_next_line(fd);
-		if (r == NULL)
-			break;
-		printf("%s", r);
-		free(r);
-	}
-	char *r = get_next_line(fd);
-	printf("%s", r);
-	return (0);
-}
+// int	main(void)
+// {
+// 	int fd = open("test.txt", O_RDONLY);
+// 	// char c;
+// 	while ((1))
+// 	{
+// 		// scanf("%c", &c);
+// 		char *r = get_next_line(fd);
+// 		if (r == NULL)
+// 			break;
+// 		printf("%s", r);
+// 		free(r);
+// 	}
+// 	char *r = get_next_line(fd);
+// 	printf("%s", r);
+// 	close(fd);
+// 	return (0);
+// }
