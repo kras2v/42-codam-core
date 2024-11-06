@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:16:09 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/06 11:14:45 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:41:21 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 typedef struct s_stash
 {
 	char	*stash;
-	size_t	total_size;
 	int		contains_new_line;
 	size_t	new_line_index;
 }	t_stash;

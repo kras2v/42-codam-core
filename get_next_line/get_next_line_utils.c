@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:22:19 by valeriia          #+#    #+#             */
-/*   Updated: 2024/11/06 11:18:27 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:37:07 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,6 @@ char	*ft_strjoin(char *s1, char *s2)
 		index++;
 	}
 	res[index] = '\0';
-	return (res);
-}
-
-char	*ft_append_buffer_to_stash(char *stash,
-	char *buffer, ssize_t bytes_read)
-{
-	char	*res;
-
-	buffer[bytes_read] = '\0';
-	res = ft_strjoin(stash, buffer);
-	if (!res)
-	{
-		free(stash);
-		return (NULL);
-	}
-	free(stash);
 	return (res);
 }
 
