@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:22:19 by valeriia          #+#    #+#             */
-/*   Updated: 2024/11/05 21:20:04 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:18:27 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ size_t	ft_strlen(char *s)
 	size_t	index;
 
 	index = 0;
-	while(s[index] != '\0')
+	while (s[index] != '\0')
 	{
 		index++;
 	}
 	return (index);
 }
 
-char	*ft_strjoin_and_free(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*res;
 	size_t	index;
@@ -53,20 +53,35 @@ char	*ft_strjoin_and_free(char *s1, char *s2)
 	s2_len = ft_strlen(s2);
 	res = malloc(s1_len + s2_len + 1);
 	if (!res)
-	{
-		free(s1);
 		return (NULL);
-	}
-	index = -1;
-	while(s1[++index] != '\0')
+	index = 0;
+	while (s1[index] != '\0')
+	{
 		res[index] = s1[index];
-	while(s2[index - s1_len] != '\0')
+		index++;
+	}
+	while (s2[index - s1_len] != '\0')
 	{
 		res[index] = s2[index - s1_len];
 		index++;
 	}
 	res[index] = '\0';
-	free(s1);
+	return (res);
+}
+
+char	*ft_append_buffer_to_stash(char *stash,
+	char *buffer, ssize_t bytes_read)
+{
+	char	*res;
+
+	buffer[bytes_read] = '\0';
+	res = ft_strjoin(stash, buffer);
+	if (!res)
+	{
+		free(stash);
+		return (NULL);
+	}
+	free(stash);
 	return (res);
 }
 
@@ -77,7 +92,7 @@ int	ft_any(t_stash *stash, int c)
 	index = 0;
 	while (stash->stash[index] != '\0')
 	{
-		if((stash->stash[index]) == c)
+		if ((stash->stash[index]) == c)
 		{
 			stash->contains_new_line = 1;
 			stash->new_line_index = index;
@@ -88,21 +103,3 @@ int	ft_any(t_stash *stash, int c)
 	stash->new_line_index = 0;
 	return (0);
 }
-
-/* 
-
-char	*free_all_and_return_null(t_stash *stash, char *buffer)
-{
-	if (stash->stash != NULL)
-	{
-		free(stash->stash);
-		stash->stash = NULL;
-	}
-	if (buffer != NULL)
-	{
-		free(stash->stash);
-		stash->stash = NULL;
-	}
-	return (NULL);
-}
- */

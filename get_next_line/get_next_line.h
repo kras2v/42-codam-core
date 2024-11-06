@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:16:09 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/05 21:36:16 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:14:45 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdio.h>
 # include <string.h>
 
-typedef	struct s_stash
+typedef struct s_stash
 {
 	char	*stash;
 	size_t	total_size;
@@ -32,14 +32,15 @@ typedef	struct s_stash
 char	*get_next_line(int fd);
 char	*ft_strndup(char *str, size_t size);
 size_t	ft_strlen(char *s);
-char	*ft_strjoin_and_free(char *s1, char *s2);
+char	*ft_append_buffer_to_stash(char *stash,
+			char *buffer, ssize_t bytes_read);
 int		ft_any(t_stash *stash, int c);
 char	*ft_allocate_new_line(t_stash *stash);
 char	*ft_create_new_stash(t_stash *stash);
 char	*get_next_line(int fd);
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+#  define BUFFER_SIZE 1
 # endif
 
 #endif

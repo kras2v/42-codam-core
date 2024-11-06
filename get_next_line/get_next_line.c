@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:16:08 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/05 21:50:25 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:17:05 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,35 @@
 
 char	*ft_allocate_new_line(t_stash *stash)
 {
-	char *res;
+	char	*res;
+	size_t	total_size;
 
+	stash->contains_new_line = ft_any(stash, '\n');
+	total_size = ft_strlen(stash->stash);
 	if (stash->contains_new_line)
 		stash->new_line_index++;
 	else
-		stash->new_line_index = stash->total_size;
+		stash->new_line_index = total_size;
 	res = ft_strndup(stash->stash, stash->new_line_index);
 	return (res);
 }
 
 char	*ft_create_new_stash(t_stash *stash)
 {
-	char *res;
+	char	*res;
+	size_t	total_size;
 
 	if (!stash->contains_new_line)
 	{
 		free(stash->stash);
 		return (ft_strndup("", 0));
 	}
-	res = ft_strndup(stash->stash + stash->new_line_index, 
-		stash->total_size - stash->new_line_index);
+	total_size = ft_strlen(stash->stash);
+	res = ft_strndup(stash->stash + stash->new_line_index,
+			total_size - stash->new_line_index);
 	free(stash->stash);
 	stash->stash = NULL;
 	return (res);
-}
-
-char	*generate_new_line(t_stash *stash, char *buffer)
-{
-	char	*line;
-
-	line = NULL;
-	line = ft_allocate_new_line(stash);
-	if (!line)
-	{
-		free(stash->stash);
-		stash->stash = NULL;
-		free(buffer);
-		return (NULL);
-	}
-	stash->stash = ft_create_new_stash(stash);
-	if (!stash->stash)
-	{
-		free(buffer);
-		free(line);
-		return (NULL);
-	}
-	free(buffer);
-	return (line);
 }
 
 char	*free_all_and_return_null(t_stash *stash, char *buffer)
@@ -78,6 +59,27 @@ char	*free_all_and_return_null(t_stash *stash, char *buffer)
 	return (NULL);
 }
 
+char	*generate_new_line(t_stash *stash, char *buffer)
+{
+	char	*line;
+
+	line = NULL;
+	line = ft_allocate_new_line(stash);
+	if (!line)
+	{
+		return (free_all_and_return_null(stash, buffer));
+	}
+	stash->stash = ft_create_new_stash(stash);
+	if (!stash->stash)
+	{
+		free(buffer);
+		free(line);
+		return (NULL);
+	}
+	free(buffer);
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	static t_stash	stash;
@@ -87,29 +89,24 @@ char	*get_next_line(int fd)
 	if (stash.stash == NULL)
 		stash.stash = ft_strndup("", 0);
 	if (!stash.stash)
-		return free_all_and_return_null(&stash, NULL);
+		return (free_all_and_return_null(&stash, NULL));
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
-		return free_all_and_return_null(&stash, buffer);
+		return (free_all_and_return_null(&stash, buffer));
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	stash.total_size = ft_strlen(stash.stash);
-	while(bytes_read > 0)
+	while (bytes_read > 0)
 	{
-		buffer[bytes_read] = '\0';
-		stash.stash = ft_strjoin_and_free(stash.stash, buffer);
+		stash.stash = ft_append_buffer_to_stash(stash.stash,
+				buffer, bytes_read);
 		if (!stash.stash)
-			return free_all_and_return_null(&stash, buffer);
-		stash.total_size += bytes_read;
+			return (free_all_and_return_null(&stash, buffer));
 		if (ft_any(&stash, '\n'))
-			return generate_new_line(&stash, buffer);
+			return (generate_new_line(&stash, buffer));
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (stash.total_size > 0 && bytes_read == 0)
-	{
-		stash.contains_new_line = ft_any(&stash, '\n');
-		return generate_new_line(&stash, buffer);
-	}
-	return free_all_and_return_null(&stash, buffer);
+	if (ft_strlen(stash.stash) > 0 && bytes_read == 0)
+		return (generate_new_line(&stash, buffer));
+	return (free_all_and_return_null(&stash, buffer));
 }
 
 /* int	main(void)
@@ -128,39 +125,3 @@ char	*get_next_line(int fd)
 	}
 	return (0);
 } */
-
-// #include <time.h>
-// int  ft_run(void)
-// {
-//   int    fd;
-//   char  *p;
-
-//   fd = open("test.txt", O_RDONLY);
-//   p = get_next_line(fd);
-//   while (p != NULL)
-//   {
-//     printf("%s", p);
-//     free(p);
-//     p = get_next_line(fd);
-//   }
-//   printf("%s", p);
-//   return (0);
-// }
-
-// int main() {
-//     // Start time
-//     clock_t start_time = clock();
-
-//     // Code to measure
-//   ft_run();
-
-//     // End time
-//     clock_t end_time = clock();
-
-//     // Calculate the elapsed time in milliseconds
-//     double time_taken = ((double)(end_time - start_time) / CLOCKS_PER_SEC) * 1000.0;
-
-//     printf("\nExecution time: %.3f ms\n", time_taken);
-
-//     return 0;
-// }
