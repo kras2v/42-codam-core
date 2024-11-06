@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:16:08 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/06 11:39:08 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:45:54 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,11 @@ char	*get_next_line(int fd)
 		if (stash.stash == NULL)
 			return (free_all_and_return_null(&stash, buffer));
 		if (ft_any(&stash, '\n'))
-			return (ft_create_new_line(&stash, buffer));
+			return (ft_create_new_line_and_stash(&stash, buffer));
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 	}
 	if (ft_strlen(stash.stash) > 0 && bytes_read == 0)
-		return (ft_create_new_line(&stash, buffer));
+		return (ft_create_new_line_and_stash(&stash, buffer));
 	return (free_all_and_return_null(&stash, buffer));
 }
 
