@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 20:22:19 by valeriia          #+#    #+#             */
-/*   Updated: 2024/11/06 11:37:07 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/10/30 12:16:08 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/11/06 14:11:47 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strndup(char *str, size_t size)
 {
