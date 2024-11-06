@@ -3,93 +3,106 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 12:16:09 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/30 16:42:00 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/11/05 20:22:19 by valeriia          #+#    #+#             */
+/*   Updated: 2024/11/05 21:20:04 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_putstr_fd(char *s, int fd)
+char	*ft_strndup(char *str, size_t size)
 {
-	int	i;
+	char	*res;
+	size_t	index;
 
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i] != '\0')
+	res = malloc(size + 1);
+	if (!res)
+		return (NULL);
+	index = 0;
+	while (str[index] != '\0' && index < size)
 	{
-		write(1, &s[i], fd);
-		i++;
+		res[index] = str[index];
+		index++;
 	}
+	res[index] = '\0';
+	return (res);
 }
 
-char	*ft_strchr(const char *s, int c)
+size_t	ft_strlen(char *s)
 {
-	unsigned char	*p_s_end;
-	unsigned char	*p_s_start;
-	int				str_len;
-	
-	str_len = 0;
-	while (p_s_start[str_len] != '\0')
-		str_len++;
-	p_s_start = (unsigned char *)s;
-	p_s_end = p_s_start + str_len;
-	while (p_s_start <= p_s_end)
+	size_t	index;
+
+	index = 0;
+	while(s[index] != '\0')
 	{
-		if (*p_s_start == (unsigned char)c)
-			return ((char *)p_s_start);
-		p_s_start++;
+		index++;
 	}
+	return (index);
+}
+
+char	*ft_strjoin_and_free(char *s1, char *s2)
+{
+	char	*res;
+	size_t	index;
+	size_t	s1_len;
+	size_t	s2_len;
+
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	res = malloc(s1_len + s2_len + 1);
+	if (!res)
+	{
+		free(s1);
+		return (NULL);
+	}
+	index = -1;
+	while(s1[++index] != '\0')
+		res[index] = s1[index];
+	while(s2[index - s1_len] != '\0')
+	{
+		res[index] = s2[index - s1_len];
+		index++;
+	}
+	res[index] = '\0';
+	free(s1);
+	return (res);
+}
+
+int	ft_any(t_stash *stash, int c)
+{
+	size_t	index;
+
+	index = 0;
+	while (stash->stash[index] != '\0')
+	{
+		if((stash->stash[index]) == c)
+		{
+			stash->contains_new_line = 1;
+			stash->new_line_index = index;
+			return (1);
+		}
+		index++;
+	}
+	stash->new_line_index = 0;
 	return (0);
 }
 
-int	ft_get_new_line_index(char *buffer, int bytes_read)
+/* 
+
+char	*free_all_and_return_null(t_stash *stash, char *buffer)
 {
-	int	i;
-
-	i = 0;
-	while (buffer[i] != '\n' && buffer[i] != '\0' && i <= bytes_read)
-		i++;
-	return (i);
-}
-
-char	*ft_realloc(char *input, char *buffer, 
-		int total_size, int bytes_read)
-{
-	char	*new;
-	int		total;
-	int		until_new_line;
-
-	until_new_line = ft_get_new_line_index(buffer, bytes_read);
-	total = total_size + until_new_line;
-	new = malloc(total + 1);
-	if (!new)
-		return (NULL);
-	if (input)
-		ft_strncpy(new, input, total_size);
-	ft_strncpy(new + total_size, buffer, until_new_line);
-	new[total] = '\0';
-	free(input);
-	return (new);
-}
-
-char	*ft_strncpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (src[i] != '\0' && i < n)
+	if (stash->stash != NULL)
 	{
-		dest[i] = src[i];
-		i++;
+		free(stash->stash);
+		stash->stash = NULL;
 	}
-	while (i < n)
+	if (buffer != NULL)
 	{
-		dest[i] = '\0';
-		i++;
+		free(stash->stash);
+		stash->stash = NULL;
 	}
-	return (dest);
+	return (NULL);
 }
+ */
