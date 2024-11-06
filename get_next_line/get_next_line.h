@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:16:09 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/06 11:46:24 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:12:50 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_create_new_stash(t_stash *stash);
 char	*get_next_line(int fd);
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
 
 #endif
