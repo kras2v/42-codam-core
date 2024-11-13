@@ -1,0 +1,14 @@
+{
+	"files.associations": {
+		"array": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"ranges": "c",
+		"span": "c",
+		"utility": "c",
+		"file_utils.h": "c",
+		"utils.h": "c",
+		"get_next_line_bonus.h": "c",
+		"functional": "c"
+	}
+}
