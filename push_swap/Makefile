@@ -1,8 +1,12 @@
-HEADERS := push_swap.h
-SRCS := push_swap.c
+HEADERS := push_swap.h parser_utils.h
+SRCS := push_swap.c \
+	push_swap_utils.c \
+	push_swap_instructions.c \
+	parser.c \
+	parser_utils.c \
 
 #TARGET
-NAME := push_swap.a
+NAME := push_swap
 PRINTF_DIR := ./libft/printf
 PRINTF := $(PRINTF_DIR)/libftprintf.a
 
@@ -21,13 +25,13 @@ PRINTF_DEBUG := $(PRINTF_DIR)/libftprintf_debug.a
 LIBFT_DEBUG := $(LIBFT_DIR)/libft_debug.a
 DEBUG_OBJS := $(SRCS:%.c=debug_%.o)
 DEBUG_FLAGS := $(CFLAGS) -g
+#!--------------------------------
 
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(PRINTF)
-	@cp $(PRINTF) $@
-	@$(AR) $@ $(OBJS)
-#	@echo "Push_swap library has been created"
+	@$(CC) $(CFLAGS) $(OBJS) -o $@ $(PRINTF)
+#	@echo "Push_swap has been created"
 
 %.o : %.c
 	@$(CC) -c $(CFLAGS) $< -o $@
@@ -41,7 +45,7 @@ debug: $(DEBUG_NAME)
 
 $(DEBUG_NAME): $(LIBFT_DEBUG) $(PRINTF_DEBUG) $(DEBUG_OBJS) 
 	@$(CC) $(DEBUG_FLAGS) $(DEBUG_OBJS) -o $@ $(LIBFT_DEBUG) $(PRINTF_DEBUG)
-#	@echo "Debug version of Push_swap.a has been created"
+#	@echo "Debug version of Push_swap has been created"
 
 $(PRINTF_DEBUG) : 
 	@$(MAKE) -C $(PRINTF_DIR) --silent debug

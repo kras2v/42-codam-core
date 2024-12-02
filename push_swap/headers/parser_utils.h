@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   parser_utils.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/25 10:52:15 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/26 15:10:59 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/11/28 16:46:43 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/11/28 17:07:29 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#ifndef PARSER_H
+# define PARSER_H
 
-# include "libft/printf/ft_printf.h"
-# include "libft/libft.h"
-# include <limits.h>
+#include "push_swap.h"
 
-typedef struct s_ilist
-{
-	int		*values;
-	size_t	size;
-} t_ilist;
+int	is_elem_in_array(int elem, int **array, int index);
+int	ft_is_valid_sign(char c, int j);
+int	is_argv_i_valid(char *argv);
 
 #endif

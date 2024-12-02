@@ -5,99 +5,77 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/25 10:52:13 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/26 15:12:49 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/11/26 15:53:42 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/12/02 18:02:35 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "headers/push_swap.h"
 
-void	print_list(int argc, int *list)
-{
-	int	i;
-
-	i = 0;
-	while (i < argc)
-	{
-		ft_printf("%d\n", list[i]);
-		i++;
-	}
-}
-
-int	ft_is_valid_sign(char c, int j)
-{
-	return ((j == 0 && c == '-') ||
-			(j == 0 && c == '+'));
-}
-
-//!TO REMOVE ARGC FROM PARAMETRS JUST FOR PRINT
-int	*parse_multy_str(int argc, char **argv)
-{
-	int		i;
-	int		j;
-	long	temp;
-	int		*list;
-
-	i = 0;
-	list = malloc((argc) * sizeof(int));
-	if (!list)
-		return (NULL);
-	while (i < argc && argv[i] != NULL)
-	{
-		j = 0;
-		while (argv[i][j] != '\0')
-		{
-			if (!ft_isdigit(argv[i][j]) && !ft_is_valid_sign(argv[i][j], j))
-			{
-				ft_printf("%s", argv[i]);
-				return (free(list), ft_putstr_fd("Error\n", 2), NULL);
-			}
-			j++;
-		}
-		if (j <= 11)
-			temp = ft_atoi(argv[i]);
-		if (temp > INT_MAX || temp < INT_MIN)
-			return (free(list), ft_putstr_fd("Error\n", 2), NULL);
-		list[i] = temp;
-		i++;
-	}
-	print_list(argc, list);
-	return (list);
-}
-//!TO REMOVE ARGC FROM PARAMETRS JUST FOR PRINT
-int	*parse_one_str(const char *str)
-{
-	char	**argv;
-	int		argc;
-	int		*list;
-
-	argc = 0;
-	argv = ft_split(str, ' ');
-	if (!argv)
-		return (NULL);
-	while (argv[argc] != NULL)
-		argc++;
-	list = parse_multy_str(argc, argv);
-	argc = 0;
-	while (argv[argc] != NULL)
-		free(argv[argc++]);
-	free(argv);
-	return (list);
-}
-
-int	*list_creator(int argc, char **argv)
-{
-	if (argc <= 1)
-		return (ft_putstr_fd("Error\n", 2), NULL);
-	if (argc == 2)
-		return (parse_one_str(argv[1]));
-	else
-		return (parse_multy_str(--argc, ++argv));
-	return (NULL);
-}
-
-// int	main(void)
+// void	ft_sort(t_stack *a, t_stack *b)
 // {
+// 	int	temp;
+// 	int	rev_a;
+// 	int j;
+
+// 	if (a->act_size > 1 && *(a->values[0]) > *(a->values[1]))
+// 		sa(a);
+// 	pb(a, b);
+// 	rev_a = 0;
+// 	j = 0;
+// 	while (a->act_size != 0)
+// 	{
+// 		// ft_printf("[%d]\n", j++);
+// 		// output(a, b);
+// 		if (a->act_size > 1 && *(a->values[0]) > *(a->values[1]))
+// 			sa(a);
+// 		temp = *(a->values[0]); //peek
+// 		if (b->act_size != 0  && *(b->values[0]) > temp)
+// 		{
+// 			ra(a);
+// 			while(b->act_size != 0 && *(b->values[0]) > temp)
+// 			{
+// 				pa(a, b);
+// 			}
+// 			rra(a);
+// 		}
+// 		pb(a, b);
+// 	}
+// 	int i;
+// 	i = 0;
+// 	int size = b->act_size;
+// 	while (i < size)
+// 	{
+// 		pa(a, b);
+// 		i++;
+// 	}
+// }
+
+int	ft_sort(t_stack *a, t_stack *b)
+{
+	int pivot_index;
+	int i, j;
+
+	pivot_index = (int)a->act_size / 2;
+	
+}
+
+// int	main(int argc, char **argv)
+// {
+// 	t_stack	*a = list_creator(argc, argv);
+// 	if (!a)
+// 		return (ft_putstr_fd("Error\n", 2), 1);
+// 	t_stack	*b = create_stack(a->max_size);
+// 	output(a, b);
+// 	ft_sort(a, b);
+// 	output(a, b);
+// 	free_stack(a);
+// 	free_stack(b);
+// 	return (0);
+// }
+
+int	main(void)
+{
 // 	//?MULTY LINES
 // 	// int argc = 11;
 // 	// char **argv = malloc(12 * sizeof(char *));
@@ -114,33 +92,23 @@ int	*list_creator(int argc, char **argv)
 // 	// argv[10] = ft_strdup("08");
 // 	// argv[11] = NULL;
 
-// 	//?ONE STRING
-// 	int argc = 2;
-// 	char **argv = malloc(3 * sizeof(char *));
-// 	argv[0] = ft_strdup("push_swap");
-// 	argv[1] = ft_strdup("3 4 6 8 9 74 -56 +495");
-// 	argv[2] = NULL;
-
-// 	int	*list = list_creator(argc, argv);
-
-// 	int	i = 0;
-// 	while (argv[i] != NULL)
-// 		free(argv[i++]);
-// 	free(argv);
-
-// 	if (!list)
-// 		return (1);
-// 	free(list);
-// 	return (0);
-// }
-
-int	main(int argc, char **argv)
-{
-	int	*list = list_creator(argc, argv);
-
-	if (!list)
-		return (1);
-	free(list);
-	
+	//?ONE STRING
+	int argc = 2;
+	char **argv = malloc(3 * sizeof(char *));
+	argv[0] = ft_strdup("push_swap");
+	argv[1] = ft_strdup("2 1 3 6 5 8");
+	argv[2] = NULL;
+	t_stack	*a = list_creator(argc, argv);
+	if (!a)
+		return (ft_putstr_fd("Error\n", 2), 1);
+	t_stack	*b = create_stack(a->max_size);
+	if (!b)
+		return (free_all(NULL, a, NULL), ft_putstr_fd("Error\n", 2), 1);
+	output(a, b);
+	ft_sort(a, b);
+	output(a, b);
+	free_stack(a);
+	free_stack(b);
+	free_argv(argv);
 	return (0);
 }
