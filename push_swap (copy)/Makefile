@@ -4,6 +4,7 @@ SRCS := push_swap.c \
 	push_swap_instructions.c \
 	parser.c \
 	parser_utils.c \
+	sort_utils.c
 
 #TARGET
 NAME := push_swap

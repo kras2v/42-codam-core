@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:37:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/03 14:34:57 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/05 14:11:10 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ t_stack	*create_stack(int size)
 		return (NULL);
 	stack->max_size = size;
 	stack->act_size = 0;
-	stack->values = malloc(stack->max_size * sizeof(int *));
-	if (!stack->values)
+	stack->elems = malloc(stack->max_size * sizeof(t_elem *));
+	if (!stack->elems)
 		return (free_stack(stack), NULL);
 	i = 0;
 	while (i < stack->max_size)
 	{
-		stack->values[i] = NULL;
+		stack->elems[i] = NULL;
 		i++;
 	}
 	return (stack);
@@ -49,12 +49,13 @@ static t_stack	*parse_multy_str(int argc, char **argv)
 		if (!is_argv_i_valid(argv[i]))
 			return (free_stack(a_stack), NULL);
 		temp = ft_atoll(argv[i]);
-		if (temp > INT_MAX || temp < INT_MIN || is_elem_in_array(temp, a_stack->values, i))
+		if (is_elem_in_array(temp, a_stack->elems, i))
 			return (free_stack(a_stack), NULL);
-		a_stack->values[i] = malloc(sizeof(int));
-		if (!a_stack->values[i])
+		a_stack->elems[i] = malloc(sizeof(t_elem));
+		if (!a_stack->elems[i])
 			return (free_stack(a_stack), NULL);
-		*(a_stack->values[i]) = temp;
+		a_stack->elems[i]->value = temp;
+		a_stack->elems[i]->target = NULL;
 		a_stack->act_size++;
 		i++;
 	}

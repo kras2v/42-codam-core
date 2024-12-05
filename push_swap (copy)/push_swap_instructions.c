@@ -6,16 +6,11 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:00:02 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/03 14:35:27 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/05 14:09:43 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/push_swap.h"
-
-static int	is_stack_valid(t_stack *stack)
-{
-	return (stack && stack->values);
-}
 
 static int	has_min_elems(t_stack *stack, int min_size)
 {
@@ -43,14 +38,14 @@ static void	rotate(t_stack *stack)
 	int	new_index;
 
 	old_index = 0;
-	first = *(stack->values[old_index]);
+	first = (stack->elems[old_index])->value;
 	while (old_index < stack->act_size - 1)
 	{
 		new_index = old_index + 1;
-		*(stack->values[old_index]) = *(stack->values[new_index]);
+		(stack->elems[old_index])->value = (stack->elems[new_index])->value;
 		old_index++;
 	}
-	*(stack->values[stack->act_size - 1]) = first;
+	(stack->elems[stack->act_size - 1])->value = first;
 }
 
 static void	rev_rotate(t_stack *stack)
@@ -60,14 +55,14 @@ static void	rev_rotate(t_stack *stack)
 	int	new_index;
 
 	old_index = stack->act_size - 1;
-	last = *(stack->values[old_index]);
+	last = (stack->elems[old_index])->value;
 	while (old_index > 0)
 	{
 		new_index = old_index - 1;
-		*(stack->values[old_index]) = *(stack->values[new_index]);
+		(stack->elems[old_index])->value = (stack->elems[new_index])->value;
 		old_index--;
 	}
-	*(stack->values[0]) = last;
+	(stack->elems[0])->value = last;
 }
 
 //(swap a): Swap the first 2 elements at the top of stack a.
@@ -75,7 +70,7 @@ void	sa(t_stack *a)
 {
 	if (!is_possible_swap_or_rotate(a))
 		return ;
-	swap(a->values[0], a->values[1]);
+	swap(&(a->elems[0])->value, &(a->elems[1])->value);
 	ft_printf("sa\n");
 }
 
@@ -84,7 +79,7 @@ void	sb(t_stack *b)
 {
 	if (!is_possible_swap_or_rotate(b))
 		return ;
-	swap(b->values[0], b->values[1]);
+	swap(&(b->elems[0])->value, &(b->elems[1])->value);
 	ft_printf("sb\n");
 }
 
@@ -97,11 +92,11 @@ void	ss(t_stack *a, t_stack *b)
 	is_a_valid = is_possible_swap_or_rotate(a);
 	is_b_valid = is_possible_swap_or_rotate(b);
 	if (is_a_valid)
-		swap(a->values[0], a->values[1]);
+		swap(&(a->elems[0])->value, &(a->elems[1])->value);
 	if (is_b_valid)
-		swap(b->values[0], b->values[1]);
+		swap(&(b->elems[0])->value, &(b->elems[1])->value);
 	if (is_a_valid || is_b_valid)
-	ft_printf("ss\n");
+		ft_printf("ss\n");
 }
 
 //(rotate a): Shift up all elements of stack a by 1.
@@ -181,20 +176,21 @@ void	pa(t_stack *a, t_stack *b)
 		!has_min_elems(b, 1))
 				return ;
 	i = 0;
-	while (a->values[i] != NULL)
+	while (a->elems[i] != NULL)
 		i++;
-	a->values[i] = malloc(sizeof(int));
-	if (!a->values[i])
+	a->elems[i] = malloc(sizeof(t_elem));
+	if (!a->elems[i])
 	{	
 		free_all(NULL, a, b);
 		ft_put_error();
 	}
+	a->elems[i]->target = NULL;
 	a->act_size++;
 	rev_rotate(a);
-	*(a->values[0]) = *(b->values[0]);
+	(a->elems[0])->value = (b->elems[0])->value;
 	rotate(b);
-	free(b->values[b->act_size - 1]);
-	b->values[b->act_size - 1] = NULL;
+	free(b->elems[b->act_size - 1]);
+	b->elems[b->act_size - 1] = NULL;
 	b->act_size--;
 	ft_printf("pa\n");
 }
@@ -208,21 +204,22 @@ void	pb(t_stack *a, t_stack *b)
 		!has_min_elems(a, 1))
 				return ;
 	i = 0;
-	while (b->values[i] != NULL)
+	while (b->elems[i] != NULL)
 		i++;
-	b->values[i] = malloc(sizeof(int));
-	if (!b->values[i])
+	b->elems[i] = malloc(sizeof(t_elem));
+	if (!b->elems[i])
 	{	
 		free_all(NULL, a, b);
 		ft_put_error();
 		return ;
 	}
+	b->elems[i]->target = NULL;
 	b->act_size++;
 	rev_rotate(b);
-	*(b->values[0]) = *(a->values[0]);
+	(b->elems[0])->value = (a->elems[0])->value;
 	rotate(a);
-	free(a->values[a->act_size - 1]);
-	a->values[a->act_size - 1] = NULL;
+	free(a->elems[a->act_size - 1]);
+	a->elems[a->act_size - 1] = NULL;
 	a->act_size--;
 	ft_printf("pb\n");
 }
