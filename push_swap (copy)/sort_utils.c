@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:46:49 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 15:37:05 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:16:34 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void ft_sort_three(t_stack *a)
 	max = find_biggest_value(a);
 	if ((a->elems[0])->value == max)
 		ra(a);
-	else if((a->elems[0])->value == max)
+	else if((a->elems[1])->value == max)
 		rra(a);
 	if((a->elems[0])->value > (a->elems[1])->value)
 		sa(a);

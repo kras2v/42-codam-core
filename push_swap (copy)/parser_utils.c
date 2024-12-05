@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:47:23 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 14:13:55 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:11:12 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	is_elem_in_array(int elem, t_elem **elems, int index)
 
 int	ft_is_valid_sign(char c, int j)
 {
-	return (j == 0 && (c == '-' || c == '+'));
+	return (j == 0 && (c == '-'));
 }
 
 int	is_argv_i_valid(char *argv)
