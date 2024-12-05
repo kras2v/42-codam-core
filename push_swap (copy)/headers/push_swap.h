@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:52:15 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 15:01:43 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:22:53 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_stack	*list_creator(int argc, char **argv);
 
 //sort
 int		find_biggest_value(t_stack *stack);
-t_elem	*find_smallest_element(t_elem *min, t_stack *stack);
+t_elem	*find_smallest_element(t_stack *stack);
 void	ft_sort_three(t_stack *a);
 int		ft_is_sorted(t_stack *a);
 void	get_target_value(t_stack *a, t_stack *b);

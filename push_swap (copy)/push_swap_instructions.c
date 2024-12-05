@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:00:02 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 14:09:43 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:40:33 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,36 +33,32 @@ static void	swap(int *a, int *b)
 
 static void	rotate(t_stack *stack)
 {
-	int	first;
-	int	old_index;
-	int	new_index;
+	t_elem	*first;
+	int		old_index;
 
 	old_index = 0;
-	first = (stack->elems[old_index])->value;
+	first = (stack->elems[old_index]);
 	while (old_index < stack->act_size - 1)
 	{
-		new_index = old_index + 1;
-		(stack->elems[old_index])->value = (stack->elems[new_index])->value;
+		(stack->elems[old_index]) = (stack->elems[old_index + 1]);
 		old_index++;
 	}
-	(stack->elems[stack->act_size - 1])->value = first;
+	stack->elems[stack->act_size - 1] = first;
 }
 
 static void	rev_rotate(t_stack *stack)
 {
-	int	last;
-	int	old_index;
-	int	new_index;
+	t_elem	*last;
+	int		old_index;
 
 	old_index = stack->act_size - 1;
-	last = (stack->elems[old_index])->value;
+	last = (stack->elems[old_index]);
 	while (old_index > 0)
 	{
-		new_index = old_index - 1;
-		(stack->elems[old_index])->value = (stack->elems[new_index])->value;
+		stack->elems[old_index] = stack->elems[old_index - 1];
 		old_index--;
 	}
-	(stack->elems[0])->value = last;
+	stack->elems[0] = last;
 }
 
 //(swap a): Swap the first 2 elements at the top of stack a.

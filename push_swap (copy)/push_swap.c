@@ -6,26 +6,30 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:53:42 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 15:03:05 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:41:40 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/push_swap.h"
 
-void	print_stack_target(t_stack *stack)
+void	print_stack_target(t_stack *a, t_stack *b)
 {
 	int	i;
 
 	i = 0;
-	while (i < stack->act_size && stack->elems[i] != NULL)
+	while (i < b->act_size && b->elems[i] != NULL)
 	{
-		ft_printf("value    %d\t", (stack->elems[i])->value);
-		ft_printf("target   %d\t", (stack->elems[i])->target->value);
-		ft_printf("above    %d\t", (stack->elems[i])->target->above);
-		ft_printf("position %d\t", (stack->elems[i])->position);
-		ft_printf("tar_pos  %d\t", (stack->elems[i])->target->position);
-		ft_printf("cheapest %d\t", (stack->elems[i])->cheapest);
-		ft_printf("price    %d\n", (stack->elems[i])->push_price);
+		ft_printf("value    %d\t", (b->elems[i])->value);
+		ft_printf("target   %d\t", (b->elems[i])->target->value);
+		ft_printf("ADRtarget   %d\n", (b->elems[i])->target);
+		i++;
+	}
+	ft_printf("\n");
+	i = 0;
+	while (i < a->act_size && a->elems[i] != NULL)
+	{
+		ft_printf("value    %d\t", (a->elems[i])->value);
+		ft_printf("ADR   %d\n", (a->elems[i]));
 		i++;
 	}
 	ft_printf("\n");
@@ -81,7 +85,7 @@ int	main(void)
 	//?ONE STRING
 	int argc = 2;
 	char **argv = malloc(3 * sizeof(char *));
-	t_elem	smallest;
+	t_elem	*smallest;
 	argv[0] = ft_strdup("./push_swap");
 	argv[1] = ft_strdup("10 77 -20 -8 -1 9 100 -48 -3 -21 -16 96");
 	argv[2] = NULL;
@@ -107,9 +111,10 @@ int	main(void)
 				move_from_b_to_a(a, b);
 			}
 			set_curent_position(a);
-			find_smallest_element(&smallest, a);
-			ft_printf("%d", smallest.value);
-			//rotate_until_element_on_top(a, &smallest, 'a');
+			smallest = find_smallest_element(a);
+			//ft_printf("%d", smallest.value);
+			print_stack_target(a, b);
+			rotate_until_element_on_top(a, smallest, 'a');
 		}
 	}
 	output(a, b);

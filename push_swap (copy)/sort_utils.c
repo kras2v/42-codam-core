@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:46:49 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 15:02:47 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:37:05 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,19 @@ int	find_biggest_value(t_stack *stack)
 	return (max);
 }
 
-void	copy_element_info(t_elem *first, t_elem *second)
-{
-	first->above = second->above;
-	first->value = second->value;
-	first->position = second->position;
-	first->target = NULL;
-	first->cheapest = false;
-	first->push_price = 0;
-}
-
-t_elem	*find_smallest_element(t_elem *min, t_stack *stack)
+t_elem	*find_smallest_element(t_stack *stack)
 {
 	int		i;
+	t_elem	*min;
 
 	if (!stack || stack->act_size <= 0)
 		return (NULL);
-	copy_element_info(min, stack->elems[0]);
+	min = stack->elems[0];
 	i = 0;
 	while (i < stack->act_size)
 	{
 		if ((stack->elems[i])->value < min->value)
-			copy_element_info(min, stack->elems[i]);
+			min = (stack->elems[i]);
 		i++;
 	}
 	return (min);
@@ -97,7 +88,7 @@ void	init_stacks(t_stack *a, t_stack *b)
 void	get_target_value(t_stack *a, t_stack *b)
 {
 	int		i;
-	t_elem	target;
+	t_elem	*target;
 	long	best_value;
 	int		j;
 
@@ -113,20 +104,13 @@ void	get_target_value(t_stack *a, t_stack *b)
 			if (a->elems[j]->value > b->elems[i]->value && a->elems[j]->value < best_value)
 			{
 				best_value = a->elems[j]->value;
-				copy_element_info(&target, a->elems[j]);
+				target = a->elems[j];
 			}
 			j++;
 		}
-		if (!b->elems[i]->target)
-			b->elems[i]->target = malloc(sizeof(t_elem));
-		if (!b->elems[i]->target)
-		{
-			free_all(NULL, a, b);
-			ft_put_error();
-		}
 		if (best_value == LONG_MAX)
-			find_smallest_element(&target, a);
-		copy_element_info(b->elems[i]->target, &target);
+			target = find_smallest_element(a);
+		b->elems[i]->target = target;
 		i++;
 	}
 }
@@ -245,9 +229,9 @@ void	move_from_b_to_a(t_stack *a, t_stack *b)
 	cheapest = b->elems[i];
 	if (cheapest->above && cheapest->target->above)
 		rotate_both_until_target(a, b, cheapest, false);
-	else
+	else if (!cheapest->above && !cheapest->target->above)
 		rotate_both_until_target(a, b, cheapest, true);
-	rotate_until_element_on_top(a, cheapest->target, 'a');
 	rotate_until_element_on_top(b, cheapest, 'b');
+	rotate_until_element_on_top(a, cheapest->target, 'a');
 	pa(a, b);
 }

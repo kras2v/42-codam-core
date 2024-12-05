@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:52:13 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 14:03:12 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:12:30 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	free_stack(t_stack *stack)
 	{
 		while (i < stack->act_size && (stack->elems)[i] != NULL)
 		{
-			if (stack->elems[i]->target)
-				free(stack->elems[i]->target);
 			free((stack->elems)[i]);
 			i++;
 		}
