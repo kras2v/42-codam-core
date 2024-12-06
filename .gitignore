@@ -4,3 +4,7 @@ libft.so
 *.o
 libft-unit-test
 .vscode
+push_swap_tester
+checker_linux
+pro_checker
+push_swap_test_linux.sh
