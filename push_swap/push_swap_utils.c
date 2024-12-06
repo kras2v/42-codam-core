@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:52:13 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/11/29 12:37:47 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:53:24 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	print_stack(t_stack *stack)
 	int	i;
 
 	i = 0;
-	while (i < stack->act_size && stack->values[i] != NULL)
+	while (i < stack->act_size && stack->elems[i] != NULL)
 	{
-		ft_printf("%d\t", *(stack->values[i]));
+		ft_printf("%d\t", (stack->elems[i])->value);
 		i++;
 	}
 	ft_printf("\n");
@@ -43,6 +43,17 @@ void	output(t_stack *a, t_stack *b)
 	}
 }
 
+bool	is_stack_valid(t_stack *stack)
+{
+	return (stack && stack->elems);
+}
+
+void ft_put_error()
+{
+	ft_putstr_fd("Error\n", 2);
+	exit(EXIT_FAILURE);
+}
+
 void	free_argv(char *argv[])
 {
 	int	i = 0;
@@ -57,14 +68,14 @@ void	free_stack(t_stack *stack)
 	int	i;
 
 	i = 0;
-	if (stack->values)
+	if (stack->elems)
 	{
-		while (i < stack->act_size && stack->values[i] != NULL)
+		while (i < stack->act_size && (stack->elems)[i] != NULL)
 		{
-			free(stack->values[i]);
+			free((stack->elems)[i]);
 			i++;
 		}
-		free(stack->values);
+		free(stack->elems);
 	}
 	free(stack);
 }

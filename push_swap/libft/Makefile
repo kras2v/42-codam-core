@@ -15,6 +15,7 @@ ft_strchr.c \
 ft_strdup.c \
 ft_strtrim.c \
 ft_atoi.c \
+ft_atol.c \
 ft_strlen.c \
 ft_memcmp.c \
 ft_toupper.c \
