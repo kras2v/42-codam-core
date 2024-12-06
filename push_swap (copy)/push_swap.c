@@ -6,45 +6,22 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:53:42 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 16:16:57 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:46:55 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/push_swap.h"
 
-void	print_stack_target(t_stack *a, t_stack *b)
-{
-	int	i;
-
-	i = 0;
-	while (i < b->act_size && b->elems[i] != NULL)
-	{
-		ft_printf("value    %d\t", (b->elems[i])->value);
-		ft_printf("target   %d\t", (b->elems[i])->target->value);
-		ft_printf("ADRtarget   %d\n", (b->elems[i])->target);
-		i++;
-	}
-	ft_printf("\n");
-	i = 0;
-	while (i < a->act_size && a->elems[i] != NULL)
-	{
-		ft_printf("value    %d\t", (a->elems[i])->value);
-		ft_printf("ADR   %d\n", (a->elems[i]));
-		i++;
-	}
-	ft_printf("\n");
-}
-
 int	main(int argc, char **argv)
 {
 	t_elem	*smallest;
 
-	if (argc <= 1 || (argc == 2 && !argv[1][0]))
+	if (argc <= 1)
 		return (1);
-	t_stack	*a = list_creator(argc, argv);
+	t_stack	*a = a_stack_creator(argc, argv);
 	if (!a)
 		ft_put_error();
-	t_stack	*b = create_stack(a->max_size);
+	t_stack	*b = allocate_stack(a->max_size);
 	if (!b)
 		ft_put_error();
 	if (!ft_is_sorted(a))
@@ -61,7 +38,7 @@ int	main(int argc, char **argv)
 				init_stacks(a, b);
 				move_from_b_to_a(a, b);
 			}
-			set_curent_position(a);
+			init_stacks(a, NULL);
 			smallest = find_smallest_element(a);
 			rotate_until_element_on_top(a, smallest, 'a');
 		}
@@ -94,7 +71,7 @@ int	main(int argc, char **argv)
 // 	char **argv = malloc(3 * sizeof(char *));
 // 	t_elem	*smallest;
 // 	argv[0] = ft_strdup("./push_swap");
-// 	argv[1] = ft_strdup("4 67 3 87 23");
+// 	argv[1] = ft_strdup("");
 // 	argv[2] = NULL;
 // 	t_stack	*a = list_creator(argc, argv);
 // 	free_argv(argv);
@@ -129,43 +106,4 @@ int	main(int argc, char **argv)
 // 	free_stack(a);
 // 	free_stack(b);
 // 	return (0);
-// }
-
-// void	ft_sort(t_stack *a, t_stack *b)
-// {
-// 	int	temp;
-// 	int	rev_a;
-// 	int j;
-
-// 	if (a->act_size > 1 && *(a->values[0]) > *(a->values[1]))
-// 		sa(a);
-// 	pb(a, b);
-// 	rev_a = 0;
-// 	j = 0;
-// 	while (a->act_size != 0)
-// 	{
-// 		// ft_printf("[%d]\n", j++);
-// 		// output(a, b);
-// 		if (a->act_size > 1 && *(a->values[0]) > *(a->values[1]))
-// 			sa(a);
-// 		temp = *(a->values[0]); //peek
-// 		if (b->act_size != 0  && *(b->values[0]) > temp)
-// 		{
-// 			ra(a);
-// 			while(b->act_size != 0 && *(b->values[0]) > temp)
-// 			{
-// 				pa(a, b);
-// 			}
-// 			rra(a);
-// 		}
-// 		pb(a, b);
-// 	}
-// 	int i;
-// 	i = 0;
-// 	int size = b->act_size;
-// 	while (i < size)
-// 	{
-// 		pa(a, b);
-// 		i++;
-// 	}
 // }

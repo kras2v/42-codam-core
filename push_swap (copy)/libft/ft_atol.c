@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:28:01 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/03 14:41:39 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:49:48 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ static long long	ft_str_to_num_converter(const char *nptr)
 	return (res);
 }
 
-long long	ft_atoll(const char *nptr)
+long	ft_atol(const char *nptr)
 {
-	long long	res;
+	long	res;
 	int	sign;
 
 	res = 0;

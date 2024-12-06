@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:46:43 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 12:16:15 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:24:54 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 #include "push_swap.h"
 
-int		is_elem_in_array(int elem, t_elem **array, int index);
-int		ft_is_valid_sign(char c, int j);
-int		is_argv_i_valid(char *argv);
+bool	is_elem_in_array(int elem, t_elem **elems, int index);
+bool	is_argv_i_valid(char *argv);
 
 #endif

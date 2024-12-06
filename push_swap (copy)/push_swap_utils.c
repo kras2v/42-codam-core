@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:52:13 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/05 15:12:30 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:53:24 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	output(t_stack *a, t_stack *b)
 	}
 }
 
-int	is_stack_valid(t_stack *stack)
+bool	is_stack_valid(t_stack *stack)
 {
 	return (stack && stack->elems);
 }
@@ -51,7 +51,7 @@ int	is_stack_valid(t_stack *stack)
 void ft_put_error()
 {
 	ft_putstr_fd("Error\n", 2);
-	exit(2);
+	exit(EXIT_FAILURE);
 }
 
 void	free_argv(char *argv[])
