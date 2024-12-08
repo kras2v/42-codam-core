@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   swap.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:54:07 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 13:59:35 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 22:03:33 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/push_swap.h"
+#include "push_swap.h"
 
 //(swap a): Swap the first 2 elements at the top of stack a.
 void	sa(t_stack *a)
@@ -35,7 +35,7 @@ void	ss(t_stack *a, t_stack *b)
 {
 	int	is_a_valid;
 	int	is_b_valid;
-	
+
 	is_a_valid = is_possible_swap_or_rotate(a);
 	is_b_valid = is_possible_swap_or_rotate(b);
 	if (is_a_valid)

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   instructions_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:00:02 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 14:00:22 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 21:41:58 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/push_swap.h"
+#include "push_swap.h"
 
-bool	has_min_amount_of_elems(t_stack *stack, int min_size)
+t_bool	has_min_amount_of_elems(t_stack *stack, int min_size)
 {
 	return (stack->act_size >= min_size);
 }
 
-bool	is_possible_swap_or_rotate(t_stack *stack)
+t_bool	is_possible_swap_or_rotate(t_stack *stack)
 {
 	return (is_stack_valid(stack) && has_min_amount_of_elems(stack, 2));
 }

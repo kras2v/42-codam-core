@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.h                                     :+:      :+:    :+:   */
+/*   ft_boolean.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/28 16:46:43 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 13:24:54 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/08/29 10:25:48 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/12/06 21:42:25 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef FT_BOOLEAN_H
+# define FT_BOOLEAN_H
 
-#include "push_swap.h"
-
-bool	is_elem_in_array(int elem, t_elem **elems, int index);
-bool	is_argv_i_valid(char *argv);
+typedef enum s_bool
+{
+	true = 1,
+	false = 0
+}	t_bool;
 
 #endif

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sort_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:46:49 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 14:57:19 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 22:21:48 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/push_swap.h"
+#include "push_swap.h"
 
 t_elem	*find_smallest_element(t_stack *stack)
 {
@@ -30,40 +30,21 @@ t_elem	*find_smallest_element(t_stack *stack)
 	return (min);
 }
 
-int	ft_is_sorted(t_stack *a)
+void	rotate_until_element_on_top(t_stack *stack,
+									t_elem *element, char stack_name)
 {
-	int	i;
-
-	if (!a || !a->elems)
-		return 0;
-	i = 0;
-	while (a->act_size > 1 && i < a->act_size - 1)
-	{
-		if ((a->elems[i])->value < (a->elems[i + 1])->value)
-			i++;
-		else 
-			break;
-	}
-	return ((i + 1) == a->act_size);
-}
-
-void	rotate_until_element_on_top(t_stack *stack, t_elem *element, char stack_name)
-{
-	int	i;
-
-	i = 0;
 	while (stack->elems[0] != element)
 	{
 		if (stack_name == 'a')
 		{
-			if(element->above)
+			if (element->above)
 				ra(stack);
 			else
 				rra(stack);
 		}
 		else if (stack_name == 'b')
 		{
-			if(element->above)
+			if (element->above)
 				rb(stack);
 			else
 				rrb(stack);
@@ -71,15 +52,13 @@ void	rotate_until_element_on_top(t_stack *stack, t_elem *element, char stack_nam
 	}
 }
 
-static void	rotate_both_until_target(t_stack *a, t_stack *b, t_elem *cheapest, int reverse)
+static void	rotate_both_until_target(t_stack *a, t_stack *b,
+									t_elem *cheapest, int reverse)
 {
-	int	i;
-
-	i = 0;
-	while(a->elems[0] != cheapest->target
+	while (a->elems[0] != cheapest->target
 		&& b->elems[0] != cheapest)
 	{
-		if(reverse)
+		if (reverse)
 			rrr(a, b);
 		else
 			rr(a, b);
@@ -97,9 +76,7 @@ void	move_from_b_to_a(t_stack *a, t_stack *b)
 		return ;
 	i = 0;
 	while (i < b->act_size && b->elems[i] != NULL && !b->elems[i]->cheapest)
-	{
 		i++;
-	}
 	cheapest = b->elems[i];
 	if (cheapest->above && cheapest->target->above)
 		rotate_both_until_target(a, b, cheapest, false);

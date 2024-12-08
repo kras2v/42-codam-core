@@ -1,5 +1,6 @@
 HEADERS := push_swap.h parser_utils.h
-SRCS := push_swap.c \
+SRCS := main.c \
+	push_swap.c \
 	push_swap_utils.c \
 	parser.c \
 	parser_utils.c \
@@ -9,7 +10,9 @@ SRCS := push_swap.c \
 	reverse_rotate.c \
 	instructions_utils.c \
 	initialization.c \
-	sort_utils.c
+	sort_three_elements.c \
+	sort_utils.c \
+	print.c #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #TARGET
 NAME := push_swap

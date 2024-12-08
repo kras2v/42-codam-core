@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:47:23 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 13:27:17 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 22:09:06 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/parser_utils.h"
+#include "push_swap.h"
 
-bool	is_elem_in_array(int elem, t_elem **elems, int index)
+t_bool	is_elem_in_array(int elem, t_elem **elems, int index)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ bool	is_elem_in_array(int elem, t_elem **elems, int index)
 	return (false);
 }
 
-static bool	is_not_overflow(char *argv, bool is_negative)
+static t_bool	is_not_overflow(char *argv, t_bool is_negative)
 {
 	int		i;
 	long	num;
@@ -47,9 +47,9 @@ static bool	is_not_overflow(char *argv, bool is_negative)
 	return (true);
 }
 
-bool	is_argv_i_valid(char *argv)
+t_bool	is_argv_i_valid(char *argv)
 {
-	bool	is_negative;
+	t_bool	is_negative;
 
 	if (!argv || argv[0] == '\0')
 		return (false);
@@ -61,4 +61,11 @@ bool	is_argv_i_valid(char *argv)
 			return (false);
 	}
 	return (is_not_overflow(argv + is_negative, is_negative));
+}
+
+void	add_new_element(t_stack *a_stack, int i, long temp)
+{
+	a_stack->elems[i]->value = temp;
+	a_stack->elems[i]->target = NULL;
+	a_stack->act_size++;
 }

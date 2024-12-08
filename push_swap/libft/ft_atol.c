@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoll.c                                         :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:28:01 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 13:49:48 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 22:43:45 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static long long	ft_str_to_num_converter(const char *nptr)
 long	ft_atol(const char *nptr)
 {
 	long	res;
-	int	sign;
+	int		sign;
 
 	res = 0;
 	sign = 1;

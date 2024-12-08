@@ -3,20 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:37:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 13:53:18 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 22:09:30 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/parser_utils.h"
+#include "push_swap.h"
 
-static void	add_new_element(t_stack *a_stack, int i, long temp)
+static t_stack	*allocate_stack(int size)
 {
-	a_stack->elems[i]->value = temp;
-	a_stack->elems[i]->target = NULL;
-	a_stack->act_size++;
+	t_stack		*stack;
+	int			i;
+
+	stack = malloc(sizeof(t_stack));
+	if (!stack || size == 0)
+		return (NULL);
+	stack->max_size = size;
+	stack->act_size = 0;
+	stack->elems = malloc(stack->max_size * sizeof(t_elem *));
+	if (!stack->elems)
+		return (free_stack(stack), NULL);
+	i = 0;
+	while (i < stack->max_size)
+	{
+		stack->elems[i] = NULL;
+		i++;
+	}
+	return (stack);
 }
 
 static t_stack	*parse_multy_str(int argc, char **argv)
@@ -64,33 +79,23 @@ static t_stack	*parse_one_str(const char *str)
 	return (a_stack);
 }
 
-t_stack	*allocate_stack(int size)
-{
-	t_stack		*stack;
-	int			i;
-
-	stack = malloc(sizeof(t_stack));
-	if (!stack || size == 0)
-		return (NULL);
-	stack->max_size = size;
-	stack->act_size = 0;
-	stack->elems = malloc(stack->max_size * sizeof(t_elem *));
-	if (!stack->elems)
-		return (free_stack(stack), NULL);
-	i = 0;
-	while (i < stack->max_size)
-	{
-		stack->elems[i] = NULL;
-		i++;
-	}
-	return (stack);
-}
-
-t_stack	*a_stack_creator(int argc, char **argv)
+static t_stack	*a_stack_creator(int argc, char **argv)
 {
 	if (argc == 2)
 		return (parse_one_str(argv[1]));
 	else
 		return (parse_multy_str(--argc, ++argv));
 	return (NULL);
+}
+
+void	genarate_stacks(t_stack **a, t_stack **b, int argc, char **argv)
+{
+	if (argc <= 1)
+		ft_put_error();
+	(*a) = a_stack_creator(argc, argv);
+	if (!(*a))
+		ft_put_error();
+	(*b) = allocate_stack((*a)->max_size);
+	if (!(*b))
+		ft_put_error();
 }

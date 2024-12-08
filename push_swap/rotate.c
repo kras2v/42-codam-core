@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:54:51 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 13:59:15 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/06 22:06:17 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/push_swap.h"
+#include "push_swap.h"
 
 //(rotate a): Shift up all elements of stack a by 1.
 void	ra(t_stack *a)
@@ -35,7 +35,7 @@ void	rr(t_stack *a, t_stack *b)
 {
 	int	is_a_valid;
 	int	is_b_valid;
-	
+
 	is_a_valid = is_possible_swap_or_rotate(a);
 	is_b_valid = is_possible_swap_or_rotate(b);
 	if (is_a_valid)
@@ -43,5 +43,5 @@ void	rr(t_stack *a, t_stack *b)
 	if (is_b_valid)
 		rotate(b);
 	if (is_a_valid || is_b_valid)
-	ft_printf("rr\n");
+		ft_printf("rr\n");
 }
