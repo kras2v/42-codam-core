@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:47:23 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 18:53:50 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/09 20:56:07 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_bool	is_value_in_stack(t_stack *a, int value)
+t_bool	ft_is_value_in_stack(t_stack *a, int value)
 {
 	int	i;
 
@@ -28,14 +28,14 @@ t_bool	is_value_in_stack(t_stack *a, int value)
 	return (FALSE);
 }
 
-void	add_new_element(t_stack *a_stack, int i, long temp)
+void	ft_add_new_element(t_stack *a_stack, int i, long temp)
 {
 	a_stack->elems[i]->value = temp;
 	a_stack->elems[i]->target = NULL;
 	a_stack->act_size++;
 }
 
-static t_bool	is_digit_and_not_overflow(char *argv, t_bool is_negative)
+static t_bool	ft_is_digit_and_not_overflow(char *argv, t_bool is_negative)
 {
 	int		i;
 	long	num;
@@ -54,7 +54,7 @@ static t_bool	is_digit_and_not_overflow(char *argv, t_bool is_negative)
 	return (TRUE);
 }
 
-t_bool	is_argv_i_valid(char *argv)
+t_bool	ft_is_argv_i_valid(char *argv)
 {
 	t_bool	is_negative;
 
@@ -67,5 +67,5 @@ t_bool	is_argv_i_valid(char *argv)
 		if (!ft_isdigit(argv[1]))
 			return (FALSE);
 	}
-	return (is_digit_and_not_overflow(argv + is_negative, is_negative));
+	return (ft_is_digit_and_not_overflow(argv + is_negative, is_negative));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _bonus_instruction_parcer.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 17:06:08 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 19:02:25 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/09 23:03:24 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,27 @@ static t_bool	ft_execute_instruction(char **inst, size_t num,
 								t_stack *a, t_stack *b)
 {
 	if (ft_strcmp(inst[num], "sa") == 0)
-		sa(a);
+		ft_sa(a);
 	else if (ft_strcmp(inst[num], "sb") == 0)
-		sb(b);
+		ft_sb(b);
 	else if (ft_strcmp(inst[num], "ss") == 0)
-		ss(a, b);
+		ft_ss(a, b);
 	else if (ft_strcmp(inst[num], "pa") == 0)
-		pa(a, b);
+		ft_pa(a, b);
 	else if (ft_strcmp(inst[num], "pb") == 0)
-		pb(a, b);
+		ft_pb(a, b);
 	else if (ft_strcmp(inst[num], "ra") == 0)
-		ra(a);
+		ft_ra(a);
 	else if (ft_strcmp(inst[num], "rb") == 0)
-		rb(b);
+		ft_rb(b);
 	else if (ft_strcmp(inst[num], "rr") == 0)
-		rr(a, b);
+		ft_rr(a, b);
 	else if (ft_strcmp(inst[num], "rra") == 0)
-		rra(a);
+		ft_rra(a);
 	else if (ft_strcmp(inst[num], "rrb") == 0)
-		rrb(b);
+		ft_rrb(b);
 	else if (ft_strcmp(inst[num], "rrr") == 0)
-		rrr(a, b);
+		ft_rrr(a, b);
 	else
 		return (free_all(inst, a, b), ft_put_error(), FALSE);
 	return (TRUE);
@@ -66,8 +66,6 @@ static t_bool	ft_is_sorted(t_stack *a)
 {
 	int	i;
 
-	if (!is_stack_valid(a))
-		return (FALSE);
 	i = 0;
 	while (a->act_size > 1 && i < a->act_size - 1)
 	{
@@ -81,20 +79,23 @@ static t_bool	ft_is_sorted(t_stack *a)
 
 static void	ft_show_result(char **instructions, t_stack *a, t_stack *b)
 {
-	if (ft_is_sorted(a))
-		ft_printf("OK\n");
-	else
-		ft_printf("KO\n");
-	free_all(instructions, a, b);
+	if (is_stack_valid(a))
+	{
+		if (ft_is_sorted(a) && b->act_size == 0)
+			ft_printf("OK\n");
+		else
+			ft_printf("KO\n");
+		free_all(instructions, a, b);
+	}
 }
 
-void	proceed_instructions(t_stack *a, t_stack *b)
+void	ft_proceed_instructions(t_stack *a, t_stack *b)
 {
 	size_t	i;
 	char	**instructions;
 	char	*line;
 
-	line = read_until_end(0);
+	line = read_until_end_of_file(0);
 	if (!line)
 	{
 		free_all(NULL, a, b);

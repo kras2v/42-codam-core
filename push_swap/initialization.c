@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:47:55 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 17:18:44 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/09 22:53:17 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static t_elem	*find_target_in_a(t_stack *a, t_stack *b, int i)
+static t_elem	*ft_find_target_element(t_stack *a, t_stack *b, int i)
 {
 	t_elem	*target;
 	long	best_value;
@@ -31,81 +31,82 @@ static t_elem	*find_target_in_a(t_stack *a, t_stack *b, int i)
 		j++;
 	}
 	if (best_value == LONG_MAX)
-		target = find_smallest_element(a);
+		target = ft_find_smallest_element(a);
 	return (target);
 }
 
-static void	assign_target_and_set_price(t_stack *a, t_stack *b)
+static void	ft_assign_target_and_set_distance(t_stack *a, t_stack *b)
 {
 	int		i;
 
-	if (!is_stack_valid(a) || !is_stack_valid(b))
-		return ;
 	i = 0;
 	while (i < b->act_size && b->elems[i] != NULL)
 	{
-		b->elems[i]->target = find_target_in_a(a, b, i);
-		b->elems[i]->push_price = b->elems[i]->position;
-		if (!b->elems[i]->above)
-			b->elems[i]->push_price = b->act_size - b->elems[i]->position;
-		if (b->elems[i]->target->above)
-			b->elems[i]->push_price += b->elems[i]->target->position;
+		b->elems[i]->target = ft_find_target_element(a, b, i);
+		if (b->elems[i] == NULL)
+			ft_put_error_and_free(a, b);
+		b->elems[i]->distance_to_target = b->elems[i]->position;
+		if (!b->elems[i]->above_middle)
+			b->elems[i]->distance_to_target
+				= b->act_size - b->elems[i]->position;
+		if (b->elems[i]->target->above_middle)
+			b->elems[i]->distance_to_target += b->elems[i]->target->position;
 		else
-			b->elems[i]->push_price
+			b->elems[i]->distance_to_target
 				+= a->act_size - b->elems[i]->target->position;
 		i++;
 	}
 }
 
-static void	find_cheapest_elem(t_stack *b)
+static void	ft_find_next_to_push(t_stack *b)
 {
 	int		i;
-	long	smallest_price;
-	t_elem	*smallest_elem;
+	long	shortest_distance;
+	t_elem	*closest_element;
 
-	if (!is_stack_valid(b))
-		return ;
 	i = 0;
-	smallest_price = LONG_MAX;
+	shortest_distance = LONG_MAX;
 	while (i < b->act_size && b->elems[i] != NULL)
 	{
-		if (b->elems[i]->push_price < smallest_price)
+		if (b->elems[i]->distance_to_target < shortest_distance)
 		{
-			smallest_price = b->elems[i]->push_price;
-			smallest_elem = b->elems[i];
+			shortest_distance = b->elems[i]->distance_to_target;
+			closest_element = b->elems[i];
 		}
 		i++;
 	}
-	smallest_elem->cheapest = TRUE;
+	closest_element->closest = TRUE;
 }
 
-void	update_stack_values(t_stack *stack)
+void	ft_refresh_stack_values(t_stack *stack)
 {
 	int	i;
 	int	middle;
 
-	if (!is_stack_valid(stack))
-		return ;
 	i = 0;
 	middle = stack->act_size / 2;
 	while (i < stack->act_size && stack->elems[i] != NULL)
 	{
 		stack->elems[i]->position = i;
-		stack->elems[i]->above = stack->elems[i]->position <= middle;
-		stack->elems[i]->cheapest = FALSE;
+		stack->elems[i]->above_middle = stack->elems[i]->position <= middle;
+		stack->elems[i]->closest = FALSE;
 		i++;
 	}
 }
 
-void	init_stacks(t_stack *a, t_stack *b)
+void	ft_initialize_stacks(t_stack *a, t_stack *b)
 {
-	if (a)
-		update_stack_values(a);
-	if (b)
-		update_stack_values(b);
-	if (a && b)
+	if (is_stack_valid(a))
 	{
-		assign_target_and_set_price(a, b);
-		find_cheapest_elem(b);
+		ft_refresh_stack_values(a);
+	}
+	if (is_stack_valid(b))
+	{
+		ft_refresh_stack_values(b);
+	}
+	if (is_stack_valid(a) && is_stack_valid(b))
+	{
+		ft_assign_target_and_set_distance(a, b);
+		ft_find_next_to_push(b);
 	}
 }

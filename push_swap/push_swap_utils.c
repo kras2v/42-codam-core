@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:52:13 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 17:52:16 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/09 22:19:39 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ t_bool	is_stack_valid(t_stack *stack)
 	return (stack && stack->elems);
 }
 
-void	ft_put_error(void)
+void	ft_put_error_and_free(t_stack *a, t_stack *b)
 {
+	free_all_stacks(a, b);
 	ft_putstr_fd("Error\n", 2);
 	exit(EXIT_FAILURE);
 }

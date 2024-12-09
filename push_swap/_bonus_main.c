@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _bonus_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 17:25:46 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 19:02:30 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/09 20:59:27 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	main(int argc, char **argv)
 	{
 		return (1);
 	}
-	genarate_stacks(&a, &b, argc, argv);
-	proceed_instructions(a, b);
+	ft_genarate_stacks(&a, &b, argc, argv);
+	ft_proceed_instructions(a, b);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   _bonus_proceed_standart_input.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:16:08 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 18:59:03 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/09 21:00:11 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_bonus_checker.h"
 
-static char	*ft_join(char *stash, char *buffer)
+static char	*ft_append_buffer_to_stash(char *stash, char *buffer)
 {
 	char	*res;
 
@@ -26,7 +26,7 @@ static char	*ft_join(char *stash, char *buffer)
 	return (res);
 }
 
-char	*read_until_end(int fd)
+char	*read_until_end_of_file(int fd)
 {
 	char	*stash;
 	char	buffer[BUFFER_SIZE + 1];
@@ -39,7 +39,7 @@ char	*read_until_end(int fd)
 	while (bytes_read > 0)
 	{
 		buffer[bytes_read] = '\0';
-		stash = ft_join(stash, buffer);
+		stash = ft_append_buffer_to_stash(stash, buffer);
 		if (stash == NULL)
 			return (NULL);
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
