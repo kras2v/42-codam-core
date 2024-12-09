@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   sort_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:46:49 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 22:21:48 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:18:49 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+t_bool	ft_is_sorted(t_stack *a)
+{
+	int	i;
+
+	if (!is_stack_valid(a))
+		return (FALSE);
+	i = 0;
+	while (a->act_size > 1 && i < a->act_size - 1)
+	{
+		if ((a->elems[i])->value < (a->elems[i + 1])->value)
+			i++;
+		else
+			break ;
+	}
+	return ((i + 1) == a->act_size);
+}
 
 t_elem	*find_smallest_element(t_stack *stack)
 {
@@ -79,9 +96,9 @@ void	move_from_b_to_a(t_stack *a, t_stack *b)
 		i++;
 	cheapest = b->elems[i];
 	if (cheapest->above && cheapest->target->above)
-		rotate_both_until_target(a, b, cheapest, false);
+		rotate_both_until_target(a, b, cheapest, FALSE);
 	else if (!cheapest->above && !cheapest->target->above)
-		rotate_both_until_target(a, b, cheapest, true);
+		rotate_both_until_target(a, b, cheapest, TRUE);
 	rotate_until_element_on_top(b, cheapest, 'b');
 	rotate_until_element_on_top(a, cheapest->target, 'a');
 	pa(a, b);

@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_boolean.h                                       :+:      :+:    :+:   */
+/*   _bonus_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 10:25:48 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 17:17:49 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/12/08 17:25:46 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/12/09 19:02:30 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_BOOLEAN_H
-# define FT_BOOLEAN_H
+#include "_bonus_checker.h"
 
-typedef enum s_bool
+int	main(int argc, char **argv)
 {
-	TRUE = 1,
-	FALSE = 0
-}	t_bool;
+	t_stack	*a;
+	t_stack	*b;
 
-#endif
+	if (argc <= 1)
+	{
+		return (1);
+	}
+	genarate_stacks(&a, &b, argc, argv);
+	proceed_instructions(a, b);
+}

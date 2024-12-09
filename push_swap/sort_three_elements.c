@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_three_elements.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:54:55 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 22:06:03 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/08 15:48:00 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static int	find_biggest_value(t_stack *stack)
 	while (i < stack->act_size)
 	{
 		if ((stack->elems[i])->value > max)
+		{
 			max = (stack->elems[i])->value;
+		}
 		i++;
 	}
 	return (max);

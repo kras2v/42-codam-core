@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:47:55 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 22:45:22 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:18:44 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_elem	*find_target_in_a(t_stack *a, t_stack *b, int i)
 	return (target);
 }
 
-static void	assign_target_to_each_elem(t_stack *a, t_stack *b)
+static void	assign_target_and_set_price(t_stack *a, t_stack *b)
 {
 	int		i;
 
@@ -45,17 +45,6 @@ static void	assign_target_to_each_elem(t_stack *a, t_stack *b)
 	while (i < b->act_size && b->elems[i] != NULL)
 	{
 		b->elems[i]->target = find_target_in_a(a, b, i);
-		i++;
-	}
-}
-
-static void	get_push_price(t_stack *a, t_stack *b)
-{
-	int	i;
-
-	i = 0;
-	while (i < b->act_size && b->elems[i] != NULL)
-	{
 		b->elems[i]->push_price = b->elems[i]->position;
 		if (!b->elems[i]->above)
 			b->elems[i]->push_price = b->act_size - b->elems[i]->position;
@@ -68,13 +57,13 @@ static void	get_push_price(t_stack *a, t_stack *b)
 	}
 }
 
-static void	set_cheapest(t_stack *b)
+static void	find_cheapest_elem(t_stack *b)
 {
 	int		i;
 	long	smallest_price;
 	t_elem	*smallest_elem;
 
-	if (!b || b->act_size <= 0)
+	if (!is_stack_valid(b))
 		return ;
 	i = 0;
 	smallest_price = LONG_MAX;
@@ -87,7 +76,25 @@ static void	set_cheapest(t_stack *b)
 		}
 		i++;
 	}
-	smallest_elem->cheapest = true;
+	smallest_elem->cheapest = TRUE;
+}
+
+void	update_stack_values(t_stack *stack)
+{
+	int	i;
+	int	middle;
+
+	if (!is_stack_valid(stack))
+		return ;
+	i = 0;
+	middle = stack->act_size / 2;
+	while (i < stack->act_size && stack->elems[i] != NULL)
+	{
+		stack->elems[i]->position = i;
+		stack->elems[i]->above = stack->elems[i]->position <= middle;
+		stack->elems[i]->cheapest = FALSE;
+		i++;
+	}
 }
 
 void	init_stacks(t_stack *a, t_stack *b)
@@ -98,8 +105,7 @@ void	init_stacks(t_stack *a, t_stack *b)
 		update_stack_values(b);
 	if (a && b)
 	{
-		assign_target_to_each_elem(a, b);
-		get_push_price(a, b);
-		set_cheapest(b);
+		assign_target_and_set_price(a, b);
+		find_cheapest_elem(b);
 	}
 }

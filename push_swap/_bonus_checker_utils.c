@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap_utils.c                                  :+:      :+:    :+:   */
+/*   _bonus_checker_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:52:13 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 17:52:16 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:58:52 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "_bonus_checker.h"
 
 t_bool	is_stack_valid(t_stack *stack)
 {
@@ -53,8 +53,12 @@ void	free_stack(t_stack *stack)
 	free(stack);
 }
 
-void	free_all_stacks(t_stack *a, t_stack *b)
+void	free_all(char **instructions, t_stack *a, t_stack *b)
 {
+	if (instructions)
+	{
+		free_argv(instructions);
+	}
 	if (a)
 	{
 		free_stack(a);

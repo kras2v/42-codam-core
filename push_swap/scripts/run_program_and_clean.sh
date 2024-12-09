@@ -1,4 +1,4 @@
 #!/bin/bash
-make
-./push_swap "$@"
+make bonus
+./checker "$@"
 make fclean

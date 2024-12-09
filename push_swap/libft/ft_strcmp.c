@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_boolean.h                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 10:25:48 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 17:17:49 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/10/08 17:21:45 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/12/09 15:41:53 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_BOOLEAN_H
-# define FT_BOOLEAN_H
+#include "libft.h"
 
-typedef enum s_bool
+int	ft_strcmp(char *s1, char *s2)
 {
-	TRUE = 1,
-	FALSE = 0
-}	t_bool;
-
-#endif
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
+}

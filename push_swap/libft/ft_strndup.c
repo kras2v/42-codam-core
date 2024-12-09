@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_boolean.h                                       :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 10:25:48 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 17:17:49 by kvalerii         ###   ########.fr       */
+/*   Created: 2024/12/08 18:07:59 by kvalerii          #+#    #+#             */
+/*   Updated: 2024/12/08 18:08:07 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_BOOLEAN_H
-# define FT_BOOLEAN_H
+#include "libft.h"
 
-typedef enum s_bool
+char	*ft_strndup(const char *str, size_t size)
 {
-	TRUE = 1,
-	FALSE = 0
-}	t_bool;
+	char	*res;
+	size_t	index;
 
-#endif
+	res = malloc(size + 1);
+	if (!res)
+		return (NULL);
+	index = 0;
+	while (str[index] != '\0' && index < size)
+	{
+		res[index] = str[index];
+		index++;
+	}
+	res[index] = '\0';
+	return (res);
+}

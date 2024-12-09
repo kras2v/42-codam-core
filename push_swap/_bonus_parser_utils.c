@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   _bonus_parser_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:47:23 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 18:53:50 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:54:23 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "_bonus_checker.h"
 
 t_bool	is_value_in_stack(t_stack *a, int value)
 {
@@ -47,7 +47,8 @@ static t_bool	is_digit_and_not_overflow(char *argv, t_bool is_negative)
 		if (!ft_isdigit(argv[i]))
 			return (FALSE);
 		num = num * 10 + (argv[i] - '0');
-		if ((!is_negative && num > INT_MAX) || (is_negative && - num < INT_MIN))
+		if ((!is_negative && num > INT_MAX)
+			|| (is_negative && - num < INT_MIN))
 			return (FALSE);
 		i++;
 	}

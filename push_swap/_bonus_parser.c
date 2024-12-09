@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   _bonus_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:37:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/08 16:32:11 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:57:26 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "_bonus_checker.h"
 
 static t_stack	*allocate_stack(int size)
 {
@@ -79,6 +79,11 @@ static t_stack	*parse_one_str(const char *str)
 		argc++;
 	}
 	a_stack = parse_multy_str(argc, argv);
+	if (!a_stack)
+	{
+		free_argv(argv);
+		ft_put_error();
+	}
 	free_argv(argv);
 	return (a_stack);
 }
@@ -106,6 +111,7 @@ void	genarate_stacks(t_stack **a, t_stack **b, int argc, char **argv)
 	(*b) = allocate_stack((*a)->max_size);
 	if (!(*b))
 	{
+		free_all(NULL, (*a), NULL);
 		ft_put_error();
 	}
 }

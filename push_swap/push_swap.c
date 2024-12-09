@@ -3,51 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:53:42 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/06 22:45:52 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:18:46 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	update_stack_values(t_stack *stack)
+static int	_abs(int a)
 {
-	int	i;
-	int	middle;
-
-	if (!is_stack_valid(stack))
-		return ;
-	i = 0;
-	middle = stack->act_size / 2;
-	while (i < stack->act_size && stack->elems[i] != NULL)
-	{
-		stack->elems[i]->position = i;
-		if (stack->elems[i]->position <= middle)
-			stack->elems[i]->above = true;
-		else
-			stack->elems[i]->above = false;
-		stack->elems[i]->cheapest = false;
-		i++;
-	}
+	if (a < 0)
+		return (-a);
+	return (a);
 }
 
-static t_bool	ft_is_sorted(t_stack *a)
+static t_bool	compare_with_all_elements(t_stack *a, int el_num, int *medium)
 {
+	int	j;
+	int	larger;
+	int	smaller;
+
+	j = 0;
+	larger = 0;
+	smaller = 0;
+	while (j < a->act_size && a->elems[j] != NULL)
+	{
+		if (a->elems[j]->value > a->elems[el_num]->value)
+			larger++;
+		else if (a->elems[j]->value < a->elems[el_num]->value)
+			smaller++;
+		j++;
+	}
+	if (_abs(smaller - larger) <= 1)
+	{
+		*medium = a->elems[el_num]->value;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+static int	find_medium_value(t_stack *a)
+{
+	int	medium;
 	int	i;
 
-	if (!is_stack_valid(a))
-		return (false);
 	i = 0;
-	while (a->act_size > 1 && i < a->act_size - 1)
+	medium = a->elems[0]->value;
+	while (i < a->act_size && a->elems[i] != NULL)
 	{
-		if ((a->elems[i])->value < (a->elems[i + 1])->value)
-			i++;
-		else
+		if (compare_with_all_elements(a, i, &medium))
 			break ;
+		i++;
 	}
-	return ((i + 1) == a->act_size);
+	return (medium);
+}
+
+static void	move_to_b(t_stack *a, t_stack *b)
+{
+	int	medium;
+	int	i;
+
+	while (a->act_size > 3)
+	{
+		i = 0;
+		medium = find_medium_value(a);
+		while (i < a->act_size)
+		{
+			if (a->elems[0]->value < medium)
+			{
+				pb(a, b);
+			}
+			else
+			{
+				ra(a);
+			}
+			if (a->elems[0]->value >= medium)
+				i++;
+		}
+	}
+	ft_sort_three(a);
 }
 
 void	push_swap(t_stack *a, t_stack *b, int argc)
@@ -58,9 +94,7 @@ void	push_swap(t_stack *a, t_stack *b, int argc)
 			ft_sort_three(a);
 		else
 		{
-			while (a->act_size > 3)
-				pb(a, b);
-			ft_sort_three(a);
+			move_to_b(a, b);
 			while (b->act_size > 0)
 			{
 				init_stacks(a, b);
