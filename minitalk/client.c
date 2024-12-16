@@ -3,45 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:57:47 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/13 18:46:08 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/16 23:26:14 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <stdio.h>
 
-void	convert_to_binary(char *res, int num, int *index)
+char	*convert_to_binary(char *res, int num)
 {
-	if (num == 0)
-	{
-		res[(*index)++] = '0';
-	}
-	else if (num > 0)
-	{
-		convert_to_binary(res, num / 2, index);
-		res[(*index)++] = num % 2 + '0';
-	}
-}
+	int	mask;
+	int	i;
 
-char	*zeros_string(void)
-{
-	char	*zero_string;
-	size_t	i;
-
-	zero_string = malloc(9 * sizeof(char));
-	if (!zero_string)
-		return (NULL);
+	mask = 0b10000000;
 	i = 0;
 	while (i < 8)
 	{
-		zero_string[i] = '0';
+		if (mask & num)
+			res[i] = '1';
+		else
+			res[i] = '0';
+		mask >>= 1;
 		i++;
 	}
-	zero_string[8] = '\0';
-	return (zero_string);
+	res[i] = '\0';
+	return (res);
 }
 
 void	send_signal(pid_t PID, char *str)
@@ -53,13 +42,15 @@ void	send_signal(pid_t PID, char *str)
 	{
 		if (str[i] == '0')
 		{
-			kill(PID, SIGUSR1);
-			usleep(1);
+			if (kill(PID, SIGUSR1) == -1)
+				exit(1);
+			usleep(200);
 		}
 		else if (str[i] == '1')
 		{
-			kill(PID, SIGUSR2);
-			usleep(1);
+			if (kill(PID, SIGUSR2) == -1)
+				exit(1);
+			usleep(200);
 		}
 		i++;
 	}
@@ -68,26 +59,20 @@ void	send_signal(pid_t PID, char *str)
 void	encrypt(pid_t PID, char *string)
 {
 	size_t	i;
-	int	index;
 	char	*binary;
 
 	i = 0;
+	binary = malloc(9);
+	if (!binary)
+		exit(1);
 	while (string[i] != '\0')
 	{
-		if (string[i] >= 64)
-			index = 0;
-		else
-			index = 1;
-		binary = zeros_string();
-		if (!binary)
-			exit(1);
-		convert_to_binary(binary, string[i], &index);
-		//printf("%c - %s\n", string[i], binary);
+		binary = convert_to_binary(binary, string[i]);
 		send_signal(PID, binary);
-		free(binary);
-		binary = NULL;
 		i++;
 	}
+	free(binary);
+	binary = NULL;
 }
 
 int	convert_to_number(char *argv)
@@ -105,7 +90,9 @@ int	convert_to_number(char *argv)
 		}
 		num = num * 10 + (argv[i] - '0');
 		if (num > INT_MAX)
+		{
 			return (-1);
+		}
 		i++;
 	}
 	return (num);
@@ -125,6 +112,7 @@ int	main(int argc, char **argv)
 {
 	if (argc != 3)
 		exit(EXIT_FAILURE);
+	printf("__PID: %d\n", getpid());
 	encrypt(get_pid(argv[1]), argv[2]);
 	return (0);
 }

@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:19:40 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/13 19:02:20 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/16 23:30:42 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <stdio.h>
+#include <time.h>
 
-int	_pow(int num, int pow)
+size_t	_pow(size_t num, int pow)
 {
 	if (pow == 0)
 		return (1);
@@ -24,15 +25,15 @@ char	binary_to_char(char *num)
 {
 	int		dec;
 	char	letter;
-	int		i;
-	int		len;
+	size_t	i;
+	size_t	len;
 
 	dec = 0;
 	i = 0;
 	len = ft_strlen(num);
 	while(num[i] != '\0')
 	{
-		dec += (num[i] - '0') * _pow(2, len - i - 1);
+		dec += (int)((num[i] - '0') * _pow(2, len - i - 1));
 		i++;
 	}
 	letter = dec;
@@ -46,7 +47,11 @@ void	signal_handler(int signum)
 	char letter;
 
 	if(!res)
+	{
 		res = malloc(9 * sizeof(char));
+		if (!res)
+			exit(1);
+	}
 	if (signum == SIGUSR1)
 	{
 		res[num] = '0';
@@ -79,14 +84,16 @@ void exit_handler(int sig)
 
 int main()
 {
-	ft_printf("__PID: %d\n", getpid());
-	signal(SIGUSR1, signal_handler);
-	signal(SIGUSR2, signal_handler);
+	ft_printf("%d\n", getpid());
+	struct sigaction action;
+	action.sa_handler = signal_handler;
+	action.sa_flags = 0;
+	sigfillset(&action.sa_mask);
+	sigaction(SIGUSR1, &action, NULL);
+	sigaction(SIGUSR2, &action, NULL);
 	signal(SIGINT, exit_handler);
 	while (1)
 	{
 		
 	}
-	// char *res = "01000000";
-	// printf("%d\n", binary_to_char(res));
 }
