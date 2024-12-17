@@ -5,95 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/11 14:19:40 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/16 23:30:42 by valeriia         ###   ########.fr       */
+/*   Created: 2024/12/17 19:49:51 by valeriia          #+#    #+#             */
+/*   Updated: 2024/12/17 21:45:37 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <stdio.h>
-#include <time.h>
 
-size_t	_pow(size_t num, int pow)
+static void	decrypt_signal(int signum, siginfo_t *siginfo, void *ucontext)
 {
-	if (pow == 0)
-		return (1);
-	return (num * _pow(num, pow - 1));
-}
+	int			mask;
+	static char	letter;
+	static int	i;
 
-char	binary_to_char(char *num)
-{
-	int		dec;
-	char	letter;
-	size_t	i;
-	size_t	len;
-
-	dec = 0;
-	i = 0;
-	len = ft_strlen(num);
-	while(num[i] != '\0')
-	{
-		dec += (int)((num[i] - '0') * _pow(2, len - i - 1));
-		i++;
-	}
-	letter = dec;
-	return (letter);
-}
-
-void	signal_handler(int signum)
-{
-	static int num = 0;
-	static char *res = NULL;
-	char letter;
-
-	if(!res)
-	{
-		res = malloc(9 * sizeof(char));
-		if (!res)
-			exit(1);
-	}
+	(void)ucontext;
+	mask = 0b10000000;
 	if (signum == SIGUSR1)
-	{
-		res[num] = '0';
-		num++;
-	}
+		letter |= (mask >> i);
 	else if (signum == SIGUSR2)
+		letter &= ~(mask >> i);
+	else
+		ft_puterror("Invalid signal received.");
+	i++;
+	if (i == CHAR_BIT)
 	{
-		res[num] = '1';
-		num++;
-	}
-	if (num == 8)
-	{
-		res[num] = '\0';
-		letter = binary_to_char(res);
-		num = 0;
+		i = 0;
+		if (letter == '\0')
+		{
+			send_signal(siginfo->si_pid, SIGUSR2);
+			return ;
+		}
 		write(1, &letter, 1);
-		free(res);
-		res = NULL;
 	}
+	send_signal(siginfo->si_pid, SIGUSR1);
 }
 
-void exit_handler(int sig)
+void	handle_exit(int sig)
 {
 	if (sig == SIGINT)
-	{
-		write(1, "Exiting...\n", 11);
 		exit(0);
-	}
 }
 
-int main()
+int	main(void)
 {
-	ft_printf("%d\n", getpid());
-	struct sigaction action;
-	action.sa_handler = signal_handler;
-	action.sa_flags = 0;
-	sigfillset(&action.sa_mask);
-	sigaction(SIGUSR1, &action, NULL);
-	sigaction(SIGUSR2, &action, NULL);
-	signal(SIGINT, exit_handler);
-	while (1)
+	pid_t	server_pid;
+
+	server_pid = getpid();
+	ft_printf("%d", server_pid);
+	ft_create_signal(SIGUSR1, decrypt_signal, true);
+	ft_create_signal(SIGUSR2, decrypt_signal, true);
+	ft_create_signal(SIGINT, handle_exit, false);
+	while (true)
 	{
-		
+		pause();
 	}
+	exit(EXIT_SUCCESS);
 }

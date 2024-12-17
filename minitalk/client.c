@@ -5,114 +5,70 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 12:57:47 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/16 23:26:14 by valeriia         ###   ########.fr       */
+/*   Created: 2024/12/17 19:49:53 by valeriia          #+#    #+#             */
+/*   Updated: 2024/12/17 21:45:11 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <stdio.h>
 
-char	*convert_to_binary(char *res, int num)
+volatile int	g_lock = true;
+
+static void	change_status(int signum)
 {
-	int	mask;
-	int	i;
+	if (signum == SIGUSR1)
+		g_lock = false;
+}
 
+static void	show_message_status(int signum)
+{
+	if (signum == SIGUSR2)
+	{
+		ft_printf("Message received\n");
+		exit(EXIT_SUCCESS);
+	}
+}
+
+static void	encrypt_signal(pid_t server_pid, char letter)
+{
+	int		mask;
+	size_t	i;
+
+	(void)server_pid;
 	mask = 0b10000000;
 	i = 0;
-	while (i < 8)
+	while (i < CHAR_BIT)
 	{
-		if (mask & num)
-			res[i] = '1';
+		if (letter & (mask >> i))
+			send_signal(server_pid, SIGUSR1);
 		else
-			res[i] = '0';
-		mask >>= 1;
+			send_signal(server_pid, SIGUSR2);
 		i++;
+		while (g_lock)
+			usleep(50);
+		g_lock = true;
 	}
-	res[i] = '\0';
-	return (res);
-}
-
-void	send_signal(pid_t PID, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '0')
-		{
-			if (kill(PID, SIGUSR1) == -1)
-				exit(1);
-			usleep(200);
-		}
-		else if (str[i] == '1')
-		{
-			if (kill(PID, SIGUSR2) == -1)
-				exit(1);
-			usleep(200);
-		}
-		i++;
-	}
-}
-
-void	encrypt(pid_t PID, char *string)
-{
-	size_t	i;
-	char	*binary;
-
-	i = 0;
-	binary = malloc(9);
-	if (!binary)
-		exit(1);
-	while (string[i] != '\0')
-	{
-		binary = convert_to_binary(binary, string[i]);
-		send_signal(PID, binary);
-		i++;
-	}
-	free(binary);
-	binary = NULL;
-}
-
-int	convert_to_number(char *argv)
-{
-	size_t	i;
-	long	num;
-
-	i = 0;
-	num = 0;
-	while (argv[i] != '\0')
-	{
-		if (!ft_isdigit(argv[i]))
-		{
-			return (-1);
-		}
-		num = num * 10 + (argv[i] - '0');
-		if (num > INT_MAX)
-		{
-			return (-1);
-		}
-		i++;
-	}
-	return (num);
-}
-
-pid_t	get_pid(char *argv)
-{
-	pid_t	pid;
-
-	pid = convert_to_number(argv);
-	if (pid < 0)
-		exit(1);
-	return (pid);
 }
 
 int	main(int argc, char **argv)
 {
+	pid_t				server_pid;
+	char				*msg_to_send;
+	size_t				i;
+
 	if (argc != 3)
-		exit(EXIT_FAILURE);
-	printf("__PID: %d\n", getpid());
-	encrypt(get_pid(argv[1]), argv[2]);
-	return (0);
+		ft_puterror("Not enough arguments.");
+	ft_printf("__PID: %d", getpid());
+	ft_create_signal(SIGUSR1, change_status, false);
+	ft_create_signal(SIGUSR2, show_message_status, false);
+	server_pid = ft_atoi(argv[1]);
+	msg_to_send = argv[2];
+	i = 0;
+	while (msg_to_send[i] != '\0')
+	{
+		encrypt_signal(server_pid, msg_to_send[i]);
+		i++;
+	}
+	encrypt_signal(server_pid, '\0');
+	exit(EXIT_SUCCESS);
 }
