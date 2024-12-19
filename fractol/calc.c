@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/19 22:28:24 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/19 22:53:53 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,74 @@
 int	create_trgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+
+void make_it_blue(t_color *color, int i, int max_iterations)
+{
+	if (i < max_iterations * 0.05)
+	{
+		color->b = (255 * i * max_iterations * 0.2) / max_iterations * 0.3;
+		color->r = 0;
+		color->g = 0;
+	}	
+	else if (i < max_iterations * 0.3)
+	{
+		color->g = (255 * (i - max_iterations)) / max_iterations * 0.3;
+		color->b = 255 - color->g;
+		color->r = 0;
+	}
+	else
+	{
+		color->r = (255 * i * (max_iterations * 0.8));
+		color->g = 255 - color->r;
+		color->b = (255 * i * (max_iterations * 0.2)) / max_iterations;
+	}
+}
+
+void make_it_red(t_color *color, int i, int max_iterations)
+{
+	if (i < max_iterations * 0.05)
+	{
+		color->r = (255 * i * max_iterations * 0.2) / max_iterations * 0.1;
+		color->g = 0;
+		color->b = 0;
+	}	
+	else if (i < max_iterations * 0.3)
+	{
+		color->b = (255 * (i - max_iterations)) / max_iterations * 0.8;
+		color->r = 255 - color->b;
+		color->g = 0;
+	}
+	else
+	{
+		color->g = (255 * i * (max_iterations * 0.8));
+		color->b = 255 - color->g;
+		color->r = (255 * i * (max_iterations * 0.2)) / max_iterations;
+	}
+}
+
+
+void make_it_green(t_color *color, int i, int max_iterations)
+{
+	if (i < max_iterations * 0.05)
+	{
+		color->g = (255 * i * max_iterations * 0.2) / max_iterations * 0.3;
+		color->r = 0;
+		color->b = 0;
+	}	
+	else if (i < max_iterations * 0.3)
+	{
+		color->b = (255 * (i - max_iterations)) / max_iterations * 0.1;
+		color->g = 255 - color->g;
+		color->r = 0;
+	}
+	else
+	{
+		color->r = (255 * i * (max_iterations * 0.3));
+		color->b = 255 - color->r;
+		color->g = (255 * i * (max_iterations * 0.2)) / max_iterations;
+	}
 }
 
 int	calc(t_compex C, int max_iterations)
@@ -36,23 +104,6 @@ int	calc(t_compex C, int max_iterations)
 	}
 	if (i == max_iterations)
 		return create_trgb(0, 0, 0, 0);
-	if (i < max_iterations * 0.05)
-	{
-		color.r = (255 * i * max_iterations * 0.2) / max_iterations * 0.3;
-		color.g = 0;
-		color.b = 0;
-	}	
-	else if (i < max_iterations * 0.3)
-	{
-		color.b = (255 * (i - max_iterations)) / max_iterations * 0.3;
-		color.r = 255 - color.r;
-		color.g = 0;
-	}
-	else
-	{
-		color.g = (255 * i * (max_iterations * 0.8));
-		color.b = 255 - color.g;
-		color.r = (255 * i * (max_iterations * 0.2)) / max_iterations;
-	}
+	make_it_red(&color, i, max_iterations);
 	return create_trgb(color.t, color.r, color.g, color.b);
 }

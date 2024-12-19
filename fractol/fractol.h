@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/19 22:08:57 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/19 22:42:36 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #define min_scale_X -2
 #define max_scale_X 1
 #define min_scale_Y -1.2
-#define max_scale_Y min_scale_X+(max_scale_X-min_scale_Y)*HEIGHT/WIDTH;
+#define max_scale_Y min_scale_X+(max_scale_X-min_scale_Y)*HEIGHT/WIDTH
 
 typedef struct s_img_data
 {
