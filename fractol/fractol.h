@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/19 18:11:21 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/19 19:01:17 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,12 @@ typedef struct s_compex
 
 
 int		calc(t_compex C, int max_iterations);
-void	my_put_pixel(t_img_data *img, float x, float y, int color);
+void	my_put_pixel(t_img_data *img, int x, int y, int color);
+
 
 
 int generate_color(double hue);
-void coloring(double ***hue, int max_iterations);
+void coloring(int max_iterations);
 double scale_pixel_to_coord(int pix, int size, double min, double max);
 
 

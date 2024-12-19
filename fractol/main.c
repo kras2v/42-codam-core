@@ -6,13 +6,15 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/19 18:18:12 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/19 19:03:06 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <stdio.h>
 #include <time.h>
+
+
 
 int main(void)
 {
@@ -29,6 +31,7 @@ int main(void)
 	int py = 0;
 	int curr_iterations = 0;
 	int max_iterations = 1000;
+	int color;
 	while (py < HEIGHT)
 	{
 		px = 0;
@@ -38,8 +41,15 @@ int main(void)
 			double x = scale_pixel_to_coord(px, WIDTH, min_scale_X, max_scale_X);
 			t_compex c = {x, y};
 			curr_iterations = calc(c, max_iterations);
+			color = 0xFF0000;
 			if (curr_iterations == max_iterations)
-				my_put_pixel(&my_display.img_data, px, py, 0xFF0000);
+				my_put_pixel(&my_display.img_data, px, py, 0x000000);
+			else if (curr_iterations > max_iterations * 0.5)
+				my_put_pixel(&my_display.img_data, px, py, 0xAF0000);
+			else if (curr_iterations < max_iterations * 0.1)
+				my_put_pixel(&my_display.img_data, px, py, 0x0000F0);
+			else
+				my_put_pixel(&my_display.img_data, px, py, 0xFFFFFF);
 			px++;
 		}
 		py++;
