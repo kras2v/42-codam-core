@@ -3,19 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   calc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/19 17:01:14 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/19 22:28:24 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int calc(t_compex C, int max_iterations)
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+int	calc(t_compex C, int max_iterations)
 {
 	t_compex Z = {0.0, 0.0};
 	t_compex Ztemp = {0.0, 0.0};
+	static t_color color = {1, 1, 1, 1};
 
 	int i = 0;
 	while (i < max_iterations)
@@ -28,5 +34,25 @@ int calc(t_compex C, int max_iterations)
 			break;
 		i++;
 	}
-	return (i);
+	if (i == max_iterations)
+		return create_trgb(0, 0, 0, 0);
+	if (i < max_iterations * 0.05)
+	{
+		color.r = (255 * i * max_iterations * 0.2) / max_iterations * 0.3;
+		color.g = 0;
+		color.b = 0;
+	}	
+	else if (i < max_iterations * 0.3)
+	{
+		color.b = (255 * (i - max_iterations)) / max_iterations * 0.3;
+		color.r = 255 - color.r;
+		color.g = 0;
+	}
+	else
+	{
+		color.g = (255 * i * (max_iterations * 0.8));
+		color.b = 255 - color.g;
+		color.r = (255 * i * (max_iterations * 0.2)) / max_iterations;
+	}
+	return create_trgb(color.t, color.r, color.g, color.b);
 }

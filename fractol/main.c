@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/19 19:03:06 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/19 21:25:14 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <stdio.h>
 #include <time.h>
-
-
 
 int main(void)
 {
@@ -29,7 +27,6 @@ int main(void)
 													&my_display.img_data.endian);
 	int px = 0;
 	int py = 0;
-	int curr_iterations = 0;
 	int max_iterations = 1000;
 	int color;
 	while (py < HEIGHT)
@@ -40,16 +37,8 @@ int main(void)
 		{
 			double x = scale_pixel_to_coord(px, WIDTH, min_scale_X, max_scale_X);
 			t_compex c = {x, y};
-			curr_iterations = calc(c, max_iterations);
-			color = 0xFF0000;
-			if (curr_iterations == max_iterations)
-				my_put_pixel(&my_display.img_data, px, py, 0x000000);
-			else if (curr_iterations > max_iterations * 0.5)
-				my_put_pixel(&my_display.img_data, px, py, 0xAF0000);
-			else if (curr_iterations < max_iterations * 0.1)
-				my_put_pixel(&my_display.img_data, px, py, 0x0000F0);
-			else
-				my_put_pixel(&my_display.img_data, px, py, 0xFFFFFF);
+			color = calc(c, max_iterations);
+			my_put_pixel(&my_display.img_data, px, py, color);
 			px++;
 		}
 		py++;

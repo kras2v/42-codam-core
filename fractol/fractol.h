@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/19 19:01:17 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/19 22:08:57 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 #include <stdio.h>
 #include "libft/libft.h"
 
-#define WIDTH 1500
-#define HEIGHT 1500
+#define WIDTH 1200
+#define HEIGHT 1200
 #define min_scale_X -2
-#define max_scale_X 0.47
-#define min_scale_Y -1.12
-#define max_scale_Y 1.12
+#define max_scale_X 1
+#define min_scale_Y -1.2
+#define max_scale_Y min_scale_X+(max_scale_X-min_scale_Y)*HEIGHT/WIDTH;
 
 typedef struct s_img_data
 {
@@ -48,11 +48,16 @@ typedef struct s_compex
 	double imag;
 } t_compex;
 
+typedef struct s_color
+{
+	int t;
+	int r;
+	int g;
+	int b;
+} t_color;
 
 int		calc(t_compex C, int max_iterations);
 void	my_put_pixel(t_img_data *img, int x, int y, int color);
-
-
 
 int generate_color(double hue);
 void coloring(int max_iterations);
