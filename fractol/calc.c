@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/19 22:53:53 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/19 23:00:01 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void make_it_blue(t_color *color, int i, int max_iterations)
 {
 	if (i < max_iterations * 0.05)
 	{
-		color->b = (255 * i * max_iterations * 0.2) / max_iterations * 0.3;
+		color->b = (255 * i * max_iterations * 0.2) / max_iterations * 0.1;
 		color->r = 0;
 		color->g = 0;
 	}	
@@ -67,7 +67,7 @@ void make_it_green(t_color *color, int i, int max_iterations)
 {
 	if (i < max_iterations * 0.05)
 	{
-		color->g = (255 * i * max_iterations * 0.2) / max_iterations * 0.3;
+		color->g = (255 * i * max_iterations * 0.2) / max_iterations * 0.08;
 		color->r = 0;
 		color->b = 0;
 	}	
@@ -104,6 +104,6 @@ int	calc(t_compex C, int max_iterations)
 	}
 	if (i == max_iterations)
 		return create_trgb(0, 0, 0, 0);
-	make_it_red(&color, i, max_iterations);
+	make_it_green(&color, i, max_iterations);
 	return create_trgb(color.t, color.r, color.g, color.b);
 }
