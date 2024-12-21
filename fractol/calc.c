@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/19 23:09:09 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:15:23 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,78 +17,64 @@ int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-void make_it_blue(t_color *color, int i, int max_iterations)
+int	hsv_to_rgb(double hue, double saturation, double value)
 {
-	if (i < max_iterations * 0.05)
-	{
-		color->b = (255 * i * max_iterations * 0.2) / max_iterations * 0.2;
-		color->r = 0;
-		color->g = 0;
-	}	
-	else if (i < max_iterations * 0.3)
-	{
-		color->g = (255 * (i - max_iterations * 15)) / max_iterations * 0.96;
-		color->b = (255 - color->g);
-		color->r = 0;
-	}
-	else
-	{
-		color->r = (255 * i * (max_iterations));
-		color->g = 255 - color->r;
-		color->b = (255 * i * (max_iterations * 0.2)) / max_iterations;
-	}
+	int		hi;
+	int		v;
+	int		p;
+	int		q;
+	int		t;
+	double	f;
+
+	hi = (int)(hue / 60) % 6;
+	value *= 255;
+	f = hue / 60 - (int)(hue / 60);
+	v = (int)value;
+	p = (int)(value * (1 - saturation));
+	q = (int)(value * (1 - f * saturation));
+	t = (int)(value * (1 - (1 - f) * saturation));
+	if (hi == 0)
+        return create_trgb(0, v, t, p);
+    else if (hi == 1)
+        return create_trgb(0, q, v, p);
+    else if (hi == 2)
+        return create_trgb(0, p, v, t);
+    else if (hi == 3)
+        return create_trgb(0, p, q, v);
+    else if (hi == 4)
+        return create_trgb(0, t, p, v);
+    else
+        return create_trgb(0, v, p, q);
 }
 
-void make_it_red(t_color *color, int i, int max_iterations)
+double d_abs(double abs)
 {
-	if (i < max_iterations * 0.05)
-	{
-		color->r = (255 * i * max_iterations * 0.2) / max_iterations * 0.1;
-		color->g = 0;
-		color->b = 0;
-	}	
-	else if (i < max_iterations * 0.3)
-	{
-		color->b = (255 * (i - max_iterations)) / max_iterations * 0.8;
-		color->r = 255 - color->b;
-		color->g = 0;
-	}
-	else
-	{
-		color->g = (255 * i * (max_iterations * 0.8));
-		color->b = 255 - color->g;
-		color->r = (255 * i * (max_iterations * 0.2)) / max_iterations;
-	}
+	if (abs < 0)
+		return (-abs);
+	return (abs);
 }
 
-
-void make_it_green(t_color *color, int i, int max_iterations)
+int coloring(int i, t_compex z)
 {
-	if (i < max_iterations * 0.05)
-	{
-		color->g = (255 * i * max_iterations * 0.2) / max_iterations * 0.08;
-		color->r = 0;
-		color->b = 0;
-	}	
-	else if (i < max_iterations * 0.3)
-	{
-		color->b = (255 * (i - max_iterations)) / max_iterations * 0.1;
-		color->g = 255 - color->g;
-		color->r = 0;
-	}
-	else
-	{
-		color->r = (255 * i * (max_iterations * 0.3));
-		color->b = 255 - color->r;
-		color->g = (255 * i * (max_iterations * 0.2)) / max_iterations;
-	}
+	double	di;
+	double	zn;
+	double	hue;
+
+	di = i * i;
+	zn = sqrt(z.imag + z.real);
+	hue = di + 1.0 - log10(log(d_abs(zn)));
+	hue = 2.0 * hue + 0.7;
+	while (hue > 360)
+		hue -= 360;
+	while (hue < 360)
+		hue += 360;
+	return hsv_to_rgb(hue, 0.8, 1.0);
 }
 
 int	calc(t_compex C, int max_iterations)
 {
 	t_compex Z = {0.0, 0.0};
 	t_compex Ztemp = {0.0, 0.0};
-	static t_color color = {1, 1, 1, 1};
 
 	int i = 0;
 	while (i < max_iterations)
@@ -103,6 +89,5 @@ int	calc(t_compex C, int max_iterations)
 	}
 	if (i == max_iterations)
 		return create_trgb(0, 0, 0, 0);
-	make_it_blue(&color, i, max_iterations);
-	return create_trgb(color.t, color.r, color.g, color.b);
+	return coloring(i, Z);
 }
