@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/21 22:15:23 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:22:03 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,15 @@ int coloring(int i, t_compex z)
 	double	zn;
 	double	hue;
 
-	di = i * i;
+	di = i * 2.5;
 	zn = sqrt(z.imag + z.real);
-	hue = di + 1.0 - log10(log(d_abs(zn)));
-	hue = 2.0 * hue + 0.7;
+	hue = di + 1.0 - log2(log(d_abs(zn)));
+	hue = 5.0 * hue;
 	while (hue > 360)
 		hue -= 360;
 	while (hue < 360)
 		hue += 360;
-	return hsv_to_rgb(hue, 0.8, 1.0);
+	return hsv_to_rgb(hue, 0.9, 1.0);
 }
 
 int	calc(t_compex C, int max_iterations)
