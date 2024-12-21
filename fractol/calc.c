@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/21 22:22:03 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:24:15 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int coloring(int i, t_compex z)
 		hue -= 360;
 	while (hue < 360)
 		hue += 360;
-	return hsv_to_rgb(hue, 0.9, 1.0);
+	return hsv_to_rgb(hue, 0.9, 0.9);
 }
 
 int	calc(t_compex C, int max_iterations)
