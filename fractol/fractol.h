@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/22 19:22:10 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/22 20:42:23 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ enum {
 #define min_scale_Y -1.2
 #define max_scale_Y 1.2
 
+typedef struct s_img_size
+{
+	int min_X;
+	int max_X;
+	int min_Y;
+	int max_Y;
+} t_img_size;
+
 typedef struct s_img_data
 {
 	void		*img_ptr;
@@ -38,21 +46,34 @@ typedef struct s_img_data
 	int			bites_per_pixel;
 	int			size_line;
 	int			endian;
-	int			*pallete;
+	int			max_iterations;
+	t_img_size	size;
 } t_img_data;
 
 typedef struct s_my_display
 {
-	void	*mlx;
-	void	*win;
+	void		*mlx;
+	void		*win;
 	t_img_data	img_data;
 }	t_my_display;
 
-typedef struct s_compex
+typedef struct s_complex
 {
-	double real;
-	double imag;
-} t_compex;
+	double	real;
+	double	imag;
+} t_complex;
+
+typedef struct s_coordinates
+{
+	double x;
+	double y;
+} t_coordinates;
+
+typedef struct s_pixels
+{
+	int px;
+	int py;
+} t_pixels;
 
 typedef struct s_color
 {
@@ -62,13 +83,17 @@ typedef struct s_color
 	int b;
 } t_color;
 
-int		calc(t_compex C, int max_iterations);
+int		calc(t_complex C, int max_iterations);
 void	my_put_pixel(t_img_data *img, int x, int y, int color);
 
 int generate_color(double hue);
 double scale_pixel_to_coord(int pix, int size, double min, double max);
 
-int	calc_j(t_compex Z, t_compex C, int max_iterations);
-int	calc_m(t_compex C, int max_iterations);
+int	calc_j(t_complex Z, t_complex C, int max_iterations);
+int	calc_m(t_complex C, int max_iterations);
+
+void free_and_exit(t_my_display *my_display, int exit_code);
+t_my_display create_my_display(unsigned int max_iterations);
+void	identify_event_handlers(t_my_display *my_display);
 
 #endif 

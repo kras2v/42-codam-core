@@ -11,6 +11,7 @@ HEADERS := fractol.h
 #SOURCES
 SOURCES :=	main.c \
 			utils.c \
+			event_handlers.c \
 			calc.c
 
 #TARGET

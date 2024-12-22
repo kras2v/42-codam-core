@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/22 12:55:33 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/22 20:42:23 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ double d_abs(double abs)
 	return (abs);
 }
 
-int coloring_m(int i, t_compex z)
+int coloring_m(int i, t_complex z)
 {
 	double	di;
 	double	zn;
@@ -71,10 +71,10 @@ int coloring_m(int i, t_compex z)
 	return hsv_to_rgb(hue, 0.9, 0.9);
 }
 
-int	calc_m(t_compex C, int max_iterations)
+int	calc_m(t_complex C, int max_iterations)
 {
-	t_compex Z = {0.0, 0.0};
-	t_compex Ztemp = {0.0, 0.0};
+	t_complex Z = {0.0, 0.0};
+	t_complex Ztemp = {0.0, 0.0};
 
 	int i = 0;
 	while (i < max_iterations)
@@ -92,7 +92,7 @@ int	calc_m(t_compex C, int max_iterations)
 	return coloring_m(i, Z);
 }
 
-int coloring_j(int i, t_compex z)
+int coloring_j(int i, t_complex z)
 {
 	double	zn;
 	double	hue;
@@ -102,9 +102,9 @@ int coloring_j(int i, t_compex z)
 	return hsv_to_rgb(hue, 0.9, 0.8);
 }
 
-int	calc_j(t_compex Z, t_compex C, int max_iterations)
+int	calc_j(t_complex Z, t_complex C, int max_iterations)
 {
-	t_compex Ztemp = {0, 0};
+	t_complex Ztemp = {0, 0};
 
 	int i = 0;
 	double z_real_2 = Z.real * Z.real;
