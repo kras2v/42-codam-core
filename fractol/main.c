@@ -6,14 +6,13 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/22 14:34:16 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:22:45 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <stdio.h>
 #include <time.h>
-#include <signal.h>
 
 void free_and_exit(t_my_display *my_display, int exit_code)
 {
@@ -29,7 +28,7 @@ void free_and_exit(t_my_display *my_display, int exit_code)
 	exit(exit_code);
 }
 
-int _close(int keysym, t_my_display *my_display)
+int close_on_key(int keysym, t_my_display *my_display)
 {
 	if (keysym == XK_Escape)
 	{
@@ -37,6 +36,12 @@ int _close(int keysym, t_my_display *my_display)
 		return (0);
 	}
 	return (1);
+}
+
+int close_on_event(t_my_display *my_display)
+{
+	free_and_exit(my_display, 0);
+	return (0);
 }
 
 t_my_display create_my_display()
@@ -52,6 +57,15 @@ t_my_display create_my_display()
 	my_display.win = mlx_new_window(my_display.mlx, WIDTH, HEIGHT, "Fractol");
 	if (!my_display.win)
 		free_and_exit(&my_display, 1);
+	my_display.img_data.img_ptr = mlx_new_image(my_display.mlx, WIDTH, HEIGHT);
+	if (!my_display.img_data.img_ptr)
+		free_and_exit(&my_display, 1);
+	my_display.img_data.data_addr = mlx_get_data_addr(my_display.img_data.img_ptr, 
+													&my_display.img_data.bites_per_pixel, 
+													&my_display.img_data.size_line,
+													&my_display.img_data.endian);
+	if (!my_display.img_data.data_addr)
+		free_and_exit(&my_display, 1);
 	return (my_display);
 }
 
@@ -60,11 +74,6 @@ int main(void)
 	t_my_display my_display;
 
 	my_display = create_my_display();
-	my_display.img_data.img_ptr = mlx_new_image(my_display.mlx, WIDTH, HEIGHT);
-	my_display.img_data.data_addr = mlx_get_data_addr(my_display.img_data.img_ptr, 
-													&my_display.img_data.bites_per_pixel, 
-													&my_display.img_data.size_line,
-													&my_display.img_data.endian);
 	int px = 0;
 	int py = 0;
 	int max_iterations = 1000;
@@ -90,7 +99,8 @@ int main(void)
 		py++;
 	}
 	mlx_put_image_to_window(my_display.mlx, my_display.win, my_display.img_data.img_ptr, 0, 0);
-	mlx_hook(my_display.win, 2, 1L<<0, _close, &my_display);
+	mlx_key_hook(my_display.win, close_on_key, &my_display);
+	mlx_hook(my_display.win, ON_DESTROY, 0, close_on_event, &my_display);
 	mlx_loop(my_display.mlx);
 	return (0);
 }

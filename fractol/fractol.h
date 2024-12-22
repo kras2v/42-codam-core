@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/22 14:10:25 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:22:10 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,13 @@
 #include <X11/keysym.h>
 #include "libft/libft.h"
 
-#define WIDTH 1200
-#define HEIGHT 1200
+enum {
+	WIDTH = 1200,
+	HEIGHT = 1200
+};
+
+#define ON_DESTROY 17
+
 #define min_scale_X -2
 #define max_scale_X 0.5
 #define min_scale_Y -1.2
