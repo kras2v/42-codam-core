@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/21 22:24:15 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/22 12:55:33 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ double d_abs(double abs)
 	return (abs);
 }
 
-int coloring(int i, t_compex z)
+int coloring_m(int i, t_compex z)
 {
 	double	di;
 	double	zn;
@@ -62,7 +62,7 @@ int coloring(int i, t_compex z)
 
 	di = i * 2.5;
 	zn = sqrt(z.imag + z.real);
-	hue = di + 1.0 - log2(log(d_abs(zn)));
+	hue = di + 1.0 - log(log(d_abs(zn)));
 	hue = 5.0 * hue;
 	while (hue > 360)
 		hue -= 360;
@@ -71,7 +71,7 @@ int coloring(int i, t_compex z)
 	return hsv_to_rgb(hue, 0.9, 0.9);
 }
 
-int	calc(t_compex C, int max_iterations)
+int	calc_m(t_compex C, int max_iterations)
 {
 	t_compex Z = {0.0, 0.0};
 	t_compex Ztemp = {0.0, 0.0};
@@ -89,5 +89,36 @@ int	calc(t_compex C, int max_iterations)
 	}
 	if (i == max_iterations)
 		return create_trgb(0, 0, 0, 0);
-	return coloring(i, Z);
+	return coloring_m(i, Z);
+}
+
+int coloring_j(int i, t_compex z)
+{
+	double	zn;
+	double	hue;
+
+	zn = z.imag * z.imag + z.real * z.real;
+	hue = ((i - log(log(d_abs(zn)))) * 1.5);
+	return hsv_to_rgb(hue, 0.9, 0.8);
+}
+
+int	calc_j(t_compex Z, t_compex C, int max_iterations)
+{
+	t_compex Ztemp = {0, 0};
+
+	int i = 0;
+	double z_real_2 = Z.real * Z.real;
+	double z_imag_2 = Z.imag * Z.imag;
+	while (i < max_iterations && (z_real_2 + z_imag_2) < 16)
+	{
+		z_real_2 = Z.real * Z.real;
+		z_imag_2 = Z.imag * Z.imag;
+		Z.imag = 2 * Z.imag * Z.real + C.imag;
+		Ztemp.real = z_real_2 - z_imag_2;
+		Z.real = Ztemp.real + C.real;
+		i++;
+	}
+	if (i == max_iterations)
+		return create_trgb(0, 0, 0, 0);
+	return coloring_j(i, Z);
 }

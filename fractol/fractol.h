@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/21 21:50:31 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/22 14:10:25 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <mlx.h>
 #include <math.h>
 #include <stdio.h>
+#include <X11/keysym.h>
 #include "libft/libft.h"
 
 #define WIDTH 1200
@@ -62,5 +63,7 @@ void	my_put_pixel(t_img_data *img, int x, int y, int color);
 int generate_color(double hue);
 double scale_pixel_to_coord(int pix, int size, double min, double max);
 
+int	calc_j(t_compex Z, t_compex C, int max_iterations);
+int	calc_m(t_compex C, int max_iterations);
 
 #endif 
