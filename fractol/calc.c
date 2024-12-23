@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/22 20:42:23 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/23 16:51:20 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int coloring_m(int i, t_complex z)
 		hue -= 360;
 	while (hue < 360)
 		hue += 360;
-	return hsv_to_rgb(hue, 0.9, 0.9);
+	return hsv_to_rgb(hue, 0.8, 0.9);
 }
 
 int	calc_m(t_complex C, int max_iterations)
@@ -99,7 +99,7 @@ int coloring_j(int i, t_complex z)
 
 	zn = z.imag * z.imag + z.real * z.real;
 	hue = ((i - log(log(d_abs(zn)))) * 1.5);
-	return hsv_to_rgb(hue, 0.9, 0.8);
+	return hsv_to_rgb(hue, 0.5, 0.8);
 }
 
 int	calc_j(t_complex Z, t_complex C, int max_iterations)
