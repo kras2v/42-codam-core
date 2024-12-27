@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/23 16:51:20 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/25 11:22:12 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,42 +54,54 @@ double d_abs(double abs)
 	return (abs);
 }
 
-int coloring_m(int i, t_complex z)
-{
-	double	di;
-	double	zn;
-	double	hue;
+// int coloring_m(int i, t_complex z)
+// {
+// 	double	di;
+// 	double	zn;
+// 	double	hue;
 
-	di = i * 2.5;
-	zn = sqrt(z.imag + z.real);
-	hue = di + 1.0 - log(log(d_abs(zn)));
-	hue = 5.0 * hue;
-	while (hue > 360)
-		hue -= 360;
-	while (hue < 360)
-		hue += 360;
-	return hsv_to_rgb(hue, 0.8, 0.9);
+// 	di = i * 2.5;
+// 	zn = sqrt(z.imag + z.real);
+// 	hue = di + 1.0 - log(log(d_abs(zn)));
+// 	hue = 5.0 * hue;
+// 	while (hue > 360)
+// 		hue -= 360;
+// 	while (hue < 360)
+// 		hue += 360;
+// 	return hsv_to_rgb(hue, 0.8, 0.9);
+// }
+
+int coloring_m(int i, int max_iterations)
+{
+	t_color color;
+	double t = (double)i / (double)max_iterations;
+
+	color.r = (int)(9.0 * (1 - t) * pow(t, 3) * 255);
+	color.g = (int)(15.0 * pow(1 - t, 2) * pow(t, 2) * 255);
+	color.b = (int)(8.5 * pow(1 - t, 3) * t * 255);
+	return (create_trgb(255, color.r, color.g, color.b));
 }
 
-int	calc_m(t_complex C, int max_iterations)
+int	calc_m(t_fractol *mandelbrot)
 {
 	t_complex Z = {0.0, 0.0};
 	t_complex Ztemp = {0.0, 0.0};
 
 	int i = 0;
-	while (i < max_iterations)
+	while (i < mandelbrot->max_iterations)
 	{
-		Ztemp.imag = 2 * Ztemp.imag * Ztemp.real + C.imag;
-		Ztemp.real = Z.real - Z.imag + C.real;
+		Ztemp.imag = 2 * Ztemp.imag * Ztemp.real + mandelbrot->c.imag;
+		Ztemp.real = Z.real - Z.imag + mandelbrot->c.real;
 		Z.real = Ztemp.real * Ztemp.real;
 		Z.imag = Ztemp.imag * Ztemp.imag;
 		if ((Z.real + Z.imag) >= 4.0)
 			break;
 		i++;
 	}
-	if (i == max_iterations)
+	if (i == mandelbrot->max_iterations)
 		return create_trgb(0, 0, 0, 0);
-	return coloring_m(i, Z);
+	return coloring_m(i, mandelbrot->max_iterations);
+	// return coloring_m(i, Z);
 }
 
 int coloring_j(int i, t_complex z)
@@ -102,23 +114,23 @@ int coloring_j(int i, t_complex z)
 	return hsv_to_rgb(hue, 0.5, 0.8);
 }
 
-int	calc_j(t_complex Z, t_complex C, int max_iterations)
+int	calc_j(t_complex Z, t_fractol *julia)
 {
 	t_complex Ztemp = {0, 0};
 
 	int i = 0;
 	double z_real_2 = Z.real * Z.real;
 	double z_imag_2 = Z.imag * Z.imag;
-	while (i < max_iterations && (z_real_2 + z_imag_2) < 16)
+	while (i < julia->max_iterations && (z_real_2 + z_imag_2) < 16)
 	{
 		z_real_2 = Z.real * Z.real;
 		z_imag_2 = Z.imag * Z.imag;
-		Z.imag = 2 * Z.imag * Z.real + C.imag;
+		Z.imag = 2 * Z.imag * Z.real + julia->c.imag;
 		Ztemp.real = z_real_2 - z_imag_2;
-		Z.real = Ztemp.real + C.real;
+		Z.real = Ztemp.real + julia->c.real;
 		i++;
 	}
-	if (i == max_iterations)
+	if (i == julia->max_iterations)
 		return create_trgb(0, 0, 0, 0);
 	return coloring_j(i, Z);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:12:14 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/23 16:53:46 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/25 11:33:54 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ double convert_pixel_to_coordinate(int pix, t_img_data *img_data, char direction
 
 	if (direction == 'x')
 	{
-		scale.real = get_scale_factor(img_data->size.min_X, img_data->size.max_X, img_data->scale.min_scale_X, img_data->scale.max_scale_X);
-		scale_factor.real = (double)(img_data->scale.min_scale_X - img_data->size.min_X * scale.real);
+		scale.real = get_scale_factor(img_data->size.min_px, img_data->size.max_px, img_data->fractol.scale.min_scale_X, img_data->fractol.scale.max_scale_X);
+		scale_factor.real = (double)(img_data->fractol.scale.min_scale_X - img_data->size.min_px * scale.real);
 		return (pix * scale.real + scale_factor.real);
 	}
 	else if (direction == 'y')
 	{
-		scale.imag = get_scale_factor(img_data->size.min_Y, img_data->size.max_Y, img_data->scale.min_scale_Y, img_data->scale.max_scale_Y);
-		scale_factor.imag = (double)(img_data->scale.min_scale_Y - img_data->size.min_Y * scale.imag);
+		scale.imag = get_scale_factor(img_data->size.min_py, img_data->size.max_py, img_data->fractol.scale.min_scale_Y, img_data->fractol.scale.max_scale_Y);
+		scale_factor.imag = (double)(img_data->fractol.scale.min_scale_Y - img_data->size.min_py * scale.imag);
 		return (pix * scale.imag + scale_factor.imag);
 	}
 	return (0.0);
@@ -77,15 +77,17 @@ void create_img_data(t_my_display *my_display, unsigned int max_iterations)
 													&my_display->img_data.endian);
 	if (!my_display->img_data.data_addr)
 		free_and_exit(my_display, 1);
-	my_display->img_data.max_iterations = max_iterations;
-	my_display->img_data.scale.min_scale_X = -2;
-	my_display->img_data.scale.max_scale_X = 0.5;
-	my_display->img_data.scale.min_scale_Y = -1.2;
-	my_display->img_data.scale.max_scale_Y = 1.2;
-	my_display->img_data.size.min_X = 0;
-	my_display->img_data.size.min_Y = 0;
-	my_display->img_data.size.max_X = WIDTH;
-	my_display->img_data.size.max_Y = HEIGHT;
+	my_display->img_data.fractol.max_iterations = max_iterations;
+	my_display->img_data.fractol.scale.min_scale_X = -2;
+	my_display->img_data.fractol.scale.max_scale_X = 0.5;
+	my_display->img_data.fractol.scale.min_scale_Y = -1.2;
+	my_display->img_data.fractol.scale.max_scale_Y = 1.2;
+	my_display->img_data.fractol.c.imag = 0.0;
+	my_display->img_data.fractol.c.real = 0.0;
+	my_display->img_data.size.min_px = 0;
+	my_display->img_data.size.min_py = 0;
+	my_display->img_data.size.max_px = WIDTH;
+	my_display->img_data.size.max_py = HEIGHT;
 }
 
 t_my_display create_my_display(unsigned int max_iterations)
