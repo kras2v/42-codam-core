@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 21:04:07 by valeriia          #+#    #+#             */
-/*   Updated: 2024/10/30 10:59:18 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/27 12:03:57 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	ft_is_conversion(const char a)
 		|| a == 'p'
 		|| a == 'd'
 		|| a == 'i'
+		|| a == 'f'
 		|| a == 'u'
 		|| a == 'x'
 		|| a == 'X'
@@ -37,6 +38,8 @@ static int	ft_choose_convension(va_list list, const char *format)
 		return (ft_printf_d(va_arg(list, int)));
 	else if (*format == 'i')
 		return (ft_printf_i(va_arg(list, int)));
+	else if (*format == 'f')
+		return (ft_printf_f(va_arg(list, double)));
 	else if (*format == 'p')
 		return (ft_printf_p(va_arg(list, unsigned long)));
 	else if (*format == 'u')

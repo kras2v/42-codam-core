@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:25:46 by valeriia          #+#    #+#             */
-/*   Updated: 2024/12/26 21:18:09 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:08:26 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,10 +147,10 @@ double ft_atof(char *argv, t_my_display *my_display)
 	char		**dot_part;
 
 	if (!ft_argv_is_double(&_double, argv))
-		free_and_exit(my_display, 1);
+		free_and_exit(my_display, 1, "One of the coordinates has wrong format");
 	dot_part = ft_split(argv, '.');
 	if (dot_part == NULL)
-		free_and_exit(my_display, 1);
+		free_and_exit(my_display, 1, "Error occurate while converting to double");
 	_double.before_dot = dot_part[0];
 	if (_double.Es == 1)
 		res = parse_e(_double, dot_part[1]);
@@ -169,3 +169,8 @@ double ft_atof(char *argv, t_my_display *my_display)
 		res *= -1;
 	return (res);
 }
+
+// int main()
+// {
+// 	printf("%f\n", ft_atof("0.6gdgda", ));
+// }

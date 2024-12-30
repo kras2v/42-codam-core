@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/26 21:22:33 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/27 20:50:42 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void mandelbrot(t_img_data *img_data)
 {
 	t_pixels pixels;
 	int color;
-	clock_t start_time, end_time; // Declare variables for timing
-	start_time = clock();
 
 	pixels.py = 0;
 	while (pixels.py < img_data->size.max_py)
@@ -35,13 +33,6 @@ void mandelbrot(t_img_data *img_data)
 		}
 		pixels.py++;
 	}
-	end_time = clock();
-
-    // Calculate elapsed time in milliseconds
-    double elapsed_time = (double)(end_time - start_time) * 1000.0 / CLOCKS_PER_SEC;
-
-    // Print or display the elapsed time
-    printf("Fractal computation took %.2f milliseconds.\n", elapsed_time);
 }
 
 void julia(t_img_data *img_data)
@@ -54,7 +45,7 @@ void julia(t_img_data *img_data)
 	while (pixels.py < img_data->size.max_py)
 	{
 		pixels.px = 0;
-		z.imag = convert_pixel_to_coordinate(pixels.py, img_data, 'y');
+		z.imag = -convert_pixel_to_coordinate(pixels.py, img_data, 'y');
 		while (pixels.px < img_data->size.max_px)
 		{
 			z.real = convert_pixel_to_coordinate(pixels.px, img_data, 'x');
@@ -66,35 +57,63 @@ void julia(t_img_data *img_data)
 	}
 }
 
+void proceed_argv_mandelbrot(t_my_display *my_display, int max_iterations)
+{
+	(*my_display) = create_my_display(max_iterations);
+	(*my_display).img_data.fractol.name = 'M';
+	mandelbrot(&((*my_display).img_data));
+}
+
+void proceed_argv_julia(t_complex c, t_my_display *my_display, int max_iterations)
+{
+	double R;
+
+	R = 1.8;
+	(*my_display) = create_my_display(max_iterations);
+	(*my_display).img_data.fractol.name = 'J';
+	(*my_display).img_data.fractol.c.real = c.real;
+	(*my_display).img_data.fractol.c.imag = c.imag;
+	(*my_display).img_data.fractol.scale.min_scale_X = -R;
+	(*my_display).img_data.fractol.scale.min_scale_Y = -R;
+	(*my_display).img_data.fractol.scale.max_scale_X = R;
+	(*my_display).img_data.fractol.scale.max_scale_Y = R;
+	julia(&((*my_display).img_data));
+}
+
 int main(int argc, char **argv)
 {
 	t_my_display my_display;
-	double R;
+	int max_iterations;
+	t_complex c;
 
-	if (argc == 2 && (ft_strcmp(argv[1], "Mandelbrot") == 0))
+	c.real = 0;
+	c.imag = 0;
+	if(argc != 2 && argc != 4)
 	{
-		my_display = create_my_display(100);
-		if (ft_strcmp(argv[1], "Mandelbrot") == 0)
+		free_and_exit(NULL, 1, "Wrong amount of arguments");
+	}
+	max_iterations = 100;
+	if ((argc == 2) && (ft_strcmp(argv[1], "Mandelbrot") == 0))
+		proceed_argv_mandelbrot(&my_display, max_iterations);
+	else if (ft_strcmp(argv[1], "Julia") == 0)
+	{
+		if (argc == 2)
 		{
-			my_display.img_data.fractol.name = 'M';
-			mandelbrot(&(my_display.img_data));
+			c.real = -0.4;
+			c.imag = 0.6;
 		}
+		else if (argc == 4)
+		{
+			c.real = ft_atof(argv[2], &my_display);
+			c.imag = ft_atof(argv[3], &my_display);
+		}
+		proceed_argv_julia(c, &my_display, max_iterations);
 	}
-	else if ((argc == 2) && ft_strcmp(argv[1], "Julia") == 0)
-	{
-		my_display = create_my_display(100);
-		R = 1.5;
-		my_display.img_data.fractol.name = 'J';
-		my_display.img_data.fractol.c.real = -0.4;
-		my_display.img_data.fractol.c.imag = 0.6;
-		my_display.img_data.fractol.scale.min_scale_X = -R;
-		my_display.img_data.fractol.scale.min_scale_Y = -R;
-		my_display.img_data.fractol.scale.max_scale_X = R;
-		my_display.img_data.fractol.scale.max_scale_Y = R;
-		julia(&(my_display.img_data));
-		mlx_put_image_to_window(my_display.mlx, my_display.win, my_display.img_data.img_ptr, 0, 0);
-		identify_event_handlers(&my_display);
-		mlx_loop(my_display.mlx);
-	}
+	else
+		free_and_exit(NULL, 1, "Wrong amount of arguments");
+	mlx_put_image_to_window(my_display.mlx, my_display.win, my_display.img_data.img_ptr, 0, 0);
+	identify_event_handlers(&my_display);
+	mlx_loop(my_display.mlx);
 	return (0);
 }
+

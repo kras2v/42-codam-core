@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/25 11:22:12 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/27 20:37:59 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,6 @@ int	calc_j(t_complex Z, t_fractol *julia)
 	}
 	if (i == julia->max_iterations)
 		return create_trgb(0, 0, 0, 0);
-	return coloring_j(i, Z);
+	// return coloring_j(i, Z);
+	return coloring_m(i, julia->max_iterations);
 }

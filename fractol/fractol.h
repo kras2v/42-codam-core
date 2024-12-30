@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/26 21:19:32 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/27 21:17:52 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 #include "libft/libft.h"
 
 enum {
-	WIDTH = 300,
-	HEIGHT = 300
+	WIDTH = 1000,
+	HEIGHT = 1000
 };
 
 #define ON_DESTROY 17
@@ -107,7 +107,7 @@ double convert_pixel_to_coordinate(int pix, t_img_data *img_data, char direction
 int	calc_j(t_complex Z, t_fractol *julia);
 int	calc_m(t_fractol *mandelbrot);
 
-void free_and_exit(t_my_display *my_display, int exit_code);
+void free_and_exit(t_my_display *my_display, int exit_code, char *msg);
 t_my_display create_my_display(unsigned int max_iterations);
 void	identify_event_handlers(t_my_display *my_display);
 

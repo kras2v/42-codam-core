@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:12:14 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/25 11:33:54 by valeriia         ###   ########.fr       */
+/*   Updated: 2024/12/27 20:20:04 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,33 @@ void	my_put_pixel(t_img_data *img, int x, int y, int color)
 	*((unsigned int*)(offset + img->data_addr)) = color;
 }
 
-void free_and_exit(t_my_display *my_display, int exit_code)
+void	display_info()
 {
-	if (my_display->mlx != NULL)
+    ft_printf("Usage: ./program <parameter> [x y]\n");
+    ft_printf("\n");
+    ft_printf("Available parameters:\n");
+    ft_printf("  Mandelbrot        Generate the Mandelbrot set.\n");
+    ft_printf("  Julia             Generate the Julia set with default parameters (0.355, 0.355).\n");
+    ft_printf("  Julia <x> <y>     Generate the Julia set with custom parameters <x> and <y>.\n");
+    ft_printf("\n");
+    ft_printf("Example usage:\n");
+    ft_printf("  ./program Mandelbrot      Generate Mandelbrot set.\n");
+    ft_printf("  ./program Julia           Generate Julia set with default parameters.\n");
+    ft_printf("  ./program Julia 0.355 0.355 Generate Julia set with x = 0.355, y = 0.355.\n");
+}
+
+void send_error_msg(char *msg)
+{
+	if (msg != NULL)
+	{
+		ft_putendl_fd(msg, 2);
+		display_info();
+	}
+}
+
+void free_and_exit(t_my_display *my_display, int exit_code, char *msg)
+{
+	if (my_display && my_display->mlx != NULL)
 	{
 		if (my_display->img_data.img_ptr != NULL)
 			mlx_destroy_image(my_display->mlx, my_display->img_data.img_ptr);
@@ -56,6 +80,7 @@ void free_and_exit(t_my_display *my_display, int exit_code)
 		mlx_destroy_display(my_display->mlx);
 		free(my_display->mlx);
 	}
+	send_error_msg(msg);
 	exit(exit_code);
 }
 
@@ -70,13 +95,13 @@ void create_img_data(t_my_display *my_display, unsigned int max_iterations)
 {
 	my_display->img_data.img_ptr = mlx_new_image(my_display->mlx, WIDTH, HEIGHT);
 	if (!my_display->img_data.img_ptr)
-		free_and_exit(my_display, 1);
+		free_and_exit(my_display, 1, "Error occurate while allocating memory for image");
 	my_display->img_data.data_addr = mlx_get_data_addr(my_display->img_data.img_ptr, 
 													&my_display->img_data.bites_per_pixel, 
 													&my_display->img_data.size_line,
 													&my_display->img_data.endian);
 	if (!my_display->img_data.data_addr)
-		free_and_exit(my_display, 1);
+		free_and_exit(my_display, 1, "Error occurate getting address of first pixel");
 	my_display->img_data.fractol.max_iterations = max_iterations;
 	my_display->img_data.fractol.scale.min_scale_X = -2;
 	my_display->img_data.fractol.scale.max_scale_X = 0.5;
@@ -99,10 +124,10 @@ t_my_display create_my_display(unsigned int max_iterations)
 	my_display.win = NULL;
 	my_display.mlx = mlx_init();
 	if (!my_display.mlx)
-		free_and_exit(&my_display, 1);
+		free_and_exit(&my_display, 1, "Error occurate while allocating memory for display");
 	my_display.win = mlx_new_window(my_display.mlx, WIDTH, HEIGHT, "Fractol");
 	if (!my_display.win)
-		free_and_exit(&my_display, 1);
+		free_and_exit(&my_display, 1, "Error occurate while allocating memory for window");
 	create_img_data(&my_display, max_iterations);
 	return (my_display);
 }

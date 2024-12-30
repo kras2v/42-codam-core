@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 21:04:10 by valeriia          #+#    #+#             */
-/*   Updated: 2024/11/25 18:57:58 by kvalerii         ###   ########.fr       */
+/*   Updated: 2024/12/27 12:07:28 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_printf_c(char a);
 int	ft_printf_s(char *a);
 int	ft_printf_d(int num);
 int	ft_printf_i(int num);
+int	ft_printf_f(double num);
 int	ft_printf_percent(void);
 int	ft_printf_u(unsigned int dec);
 int	ft_printf_x(unsigned long dec);
