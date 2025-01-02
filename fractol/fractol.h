@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/27 21:17:52 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:08:19 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 #include "libft/libft.h"
 
 enum {
-	WIDTH = 1000,
-	HEIGHT = 1000
+	WIDTH = 500,
+	HEIGHT = 500
 };
 
 #define ON_DESTROY 17
@@ -90,7 +90,6 @@ typedef struct s_pixels
 
 typedef struct s_color
 {
-	int t;
 	int r;
 	int g;
 	int b;
@@ -102,7 +101,7 @@ void	my_put_pixel(t_img_data *img, int x, int y, int color);
 int generate_color(double hue);
 
 double convert_pixel_to_coordinate(int pix, t_img_data *img_data, char direction);
-
+int	create_rgb( int r, int g, int b);
 
 int	calc_j(t_complex Z, t_fractol *julia);
 int	calc_m(t_fractol *mandelbrot);
@@ -113,6 +112,9 @@ void	identify_event_handlers(t_my_display *my_display);
 
 void julia(t_img_data *img_data);
 void mandelbrot(t_img_data *img_data);
+int calc_n(t_fractol newton);
+
+double d_abs(double abs);
 
 double ft_atof(char *argv, t_my_display *my_display);
 

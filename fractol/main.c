@@ -3,16 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/27 20:50:42 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:26:52 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <stdio.h>
 #include <time.h>
+
+void newton(t_img_data *img_data)
+{
+	t_pixels pixels;
+	pixels.py = 0;
+	int color;
+	color = 0;
+	while (pixels.py < HEIGHT) 
+	{
+		img_data->fractol.c.imag = convert_pixel_to_coordinate(pixels.py, img_data, 'y');
+		pixels.px = 0;
+		while (pixels.px < WIDTH)
+		{
+			printf("x - %d, y - %d\n", pixels.px, pixels.py);
+			img_data->fractol.c.real = convert_pixel_to_coordinate(pixels.px, img_data, 'x');
+			color = calc_n(img_data->fractol);
+			my_put_pixel(img_data, pixels.px, pixels.py, color);
+			pixels.px++;
+		}
+		pixels.py++;
+	}
+}
 
 void mandelbrot(t_img_data *img_data)
 {
@@ -64,6 +86,17 @@ void proceed_argv_mandelbrot(t_my_display *my_display, int max_iterations)
 	mandelbrot(&((*my_display).img_data));
 }
 
+void proceed_argv_newton(t_my_display *my_display, int max_iterations)
+{
+	(*my_display) = create_my_display(max_iterations);
+	(*my_display).img_data.fractol.name = 'N';
+	(*my_display).img_data.fractol.scale.min_scale_X = -2;
+	(*my_display).img_data.fractol.scale.max_scale_X = 2;
+	(*my_display).img_data.fractol.scale.min_scale_Y = -2;
+	(*my_display).img_data.fractol.scale.max_scale_Y = 2;
+	newton(&((*my_display).img_data));
+}
+
 void proceed_argv_julia(t_complex c, t_my_display *my_display, int max_iterations)
 {
 	double R;
@@ -92,9 +125,11 @@ int main(int argc, char **argv)
 	{
 		free_and_exit(NULL, 1, "Wrong amount of arguments");
 	}
-	max_iterations = 100;
+	max_iterations = 10;
 	if ((argc == 2) && (ft_strcmp(argv[1], "Mandelbrot") == 0))
 		proceed_argv_mandelbrot(&my_display, max_iterations);
+	if ((argc == 2) && (ft_strcmp(argv[1], "Newton") == 0))
+		proceed_argv_newton(&my_display, max_iterations);
 	else if (ft_strcmp(argv[1], "Julia") == 0)
 	{
 		if (argc == 2)
@@ -111,6 +146,7 @@ int main(int argc, char **argv)
 	}
 	else
 		free_and_exit(NULL, 1, "Wrong amount of arguments");
+	printf("DONE\n");
 	mlx_put_image_to_window(my_display.mlx, my_display.win, my_display.img_data.img_ptr, 0, 0);
 	identify_event_handlers(&my_display);
 	mlx_loop(my_display.mlx);

@@ -13,6 +13,7 @@ SOURCES :=	main.c \
 			utils.c \
 			event_handlers.c \
 			atof.c \
+			newton.c \
 			calc.c
 
 #TARGET

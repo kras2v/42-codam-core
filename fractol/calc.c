@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   calc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/27 20:37:59 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:09:49 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	create_trgb(int t, int r, int g, int b)
+int	create_rgb(int r, int g, int b)
 {
-	return (t << 24 | r << 16 | g << 8 | b);
+	return (r << 16 | g << 8 | b);
 }
 
 int	hsv_to_rgb(double hue, double saturation, double value)
@@ -34,17 +34,17 @@ int	hsv_to_rgb(double hue, double saturation, double value)
 	q = (int)(value * (1 - f * saturation));
 	t = (int)(value * (1 - (1 - f) * saturation));
 	if (hi == 0)
-        return create_trgb(0, v, t, p);
+        return create_rgb(v, t, p);
     else if (hi == 1)
-        return create_trgb(0, q, v, p);
+        return create_rgb(q, v, p);
     else if (hi == 2)
-        return create_trgb(0, p, v, t);
+        return create_rgb(p, v, t);
     else if (hi == 3)
-        return create_trgb(0, p, q, v);
+        return create_rgb(p, q, v);
     else if (hi == 4)
-        return create_trgb(0, t, p, v);
+        return create_rgb(t, p, v);
     else
-        return create_trgb(0, v, p, q);
+        return create_rgb(v, p, q);
 }
 
 double d_abs(double abs)
@@ -79,7 +79,7 @@ int coloring_m(int i, int max_iterations)
 	color.r = (int)(9.0 * (1 - t) * pow(t, 3) * 255);
 	color.g = (int)(15.0 * pow(1 - t, 2) * pow(t, 2) * 255);
 	color.b = (int)(8.5 * pow(1 - t, 3) * t * 255);
-	return (create_trgb(255, color.r, color.g, color.b));
+	return (create_rgb(color.r, color.g, color.b));
 }
 
 int	calc_m(t_fractol *mandelbrot)
@@ -99,7 +99,7 @@ int	calc_m(t_fractol *mandelbrot)
 		i++;
 	}
 	if (i == mandelbrot->max_iterations)
-		return create_trgb(0, 0, 0, 0);
+		return create_rgb(0, 0, 0);
 	return coloring_m(i, mandelbrot->max_iterations);
 	// return coloring_m(i, Z);
 }
@@ -131,7 +131,8 @@ int	calc_j(t_complex Z, t_fractol *julia)
 		i++;
 	}
 	if (i == julia->max_iterations)
-		return create_trgb(0, 0, 0, 0);
+		return create_rgb(0, 0, 0);
 	// return coloring_j(i, Z);
 	return coloring_m(i, julia->max_iterations);
 }
+
