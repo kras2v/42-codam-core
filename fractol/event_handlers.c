@@ -39,6 +39,8 @@ void shifting(int code, t_my_display *my_display)
 		mandelbrot(&(my_display->img_data));
 	else if(my_display->img_data.fractol.name == 'J')
 		julia(&(my_display->img_data));
+	else if(my_display->img_data.fractol.name == 'N')
+		newton(&(my_display->img_data));
 	mlx_put_image_to_window(my_display->mlx, my_display->win, my_display->img_data.img_ptr, 0, 0);
 }
 
@@ -75,6 +77,8 @@ void zoom(int btn, int x, int y, t_my_display *my_display)
 		mandelbrot(&(my_display->img_data));
 	else if(my_display->img_data.fractol.name == 'J')
 		julia(&(my_display->img_data));
+	else if(my_display->img_data.fractol.name == 'N')
+		newton(&(my_display->img_data));
 	mlx_put_image_to_window(my_display->mlx, my_display->win, my_display->img_data.img_ptr, 0, 0);
 }
 

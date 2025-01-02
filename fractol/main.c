@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/02 17:26:52 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/03 00:05:27 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void newton(t_img_data *img_data)
 		pixels.px = 0;
 		while (pixels.px < WIDTH)
 		{
-			printf("x - %d, y - %d\n", pixels.px, pixels.py);
 			img_data->fractol.c.real = convert_pixel_to_coordinate(pixels.px, img_data, 'x');
 			color = calc_n(img_data->fractol);
 			my_put_pixel(img_data, pixels.px, pixels.py, color);
@@ -90,10 +89,10 @@ void proceed_argv_newton(t_my_display *my_display, int max_iterations)
 {
 	(*my_display) = create_my_display(max_iterations);
 	(*my_display).img_data.fractol.name = 'N';
-	(*my_display).img_data.fractol.scale.min_scale_X = -2;
-	(*my_display).img_data.fractol.scale.max_scale_X = 2;
-	(*my_display).img_data.fractol.scale.min_scale_Y = -2;
-	(*my_display).img_data.fractol.scale.max_scale_Y = 2;
+	(*my_display).img_data.fractol.scale.min_scale_X = -2.5;
+	(*my_display).img_data.fractol.scale.max_scale_X = 2.5;
+	(*my_display).img_data.fractol.scale.min_scale_Y = -2.5;
+	(*my_display).img_data.fractol.scale.max_scale_Y = 2.5;
 	newton(&((*my_display).img_data));
 }
 
@@ -125,7 +124,7 @@ int main(int argc, char **argv)
 	{
 		free_and_exit(NULL, 1, "Wrong amount of arguments");
 	}
-	max_iterations = 10;
+	max_iterations = 100;
 	if ((argc == 2) && (ft_strcmp(argv[1], "Mandelbrot") == 0))
 		proceed_argv_mandelbrot(&my_display, max_iterations);
 	if ((argc == 2) && (ft_strcmp(argv[1], "Newton") == 0))

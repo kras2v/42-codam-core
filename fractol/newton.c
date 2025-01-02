@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   newton.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 13:57:27 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/02 17:23:54 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/03 00:02:58 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_complex division(t_complex dividend, t_complex divisor)
 {
 	t_complex quotient;
 
-	quotient.real = (dividend.real * divisor.real + dividend.imag * dividend.imag) /
+	quotient.real = (dividend.real * divisor.real + dividend.imag * divisor.imag) /
 					(pow(divisor.real, 2) + pow(divisor.imag, 2));
 	quotient.imag = (dividend.imag * divisor.real - dividend.real * divisor.imag) /
 					(pow(divisor.real, 2) + pow(divisor.imag, 2));
@@ -80,30 +80,31 @@ int calc_n(t_fractol newton)
 {
 	int i = 0;
 	int j = 0;
-	double tolerance = 0.000001;
+	double tolerance = 0.0001;
 	t_complex roots[3] =
 	{
 		{ 1.0, 0.0},
 		{-0.5, sqrt(3)/2},
-		{-0.5, -sqrt(3)/2}
+		{-0.5, -sqrt(3)/2},
 	};
 	int root_length = 3;
-	t_color colors[4] = 
+	t_color colors[3] = 
 	{
-		{0, 0, 255}, // blue
-		{0, 255, 0}, // green
 		{255, 0, 0}, // red
-		{0, 0, 0} // black
+		{0, 255, 0}, // green
+		{0, 0, 255}, // blue
 	};
-	while (i < newton.max_iterations)
+	while (i <= newton.max_iterations)
 	{
-		t_complex division_px_der_px = division(func(newton.c), derivative(newton.c));
+		t_complex deriv = derivative(newton.c);
+		if (fabs(deriv.real) < 0e-12 || fabs(deriv.imag) < 0e-12)
+			break;
+		t_complex division_px_der_px = division(func(newton.c), deriv);
 		newton.c = subtraction(newton.c, division_px_der_px);
 		j = 0;
 		while (j < root_length)
 		{
-			t_complex diff_z_root = subtraction(newton.c, roots[j]);
-			if (d_abs(diff_z_root.real) < tolerance && d_abs(diff_z_root.imag) < tolerance)
+			if (fabs(newton.c.real - roots[j].real) <= tolerance && fabs(newton.c.imag - roots[j].imag) <= tolerance)
 			{
 				return create_rgb(colors[j].r, colors[j].g, colors[j].b);
 			}
@@ -111,5 +112,5 @@ int calc_n(t_fractol newton)
 		}
 		i++;
 	}
-	return create_rgb(colors[root_length].r, colors[root_length].g, colors[root_length].b);
+	return 0;
 }

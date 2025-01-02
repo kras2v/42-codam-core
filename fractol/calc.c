@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/02 16:09:49 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/02 21:40:47 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,6 @@ int	hsv_to_rgb(double hue, double saturation, double value)
         return create_rgb(v, p, q);
 }
 
-double d_abs(double abs)
-{
-	if (abs < 0)
-		return (-abs);
-	return (abs);
-}
-
 // int coloring_m(int i, t_complex z)
 // {
 // 	double	di;
@@ -62,7 +55,7 @@ double d_abs(double abs)
 
 // 	di = i * 2.5;
 // 	zn = sqrt(z.imag + z.real);
-// 	hue = di + 1.0 - log(log(d_abs(zn)));
+// 	hue = di + 1.0 - log(log(fabs(zn)));
 // 	hue = 5.0 * hue;
 // 	while (hue > 360)
 // 		hue -= 360;
@@ -110,7 +103,7 @@ int coloring_j(int i, t_complex z)
 	double	hue;
 
 	zn = z.imag * z.imag + z.real * z.real;
-	hue = ((i - log(log(d_abs(zn)))) * 1.5);
+	hue = ((i - log(log(fabs(zn)))) * 1.5);
 	return hsv_to_rgb(hue, 0.5, 0.8);
 }
 

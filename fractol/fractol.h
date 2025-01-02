@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/02 17:08:19 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/02 23:58:08 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@
 #include <X11/keysym.h>
 #include "libft/libft.h"
 
+#define M_PI 3.14159265358979323846
+
 enum {
-	WIDTH = 500,
-	HEIGHT = 500
+	WIDTH = 1000,
+	HEIGHT = 1000
 };
 
 #define ON_DESTROY 17
@@ -112,9 +114,9 @@ void	identify_event_handlers(t_my_display *my_display);
 
 void julia(t_img_data *img_data);
 void mandelbrot(t_img_data *img_data);
-int calc_n(t_fractol newton);
+void newton(t_img_data *img_data);
 
-double d_abs(double abs);
+int calc_n(t_fractol newton);
 
 double ft_atof(char *argv, t_my_display *my_display);
 
