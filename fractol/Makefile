@@ -9,12 +9,16 @@ RESET := \033[0m
 HEADERS := fractol.h
 
 #SOURCES
-SOURCES :=	main.c \
-			utils.c \
+SOURCES :=	atof.c \
+			calc_complex_operations.c \
+			main.c \
+			utils_display_img.c \
+			utils_scale.c \
+			calc.c \
 			event_handlers.c \
-			atof.c \
 			newton.c \
-			calc.c
+			utils_coloring.c \
+			utils_program.c
 
 #TARGET
 NAME := fractol

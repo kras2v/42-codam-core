@@ -9,8 +9,8 @@ void shifting(int code, t_my_display *my_display)
 
 	x_shift_dist = 0;
 	y_shift_dist = 0;
-	max_move_x = (my_display->img_data.fractol.scale.max_scale_X - my_display->img_data.fractol.scale.min_scale_X) * 0.05;
-	max_move_y = (my_display->img_data.fractol.scale.max_scale_Y - my_display->img_data.fractol.scale.min_scale_Y) * 0.05;
+	max_move_x = (my_display->img_data.fractol.scale.max_real - my_display->img_data.fractol.scale.min_real) * 0.05;
+	max_move_y = (my_display->img_data.fractol.scale.max_imag - my_display->img_data.fractol.scale.min_imag) * 0.05;
 	if (code == XK_Up)
 	{
 		y_shift_dist = -max_move_y;
@@ -31,10 +31,10 @@ void shifting(int code, t_my_display *my_display)
 		y_shift_dist = 0;
 		x_shift_dist = max_move_x;
 	}
-	my_display->img_data.fractol.scale.min_scale_Y += y_shift_dist;
-	my_display->img_data.fractol.scale.max_scale_Y += y_shift_dist;
-	my_display->img_data.fractol.scale.min_scale_X += x_shift_dist;
-	my_display->img_data.fractol.scale.max_scale_X += x_shift_dist;
+	my_display->img_data.fractol.scale.min_imag += y_shift_dist;
+	my_display->img_data.fractol.scale.max_imag += y_shift_dist;
+	my_display->img_data.fractol.scale.min_real += x_shift_dist;
+	my_display->img_data.fractol.scale.max_real += x_shift_dist;
 	if(my_display->img_data.fractol.name == 'M')
 		mandelbrot(&(my_display->img_data));
 	else if(my_display->img_data.fractol.name == 'J')
@@ -57,8 +57,8 @@ void zoom(int btn, int x, int y, t_my_display *my_display)
 	ddImag = 0;
 	xRatio = (double)x / (double)my_display->img_data.size.max_px;
 	yRatio = (double)y / (double)my_display->img_data.size.max_py;
-	dReal = my_display->img_data.fractol.scale.max_scale_X - my_display->img_data.fractol.scale.min_scale_X;
-	dImag = my_display->img_data.fractol.scale.max_scale_Y - my_display->img_data.fractol.scale.min_scale_Y;
+	dReal = my_display->img_data.fractol.scale.max_real - my_display->img_data.fractol.scale.min_real;
+	dImag = my_display->img_data.fractol.scale.max_imag - my_display->img_data.fractol.scale.min_imag;
 	if (btn == SCROLL_UP || btn == XK_equal)
 	{
 		ddReal = (0.3 * dReal) - dReal;
@@ -69,10 +69,10 @@ void zoom(int btn, int x, int y, t_my_display *my_display)
 		ddReal = ((1/0.3) * dReal) - dReal;
 		ddImag = ((1/0.3) * dImag) - dImag;
 	}
-	my_display->img_data.fractol.scale.min_scale_X = my_display->img_data.fractol.scale.min_scale_X - (ddReal * xRatio);
-	my_display->img_data.fractol.scale.max_scale_X = my_display->img_data.fractol.scale.max_scale_X + (ddReal * (1 - xRatio));
-	my_display->img_data.fractol.scale.max_scale_Y = my_display->img_data.fractol.scale.max_scale_Y + (ddImag * (1 - yRatio));
-	my_display->img_data.fractol.scale.min_scale_Y = my_display->img_data.fractol.scale.min_scale_Y - (ddImag * yRatio);
+	my_display->img_data.fractol.scale.min_real = my_display->img_data.fractol.scale.min_real - (ddReal * xRatio);
+	my_display->img_data.fractol.scale.max_real = my_display->img_data.fractol.scale.max_real + (ddReal * (1 - xRatio));
+	my_display->img_data.fractol.scale.max_imag = my_display->img_data.fractol.scale.max_imag + (ddImag * (1 - yRatio));
+	my_display->img_data.fractol.scale.min_imag = my_display->img_data.fractol.scale.min_imag - (ddImag * yRatio);
 	if(my_display->img_data.fractol.name == 'M')
 		mandelbrot(&(my_display->img_data));
 	else if(my_display->img_data.fractol.name == 'J')

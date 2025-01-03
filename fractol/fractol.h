@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/02 23:58:08 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/03 23:03:05 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ enum {
 
 typedef struct s_scale
 {
-	double min_scale_X;
-	double max_scale_X;
-	double min_scale_Y;
-	double max_scale_Y;
+	double min_real;
+	double max_real;
+	double min_imag;
+	double max_imag;
 } t_scale;
 
 typedef struct s_img_size
@@ -97,27 +97,39 @@ typedef struct s_color
 	int b;
 } t_color;
 
-int		calc(t_complex C, int max_iterations);
-void	my_put_pixel(t_img_data *img, int x, int y, int color);
+double ft_atof(char *argv, t_my_display *my_display);
 
-int generate_color(double hue);
+t_complex c_cube(t_complex z);
+t_complex c_square(t_complex z);
+t_complex division(t_complex dividend, t_complex divisor);
+t_complex	subtraction(t_complex minuend, t_complex subtrahend);
 
-double convert_pixel_to_coordinate(int pix, t_img_data *img_data, char direction);
-int	create_rgb( int r, int g, int b);
-
-int	calc_j(t_complex Z, t_fractol *julia);
 int	calc_m(t_fractol *mandelbrot);
-
-void free_and_exit(t_my_display *my_display, int exit_code, char *msg);
-t_my_display create_my_display(unsigned int max_iterations);
-void	identify_event_handlers(t_my_display *my_display);
-
-void julia(t_img_data *img_data);
-void mandelbrot(t_img_data *img_data);
-void newton(t_img_data *img_data);
-
+int	calc_j(t_complex Z, t_fractol *julia);
 int calc_n(t_fractol newton);
 
-double ft_atof(char *argv, t_my_display *my_display);
+void newton(t_img_data *img_data);
+void mandelbrot(t_img_data *img_data);
+void julia(t_img_data *img_data);
+
+
+int	create_rgb(int r, int g, int b);
+int coloring_m(int i, int max_iterations);
+int coloring_j(int i, t_complex z);
+
+
+void	identify_event_handlers(t_my_display *my_display);
+
+void	my_put_pixel(t_img_data *img, int x, int y, int color);
+void	init_img_size(t_img_size *img_size, t_pixels min, t_pixels max);
+void	create_img_data(t_my_display *my_display);
+t_my_display	create_my_display(void);
+
+
+void	display_info(void);
+void	send_error_msg(char *msg);
+void	free_and_exit(t_my_display *my_display, int exit_code, char *msg);
+
+double	convert_pixel_to_coordinate(int pix, t_img_data *img_data, t_fractol *fractol, char direction);
 
 #endif 

@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:25:46 by valeriia          #+#    #+#             */
-/*   Updated: 2024/12/27 14:08:26 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/03 00:16:23 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,3 @@ double ft_atof(char *argv, t_my_display *my_display)
 		res *= -1;
 	return (res);
 }
-
-// int main()
-// {
-// 	printf("%f\n", ft_atof("0.6gdgda", ));
-// }
