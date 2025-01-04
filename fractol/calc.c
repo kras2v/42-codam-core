@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/03 22:34:37 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/04 15:12:03 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ int	calc_m(t_fractol *mandelbrot)
 	}
 	if (i == mandelbrot->max_iterations)
 		return create_rgb(0, 0, 0);
-	return coloring_m(i, mandelbrot->max_iterations);
-	// return coloring_m(i, Z);
+	if (mandelbrot->color_type == 'S')
+		return standart_coloring(i, mandelbrot->max_iterations);
+	return rainbow_coloring(i, Z, mandelbrot->name);
 }
 
 int	calc_j(t_complex Z, t_fractol *julia)
@@ -52,7 +53,8 @@ int	calc_j(t_complex Z, t_fractol *julia)
 	}
 	if (i == julia->max_iterations)
 		return create_rgb(0, 0, 0);
-	// return coloring_j(i, Z);
-	return coloring_m(i, julia->max_iterations);
+	if (julia->color_type == 'S')
+		return standart_coloring(i, julia->max_iterations);
+	return rainbow_coloring(i, Z, julia->name);
 }
 

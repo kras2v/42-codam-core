@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/03 23:03:05 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:22:56 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@
 #include <X11/keysym.h>
 #include "libft/libft.h"
 
-#define M_PI 3.14159265358979323846
-
 enum {
-	WIDTH = 1000,
-	HEIGHT = 1000
+	WIDTH = 400,
+	HEIGHT = 400
 };
 
 #define ON_DESTROY 17
@@ -58,6 +56,7 @@ typedef struct s_fractol
 {
 	t_scale		scale;
 	char		name;
+	char		color_type;
 	int			max_iterations;
 	t_complex	c;
 }	t_fractol;
@@ -106,16 +105,21 @@ t_complex	subtraction(t_complex minuend, t_complex subtrahend);
 
 int	calc_m(t_fractol *mandelbrot);
 int	calc_j(t_complex Z, t_fractol *julia);
-int calc_n(t_fractol newton);
+int calc_n(t_fractol newton, t_color change);
 
 void newton(t_img_data *img_data);
 void mandelbrot(t_img_data *img_data);
 void julia(t_img_data *img_data);
 
 
+
 int	create_rgb(int r, int g, int b);
-int coloring_m(int i, int max_iterations);
-int coloring_j(int i, t_complex z);
+int	hsv_to_rgb(double hue, double saturation, double value);
+t_color get_color(int r, int g, int b);
+int	rainbow_coloring(int i, t_complex z, char name);
+int	standart_coloring(int i, int max_iterations);
+int newton_coloring(int root, t_color change);
+
 
 
 void	identify_event_handlers(t_my_display *my_display);

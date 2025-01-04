@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/03 23:04:02 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/04 17:24:00 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@
 
 void newton(t_img_data *img_data)
 {
+	static t_color change;
 	t_pixels pixels;
 	pixels.py = 0;
 	int color;
 	color = 0;
+	change.r += 50;
+	change.g += 60;
+	change.b += 70;
 	while (pixels.py < HEIGHT) 
 	{
 		img_data->fractol.c.imag = convert_pixel_to_coordinate(pixels.py, img_data, &(img_data->fractol), 'y');
@@ -27,7 +31,7 @@ void newton(t_img_data *img_data)
 		while (pixels.px < WIDTH)
 		{
 			img_data->fractol.c.real = convert_pixel_to_coordinate(pixels.px, img_data, &(img_data->fractol), 'x');
-			color = calc_n(img_data->fractol);
+			color = calc_n(img_data->fractol, change);
 			my_put_pixel(img_data, pixels.px, pixels.py, color);
 			pixels.px++;
 		}
@@ -82,6 +86,7 @@ void proceed_argv_mandelbrot(t_my_display *my_display, int max_iterations)
 {
 	(*my_display) = create_my_display();
 	my_display->img_data.fractol.name = 'M';
+	my_display->img_data.fractol.color_type = 'S';
 	my_display->img_data.fractol.max_iterations = max_iterations;
 	my_display->img_data.fractol.scale.min_real = -2;
 	my_display->img_data.fractol.scale.max_real = 0.5;
@@ -94,6 +99,7 @@ void proceed_argv_newton(t_my_display *my_display, int max_iterations)
 {
 	(*my_display) = create_my_display();
 	my_display->img_data.fractol.name = 'N';
+	my_display->img_data.fractol.color_type = 'S';
 	my_display->img_data.fractol.max_iterations = max_iterations;
 	my_display->img_data.fractol.scale.min_real = -2.5;
 	my_display->img_data.fractol.scale.max_real = 2.5;
@@ -108,15 +114,16 @@ void proceed_argv_julia(t_complex c, t_my_display *my_display, int max_iteration
 
 	R = 1.8;
 	(*my_display) = create_my_display();
-	(*my_display).img_data.fractol.name = 'J';
+	my_display->img_data.fractol.name = 'J';
+	my_display->img_data.fractol.color_type = 'S';
 	my_display->img_data.fractol.max_iterations = max_iterations;
-	(*my_display).img_data.fractol.c.real = c.real;
-	(*my_display).img_data.fractol.c.imag = c.imag;
-	(*my_display).img_data.fractol.scale.min_real = -R;
-	(*my_display).img_data.fractol.scale.min_imag = -R;
-	(*my_display).img_data.fractol.scale.max_real = R;
-	(*my_display).img_data.fractol.scale.max_imag = R;
-	julia(&((*my_display).img_data));
+	my_display->img_data.fractol.c.real = c.real;
+	my_display->img_data.fractol.c.imag = c.imag;
+	my_display->img_data.fractol.scale.min_real = -R;
+	my_display->img_data.fractol.scale.min_imag = -R;
+	my_display->img_data.fractol.scale.max_real = R;
+	my_display->img_data.fractol.scale.max_imag = R;
+	julia(&(my_display->img_data));
 }
 
 int main(int argc, char **argv)

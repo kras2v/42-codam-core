@@ -17,6 +17,7 @@ SOURCES :=	atof.c \
 			calc.c \
 			event_handlers.c \
 			newton.c \
+			coloring.c \
 			utils_coloring.c \
 			utils_program.c
 
