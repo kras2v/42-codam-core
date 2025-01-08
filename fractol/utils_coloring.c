@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_coloring.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 22:34:51 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/04 18:18:44 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/04 21:26:53 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	hsv_to_rgb(double hue, double saturation, double value)
 		return (create_rgb(v, p, q));
 }
 
-t_color get_color(int r, int g, int b)
+t_color	get_color(int r, int g, int b)
 {
-	t_color color;
+	t_color	color;
 
 	color.r = r;
 	color.g = g;

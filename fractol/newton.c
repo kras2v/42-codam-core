@@ -3,34 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   newton.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 13:57:27 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/04 18:26:34 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/04 21:25:30 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
 //z^3 - 1
-t_complex func(t_complex z)
+t_complex	func(t_complex z)
 {
-	t_complex z_func;
-
-	z_func = c_cube(z);
-	z_func.real = z_func.real - 1.0;
-	return (z_func);
+	z = c_cube(z);
+	z.real = z.real - 1.0;
+	return (z);
 }
 
 //3*z^2 = 3 * (x^2 - y^2 + 2xyi)
-t_complex derivative(t_complex z)
+t_complex	derivative(t_complex z)
 {
-	t_complex z_deriv;
-
-	z_deriv = c_square(z);
-	z_deriv.real *= 3.0;
-	z_deriv.imag *= 3.0;
-	return (z_deriv);
+	z = c_square(z);
+	z.real *= 3.0;
+	z.imag *= 3.0;
+	return (z);
 }
 
 t_complex	get_root(double real, double imag)
@@ -56,7 +52,8 @@ int	get_closest_root_position(t_complex c)
 	j = 0;
 	while (j < 3)
 	{
-		if (fabs(c.real - roots[j].real) <= tolerance && fabs(c.imag - roots[j].imag) <= tolerance)
+		if (fabs(c.real - roots[j].real) <= tolerance
+			&& fabs(c.imag - roots[j].imag) <= tolerance)
 			return (j + 1);
 		j++;
 	}
@@ -65,17 +62,19 @@ int	get_closest_root_position(t_complex c)
 
 int	calc_n(t_fractol newton, t_color change)
 {
-	int	i;
-	int	closest_root;
-	
+	int			i;
+	int			closest_root;
+	t_complex	division_px_der_px;
+	t_complex	deriv;
+
 	i = 0;
 	closest_root = 0;
 	while (i < newton.max_iterations)
 	{
-		t_complex deriv = derivative(newton.c);
+		deriv = derivative(newton.c);
 		if (fabs(deriv.real) < 0e-12 || fabs(deriv.imag) < 0e-12)
-			break;
-		t_complex division_px_der_px = division(func(newton.c), deriv);
+			break ;
+		division_px_der_px = division(func(newton.c), deriv);
 		newton.c = subtraction(newton.c, division_px_der_px);
 		closest_root = get_closest_root_position(newton.c);
 		if (get_closest_root_position(newton.c) >= 0)

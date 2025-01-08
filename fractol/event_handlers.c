@@ -1,5 +1,15 @@
 #include "fractol.h"
 
+void	execute_fractal_rendering(t_img_data *img_data)
+{
+	if(img_data->fractol.name == 'M')
+		mandelbrot(&(img_data));
+	else if(img_data->fractol.name == 'J')
+		julia(&(img_data));
+	else if(img_data->fractol.name == 'N')
+		newton(&(img_data));
+}
+
 void shifting(int code, t_my_display *my_display)
 {
 	double x_shift_dist;
@@ -35,12 +45,7 @@ void shifting(int code, t_my_display *my_display)
 	my_display->img_data.fractol.scale.max_imag += y_shift_dist;
 	my_display->img_data.fractol.scale.min_real += x_shift_dist;
 	my_display->img_data.fractol.scale.max_real += x_shift_dist;
-	if(my_display->img_data.fractol.name == 'M')
-		mandelbrot(&(my_display->img_data));
-	else if(my_display->img_data.fractol.name == 'J')
-		julia(&(my_display->img_data));
-	else if(my_display->img_data.fractol.name == 'N')
-		newton(&(my_display->img_data));
+
 	mlx_put_image_to_window(my_display->mlx, my_display->win, my_display->img_data.img_ptr, 0, 0);
 }
 
@@ -73,12 +78,7 @@ void zoom(int btn, int x, int y, t_my_display *my_display)
 	my_display->img_data.fractol.scale.max_real = my_display->img_data.fractol.scale.max_real + (ddReal * (1 - xRatio));
 	my_display->img_data.fractol.scale.max_imag = my_display->img_data.fractol.scale.max_imag + (ddImag * (1 - yRatio));
 	my_display->img_data.fractol.scale.min_imag = my_display->img_data.fractol.scale.min_imag - (ddImag * yRatio);
-	if(my_display->img_data.fractol.name == 'M')
-		mandelbrot(&(my_display->img_data));
-	else if(my_display->img_data.fractol.name == 'J')
-		julia(&(my_display->img_data));
-	else if(my_display->img_data.fractol.name == 'N')
-		newton(&(my_display->img_data));
+
 	mlx_put_image_to_window(my_display->mlx, my_display->win, my_display->img_data.img_ptr, 0, 0);
 }
 
@@ -115,12 +115,7 @@ void color_range_shift(t_my_display *my_display)
 		my_display->img_data.fractol.color_type = 'R';
 	else
 		my_display->img_data.fractol.color_type = 'S';
-	if(my_display->img_data.fractol.name == 'M')
-		mandelbrot(&(my_display->img_data));
-	else if(my_display->img_data.fractol.name == 'J')
-		julia(&(my_display->img_data));
-	else if(my_display->img_data.fractol.name == 'N')
-		newton(&(my_display->img_data));
+
 	mlx_put_image_to_window(my_display->mlx, my_display->win, my_display->img_data.img_ptr, 0, 0);
 }
 

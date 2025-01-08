@@ -6,25 +6,11 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:25:46 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/03 00:16:23 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/04 22:16:14 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-typedef struct s_double{
-	char *before_dot;
-	char *after_dot;
-	char *after_e;
-	int is_negative;
-	int e_is_negative;
-	int num_before_dot;
-	int num_after_dot;
-	int num_after_e;
-	int dots;
-	int Es;
-} t_double;
-
 
 void ft_skip_spaces(const char **argv)
 {

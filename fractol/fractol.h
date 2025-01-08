@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/04 18:22:56 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/04 22:20:50 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-#include <mlx.h>
-#include <math.h>
-#include <stdio.h>
-#include <X11/keysym.h>
-#include "libft/libft.h"
+# include <mlx.h>
+# include <math.h>
+# include <stdio.h>
+# include <X11/keysym.h>
+# include "libft/libft.h"
 
 enum {
-	WIDTH = 400,
-	HEIGHT = 400
+	WIDTH = 1000,
+	HEIGHT = 1000
 };
 
 #define ON_DESTROY 17
@@ -96,6 +96,19 @@ typedef struct s_color
 	int b;
 } t_color;
 
+typedef struct s_double{
+	char *before_dot;
+	char *after_dot;
+	char *after_e;
+	int is_negative;
+	int e_is_negative;
+	int num_before_dot;
+	int num_after_dot;
+	int num_after_e;
+	int dots;
+	int Es;
+} t_double;
+
 double ft_atof(char *argv, t_my_display *my_display);
 
 t_complex c_cube(t_complex z);
@@ -111,7 +124,9 @@ void newton(t_img_data *img_data);
 void mandelbrot(t_img_data *img_data);
 void julia(t_img_data *img_data);
 
-
+void initialize_mandelbrot(t_my_display *my_display, int max_iterations);
+void initialize_newton(t_my_display *my_display, int max_iterations);
+void initialize_julia(t_complex c, t_my_display *my_display, int max_iterations);
 
 int	create_rgb(int r, int g, int b);
 int	hsv_to_rgb(double hue, double saturation, double value);
@@ -119,8 +134,6 @@ t_color get_color(int r, int g, int b);
 int	rainbow_coloring(int i, t_complex z, char name);
 int	standart_coloring(int i, int max_iterations);
 int newton_coloring(int root, t_color change);
-
-
 
 void	identify_event_handlers(t_my_display *my_display);
 
@@ -134,6 +147,7 @@ void	display_info(void);
 void	send_error_msg(char *msg);
 void	free_and_exit(t_my_display *my_display, int exit_code, char *msg);
 
-double	convert_pixel_to_coordinate(int pix, t_img_data *img_data, t_fractol *fractol, char direction);
+double	convert_pixel_to_coordinate(int pix,
+			t_img_data *img_data, t_fractol *fractol, char direction);
 
 #endif 

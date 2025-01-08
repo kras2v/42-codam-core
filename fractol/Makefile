@@ -19,6 +19,8 @@ SOURCES :=	atof.c \
 			newton.c \
 			coloring.c \
 			utils_coloring.c \
+			fractal_selector.c \
+			fractal_rendering.c \
 			utils_program.c
 
 #TARGET
