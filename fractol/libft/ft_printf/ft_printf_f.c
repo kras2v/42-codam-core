@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_f.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:05:20 by valeriia          #+#    #+#             */
-/*   Updated: 2024/12/27 12:58:32 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:55:10 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
 #include <stdio.h>
 
-static int put_int_part(double num)
+static int	put_int_part(double num)
 {
 	char	*int_part;
 	int		int_part_num;
@@ -32,7 +31,7 @@ static int put_int_part(double num)
 	return (len);
 }
 
-static int put_decimal_part(double num)
+static int	put_decimal_part(double num)
 {
 	double	decimal_part_num;
 	double	decimal_part_num_after_multiply;
@@ -46,7 +45,8 @@ static int put_decimal_part(double num)
 	{
 		decimal_part_num_after_multiply = decimal_part_num * 10;
 		ft_putnbr_fd((int)decimal_part_num_after_multiply, 1);
-		decimal_part_num = (double)(decimal_part_num_after_multiply - (int)decimal_part_num_after_multiply);
+		decimal_part_num = (double)(decimal_part_num_after_multiply
+				- (int)decimal_part_num_after_multiply);
 		i++;
 	}
 	return (6);

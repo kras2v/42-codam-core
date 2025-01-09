@@ -6,11 +6,12 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:08:20 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/18 16:34:31 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:53:03 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
 
 void	ft_putchar_fd(char c, int fd)
 {

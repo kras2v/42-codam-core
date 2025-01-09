@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:16:15 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/12/09 15:42:04 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:54:06 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define LIBFT_H
 
 # include <stdlib.h>
-# include <stdint.h>
-# include <unistd.h>
 
 typedef struct s_list
 {
