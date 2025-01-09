@@ -6,12 +6,11 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:05:20 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/09 18:55:10 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:56:21 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 static int	put_int_part(double num)
 {
