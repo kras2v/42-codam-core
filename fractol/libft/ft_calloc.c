@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:41:42 by kvalerii          #+#    #+#             */
-/*   Updated: 2024/10/18 14:50:05 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 21:01:00 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdint.h>
 
 static int	ft_is_overflow(size_t nmemb, size_t size)
 {

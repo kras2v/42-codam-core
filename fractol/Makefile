@@ -9,7 +9,7 @@ RESET := \033[0m
 HEADERS := fractol.h
 
 #SOURCES
-SOURCES :=	atof.c \
+SOURCES :=	fractal_atof.c \
 			calc_complex_operations.c \
 			main.c \
 			utils_display_img.c \
