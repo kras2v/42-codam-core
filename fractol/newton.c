@@ -3,26 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   newton.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 13:57:27 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 18:50:32 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 23:16:14 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <math.h>
 
-//z^3 - 1
-t_complex	func(t_complex z)
+static t_complex	func(t_complex z)
 {
 	z = c_cube(z);
 	z.real = z.real - 1.0;
 	return (z);
 }
 
-//3*z^2 = 3 * (x^2 - y^2 + 2xyi)
-t_complex	derivative(t_complex z)
+static t_complex	derivative(t_complex z)
 {
 	z = c_square(z);
 	z.real *= 3.0;
@@ -30,7 +28,7 @@ t_complex	derivative(t_complex z)
 	return (z);
 }
 
-t_complex	get_root(double real, double imag)
+static t_complex	get_root(double real, double imag)
 {
 	t_complex	root;
 
@@ -39,8 +37,7 @@ t_complex	get_root(double real, double imag)
 	return (root);
 }
 
-//bool
-int	get_closest_root_position(t_complex c)
+static int	get_closest_root_position(t_complex c)
 {
 	t_complex	roots[3];
 	int			j;
@@ -61,7 +58,7 @@ int	get_closest_root_position(t_complex c)
 	return (-1);
 }
 
-int	calc_n(t_fractol newton, t_color change)
+int	calculate_newton(t_fractol newton, t_color change)
 {
 	int			i;
 	int			closest_root;

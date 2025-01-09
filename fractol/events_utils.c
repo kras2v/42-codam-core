@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:28:53 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 18:50:48 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:55:26 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ void	change_scale_parametrs(t_scale *old, t_scale new)
 	old->min_imag += new.min_imag;
 	old->max_real += new.max_real;
 	old->min_real += new.min_real;
-}
-
-t_scale	create_scale(double max_imag, double min_imag,
-	double max_real, double min_real)
-{
-	t_scale	scale;
-
-	scale.max_imag = max_imag;
-	scale.min_imag = min_imag;
-	scale.max_real = max_real;
-	scale.min_real = min_real;
-	return (scale);
 }
 
 void	zoom(int btn, int x, int y, t_my_display *my_display)
@@ -58,17 +46,17 @@ void	zoom(int btn, int x, int y, t_my_display *my_display)
 			(delta.real * (1 - x_ratio)),
 			-(delta.real * x_ratio));
 	change_scale_parametrs(&(my_display->img_data.fractol.scale), new_scale);
-	execute_fractal_rendering(&(my_display->img_data));
+	execute_fractal_rendering(&(my_display->img_data), 0);
 	mlx_put_image_to_window(my_display->mlx, my_display->win,
 		my_display->img_data.img_ptr, 0, 0);
 }
 
-void	execute_fractal_rendering(t_img_data *img_data)
+void	execute_fractal_rendering(t_img_data *img_data, int change_color)
 {
 	if (img_data->fractol.name == 'M')
-		mandelbrot(img_data);
+		render_mandelbrot(img_data);
 	else if (img_data->fractol.name == 'J')
-		julia(img_data);
+		render_julia(img_data);
 	else if (img_data->fractol.name == 'N')
-		newton(img_data);
+		render_newton(img_data, change_color);
 }

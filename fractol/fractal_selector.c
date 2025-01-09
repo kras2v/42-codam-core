@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractal_selector.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:30:52 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/09 18:34:37 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:52:04 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,32 @@ void	initialize_mandelbrot(t_my_display *my_display, int max_iterations)
 {
 	t_scale	scale;
 
-	scale = get_scale(-2, 0.5, -1.2, 1.2);
+	scale = create_scale(1.2, -1.2, 0.5, -2);
 	initialize_fractal_display(my_display, max_iterations, scale, 'M');
-	mandelbrot(&(my_display->img_data));
+	render_mandelbrot(&(my_display->img_data));
 }
 
 void	initialize_newton(t_my_display *my_display, int max_iterations)
 {
+	double	size;
 	t_scale	scale;
 
-	scale = get_scale(-2.5, 2.5, -2.5, 2.5);
+	size = 2.5;
+	scale = create_scale(size, -size, size, -size);
 	initialize_fractal_display(my_display, max_iterations, scale, 'N');
-	newton(&(my_display->img_data));
+	render_newton(&(my_display->img_data), 1);
 }
 
 void	initialize_julia(t_complex c,
 						t_my_display *my_display, int max_iterations)
 {
-	double	r;
+	double	size;
 	t_scale	scale;
 
-	r = 1.8;
-	scale = get_scale(-r, r, -r, r);
+	size = 1.8;
+	scale = get_scale(size, -size, size, -size);
 	initialize_fractal_display(my_display, max_iterations, scale, 'J');
 	my_display->img_data.fractol.c.real = c.real;
 	my_display->img_data.fractol.c.imag = c.imag;
-	julia(&(my_display->img_data));
+	render_julia(&(my_display->img_data));
 }

@@ -6,13 +6,13 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:05:15 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/03 23:05:02 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/09 23:20:48 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-double	get_scale(int min, int max, double min_scale, double max_scale)
+static double	get_scale(int min, int max, double min_scale, double max_scale)
 {
 	return ((max_scale - min_scale) / (double)(max - min));
 }

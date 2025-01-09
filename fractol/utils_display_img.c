@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_display_img.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:03:28 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/09 18:59:18 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 23:17:49 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,7 @@
 #include <mlx.h>
 #include <stdlib.h>
 
-void	my_put_pixel(t_img_data *img, int x, int y, int color)
-{
-	int	offset;
-
-	offset = y * img->size_line + x * (img->bites_per_pixel / 8);
-	*((unsigned int *)(offset + img->data_addr)) = color;
-}
-
-void	init_img_size(t_img_size *img_size, t_pixels min, t_pixels max)
+static void	init_img_size(t_img_size *img_size, t_pixels min, t_pixels max)
 {
 	img_size->min_px = min.px;
 	img_size->max_px = max.px;
@@ -30,7 +22,7 @@ void	init_img_size(t_img_size *img_size, t_pixels min, t_pixels max)
 	img_size->max_py = max.py;
 }
 
-void	create_img_data(t_my_display *my_display)
+static void	create_img_data(t_my_display *my_display)
 {
 	t_pixels	min_pixel;
 	t_pixels	max_pixel;
@@ -51,6 +43,14 @@ void	create_img_data(t_my_display *my_display)
 	max_pixel.px = WIDTH;
 	max_pixel.py = HEIGHT;
 	init_img_size(&(my_display->img_data.size), min_pixel, max_pixel);
+}
+
+void	my_put_pixel(t_img_data *img, int x, int y, int color)
+{
+	int	offset;
+
+	offset = y * img->size_line + x * (img->bites_per_pixel / 8);
+	*((unsigned int *)(offset + img->data_addr)) = color;
 }
 
 t_my_display	create_my_display(void)

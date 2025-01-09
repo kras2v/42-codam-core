@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 18:58:33 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 23:15:21 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	show_display(t_my_display *my_display)
 	mlx_loop(my_display->mlx);
 }
 
-void	proceed_argv_and_show_display(int argc, char **argv)
+static void	proceed_argv_and_show_display(int argc, char **argv)
 {
 	t_my_display	my_display;
 	t_complex		c;

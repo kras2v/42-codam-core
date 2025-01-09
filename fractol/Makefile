@@ -9,14 +9,14 @@ RESET := \033[0m
 HEADERS := fractol.h
 
 #SOURCES
-SOURCES :=	fractal_atof.c \
-			calc_complex_operations.c \
+SOURCES :=	utils_atof.c \
+			complex_operations.c \
 			main.c \
 			utils_display_img.c \
 			utils_scale.c \
-			calc.c \
+			calculations_julia_mandelbrot.c \
 			newton.c \
-			coloring.c \
+			fractal_coloring.c \
 			utils_coloring.c \
 			fractal_selector.c \
 			fractal_rendering.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_events.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:37:17 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 18:51:11 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:47:08 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	change_julia(int px, int py, t_my_display *my_display)
 		my_display->img_data.fractol.c.imag = convert_pixel_to_coordinate(
 				py, &(my_display->img_data),
 				&(my_display->img_data.fractol), 'y');
-		julia(&(my_display->img_data));
+		render_julia(&(my_display->img_data));
 		mlx_put_image_to_window(my_display->mlx, my_display->win,
 			my_display->img_data.img_ptr, 0, 0);
 	}

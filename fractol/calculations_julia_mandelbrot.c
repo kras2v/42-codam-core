@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calc.c                                             :+:      :+:    :+:   */
+/*   calculations_julia_mandelbrot.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 18:38:30 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:45:16 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	calc_m(t_fractol *mandelbrot)
+int	calculate_mandelbrot(t_fractol *mandelbrot)
 {
 	t_complex	z;
 	t_complex	z_temp;
@@ -29,7 +29,7 @@ int	calc_m(t_fractol *mandelbrot)
 		z_temp.real = z.real - z.imag + mandelbrot->c.real;
 		z.real = z_temp.real * z_temp.real;
 		z.imag = z_temp.imag * z_temp.imag;
-		if ((z.real + z.imag) >= 4.0)
+		if ((z.real + z.imag) >= 16.0)
 			break ;
 		i++;
 	}
@@ -40,22 +40,22 @@ int	calc_m(t_fractol *mandelbrot)
 	return (rainbow_coloring(i, z, mandelbrot->name));
 }
 
-int	calc_j(t_complex Z, t_fractol *julia)
+int	calculate_julia(t_complex Z, t_fractol *julia)
 {
 	t_complex	z_temp;
 	t_complex	z_2;
 	int			i;
 
 	i = 0;
-	z_2.real = Z.real * Z.real;
-	z_2.imag = Z.imag * Z.imag;
-	while (i < julia->max_iterations && (z_2.real + z_2.imag) < 16)
+	while (i < julia->max_iterations)
 	{
 		z_2.real = Z.real * Z.real;
 		z_2.imag = Z.imag * Z.imag;
 		Z.imag = 2 * Z.imag * Z.real + julia->c.imag;
 		z_temp.real = z_2.real - z_2.imag;
 		Z.real = z_temp.real + julia->c.real;
+		if ((z_2.real + z_2.imag) >= 16.0)
+			break ;
 		i++;
 	}
 	if (i == julia->max_iterations)

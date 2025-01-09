@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_initialization.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:32:26 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 18:59:22 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:45:51 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <stdlib.h>
 #include <mlx.h>
 
-int	close_on_event(t_my_display *my_display)
+static int	close_on_event(t_my_display *my_display)
 {
-	free_and_exit(my_display, 0, NULL);
+	free_and_exit(my_display, EXIT_SUCCESS, NULL);
 	return (0);
 }
 

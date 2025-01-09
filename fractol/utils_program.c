@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:12:14 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 21:09:57 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/09 23:20:33 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,40 @@
 #include "libft/libft.h"
 #include <mlx.h>
 
-void	display_info(void)
+t_scale	create_scale(double max_imag, double min_imag,
+	double max_real, double min_real)
+{
+	t_scale	scale;
+
+	scale.max_imag = max_imag;
+	scale.min_imag = min_imag;
+	scale.max_real = max_real;
+	scale.min_real = min_real;
+	return (scale);
+}
+
+static void	display_info(void)
 {
 	ft_printf("Usage: ./program <parameter> [x y]\n");
 	ft_printf("\n");
 	ft_printf("Available parameters:\n");
 	ft_printf("  Mandelbrot		Generate the Mandelbrot set.\n");
+	ft_printf("  Newton		Generate the Mandelbrot set.\n");
 	ft_printf("  Julia			"
 		"Generate the Julia set with default parameters (0.4, -0.6).\n");
 	ft_printf("  Julia <x> <y>		"
 		"Generate the Julia set with custom parameters <x> and <y>.\n");
 	ft_printf("\n");
 	ft_printf("Example usage:\n");
-	ft_printf("  ./program Mandelbrot	Generate Mandelbrot set.\n");
-	ft_printf("  ./program Julia		"
+	ft_printf("  ./fractol Mandelbrot		Generate Mandelbrot set.\n");
+	ft_printf("  ./fractol Newton		Generate Newton set.\n");
+	ft_printf("  ./fractol Julia		"
 		"Generate Julia set with default parameters.\n");
-	ft_printf("  ./program Julia 0.355 0.355"
+	ft_printf("  ./fractol Julia 0.355 0.355	"
 		"Generate Julia set with x = 0.355, y = 0.355.\n");
 }
 
-void	send_error_msg(char *msg)
+static void	send_error_msg(char *msg)
 {
 	if (msg != NULL)
 	{

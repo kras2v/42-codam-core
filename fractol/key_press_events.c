@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_press_events.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:37:43 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 18:59:29 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:48:48 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	shifting(int code, t_my_display *my_display)
 		x_shift = max_move_x;
 	new_scale = create_scale(y_shift, y_shift, x_shift, x_shift);
 	change_scale_parametrs(&(my_display->img_data.fractol.scale), new_scale);
-	execute_fractal_rendering(&(my_display->img_data));
+	execute_fractal_rendering(&(my_display->img_data), 0);
 	return (1);
 }
 
@@ -60,7 +60,7 @@ static int	color_range_shift(t_my_display *my_display)
 		my_display->img_data.fractol.color_type = 'R';
 	else
 		my_display->img_data.fractol.color_type = 'S';
-	execute_fractal_rendering(&(my_display->img_data));
+	execute_fractal_rendering(&(my_display->img_data), 1);
 	return (1);
 }
 

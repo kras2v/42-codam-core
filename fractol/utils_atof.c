@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atof.c                                             :+:      :+:    :+:   */
+/*   utils_atof.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:25:46 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/09 18:58:16 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 23:16:53 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <math.h>
 #include "libft/libft.h"
 
-int	ft_is_negative(char ch)
+static int	ft_is_negative(char ch)
 {
 	if (ch == '-')
 		return (1);
@@ -26,7 +26,7 @@ int	ft_is_negative(char ch)
 	return (0);
 }
 
-int	ft_argv_is_double(t_double *_double, const char *argv)
+static int	ft_argv_is_double(t_double *_double, const char *argv)
 {
 	_double->dots = 0;
 	if (argv == NULL)
@@ -49,7 +49,7 @@ int	ft_argv_is_double(t_double *_double, const char *argv)
 	return (*argv == '\0');
 }
 
-void	free_argv(char *argv[])
+static void	free_argv(char *argv[])
 {
 	int	i;
 
@@ -65,7 +65,7 @@ void	free_argv(char *argv[])
 	}
 }
 
-double	ft_convert_to_double(t_double _double)
+static double	ft_convert_to_double(t_double _double)
 {
 	double	res;
 
