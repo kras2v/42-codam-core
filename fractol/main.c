@@ -6,11 +6,13 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 15:11:46 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:58:33 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <mlx.h>
+#include "libft/libft.h"
 
 static t_complex	get_starting_coordinates(int argc, char **argv,
 									t_my_display *my_display)

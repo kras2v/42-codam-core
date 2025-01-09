@@ -6,11 +6,13 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:28:53 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 12:17:14 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:50:48 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <mlx.h>
+#include <X11/keysym.h>
 
 void	change_scale_parametrs(t_scale *old, t_scale new)
 {

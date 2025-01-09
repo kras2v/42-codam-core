@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_display_img.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:03:28 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/03 22:32:50 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:59:18 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <mlx.h>
+#include <stdlib.h>
 
 void	my_put_pixel(t_img_data *img, int x, int y, int color)
 {

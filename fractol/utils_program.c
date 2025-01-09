@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_program.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:12:14 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/03 15:09:35 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:58:40 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include "libft/libft.h"
+#include <mlx.h>
 
 void	display_info(void)
 {

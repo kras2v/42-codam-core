@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   calc_complex_operations.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:07:09 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/08 19:08:25 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:49:42 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <math.h>
 
 //a^3 + 3a^2b + 3ab^2 + b^3 = (x^3 - 3xy^2) + (3x^2yi - yi^3)
 t_complex	c_cube(t_complex z)

@@ -6,11 +6,12 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:17:31 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 12:18:12 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:50:38 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <math.h>
 
 int	rainbow_coloring(int i, t_complex z, char name)
 {

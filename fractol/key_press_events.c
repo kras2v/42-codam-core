@@ -6,11 +6,14 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:37:43 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 12:08:17 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:59:29 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <X11/keysym.h>
+#include <stdlib.h>
+#include <mlx.h>
 
 static int	zoom_in_center(int keysym, t_my_display *my_display)
 {

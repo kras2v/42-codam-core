@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   newton.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 13:57:27 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/04 21:25:30 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:50:32 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <math.h>
 
 //z^3 - 1
 t_complex	func(t_complex z)

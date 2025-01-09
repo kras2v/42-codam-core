@@ -6,11 +6,12 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:37:17 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 11:58:33 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:51:11 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <mlx.h>
 
 static void	zoom_in_mouse_positions(int button, int px,
 	int py, t_my_display *my_display)

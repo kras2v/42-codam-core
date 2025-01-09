@@ -6,18 +6,12 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 18:27:50 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:57:58 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
-
-# include <mlx.h>
-# include <math.h>
-# include <stdio.h>
-# include <X11/keysym.h>
-# include "libft/libft.h"
 
 enum
 {

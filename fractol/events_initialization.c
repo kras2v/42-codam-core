@@ -6,11 +6,13 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:32:26 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 12:35:14 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:59:22 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <stdlib.h>
+#include <mlx.h>
 
 int	close_on_event(t_my_display *my_display)
 {

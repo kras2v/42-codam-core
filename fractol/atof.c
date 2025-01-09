@@ -6,11 +6,14 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:25:46 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/09 15:10:30 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:58:16 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <mlx.h>
+#include <math.h>
+#include "libft/libft.h"
 
 int	ft_is_negative(char ch)
 {
