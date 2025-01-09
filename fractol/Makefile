@@ -15,12 +15,15 @@ SOURCES :=	atof.c \
 			utils_display_img.c \
 			utils_scale.c \
 			calc.c \
-			event_handlers.c \
 			newton.c \
 			coloring.c \
 			utils_coloring.c \
 			fractal_selector.c \
 			fractal_rendering.c \
+			events_initialization.c \
+			events_utils.c \
+			key_press_events.c \
+			mouse_events.c \
 			utils_program.c
 
 #TARGET

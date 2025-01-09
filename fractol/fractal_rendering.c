@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractal_rendering.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 22:14:17 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/08 19:02:47 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:32:44 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	julia(t_img_data *img_data)
 	while (pixels.py < img_data->size.max_py)
 	{
 		pixels.px = 0;
-		z.imag = -convert_pixel_to_coordinate(
+		z.imag = convert_pixel_to_coordinate(
 				pixels.py, img_data, &(img_data->fractol), 'y');
 		while (pixels.px < img_data->size.max_px)
 		{

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:32:58 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/04 22:19:34 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:11:46 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
-#include <time.h>
 
 static t_complex	get_starting_coordinates(int argc, char **argv,
 									t_my_display *my_display)
@@ -23,19 +21,19 @@ static t_complex	get_starting_coordinates(int argc, char **argv,
 	c.imag = 0.6;
 	if (argc == 4)
 	{
-		c.real = ft_atof(argv[2], my_display);
-		c.imag = ft_atof(argv[3], my_display);
+		c.real = ft_fractal_atof(argv[2], my_display);
+		c.imag = ft_fractal_atof(argv[3], my_display);
 	}
 	return (c);
 }
 
-static void	show_display(t_my_display my_display)
+static void	show_display(t_my_display *my_display)
 {
-	mlx_put_image_to_window(my_display.mlx,
-		my_display.win,
-		my_display.img_data.img_ptr, 0, 0);
-	identify_event_handlers(&my_display);
-	mlx_loop(my_display.mlx);
+	mlx_put_image_to_window(my_display->mlx,
+		my_display->win,
+		my_display->img_data.img_ptr, 0, 0);
+	identify_event_handlers(my_display);
+	mlx_loop(my_display->mlx);
 }
 
 void	proceed_argv_and_show_display(int argc, char **argv)
@@ -56,7 +54,7 @@ void	proceed_argv_and_show_display(int argc, char **argv)
 	}
 	else
 		free_and_exit(NULL, 1, "Wrong argument");
-	show_display(my_display);
+	show_display(&my_display);
 }
 
 int	main(int argc, char **argv)

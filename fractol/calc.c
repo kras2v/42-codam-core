@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:37:06 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/04 15:12:03 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:38:30 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,53 @@
 
 int	calc_m(t_fractol *mandelbrot)
 {
-	t_complex Z = {0.0, 0.0};
-	t_complex Ztemp = {0.0, 0.0};
+	t_complex	z;
+	t_complex	z_temp;
+	int			i;
 
-	int i = 0;
+	i = 0;
+	z.real = 0;
+	z.imag = 0;
+	z_temp.real = 0;
+	z_temp.imag = 0;
 	while (i < mandelbrot->max_iterations)
 	{
-		Ztemp.imag = 2 * Ztemp.imag * Ztemp.real + mandelbrot->c.imag;
-		Ztemp.real = Z.real - Z.imag + mandelbrot->c.real;
-		Z.real = Ztemp.real * Ztemp.real;
-		Z.imag = Ztemp.imag * Ztemp.imag;
-		if ((Z.real + Z.imag) >= 4.0)
-			break;
+		z_temp.imag = 2 * z_temp.imag * z_temp.real + mandelbrot->c.imag;
+		z_temp.real = z.real - z.imag + mandelbrot->c.real;
+		z.real = z_temp.real * z_temp.real;
+		z.imag = z_temp.imag * z_temp.imag;
+		if ((z.real + z.imag) >= 4.0)
+			break ;
 		i++;
 	}
 	if (i == mandelbrot->max_iterations)
-		return create_rgb(0, 0, 0);
+		return (create_rgb(0, 0, 0));
 	if (mandelbrot->color_type == 'S')
-		return standart_coloring(i, mandelbrot->max_iterations);
-	return rainbow_coloring(i, Z, mandelbrot->name);
+		return (standart_coloring(i, mandelbrot->max_iterations));
+	return (rainbow_coloring(i, z, mandelbrot->name));
 }
 
 int	calc_j(t_complex Z, t_fractol *julia)
 {
-	t_complex Ztemp = {0, 0};
+	t_complex	z_temp;
+	t_complex	z_2;
+	int			i;
 
-	int i = 0;
-	double z_real_2 = Z.real * Z.real;
-	double z_imag_2 = Z.imag * Z.imag;
-	while (i < julia->max_iterations && (z_real_2 + z_imag_2) < 16)
+	i = 0;
+	z_2.real = Z.real * Z.real;
+	z_2.imag = Z.imag * Z.imag;
+	while (i < julia->max_iterations && (z_2.real + z_2.imag) < 16)
 	{
-		z_real_2 = Z.real * Z.real;
-		z_imag_2 = Z.imag * Z.imag;
+		z_2.real = Z.real * Z.real;
+		z_2.imag = Z.imag * Z.imag;
 		Z.imag = 2 * Z.imag * Z.real + julia->c.imag;
-		Ztemp.real = z_real_2 - z_imag_2;
-		Z.real = Ztemp.real + julia->c.real;
+		z_temp.real = z_2.real - z_2.imag;
+		Z.real = z_temp.real + julia->c.real;
 		i++;
 	}
 	if (i == julia->max_iterations)
-		return create_rgb(0, 0, 0);
+		return (create_rgb(0, 0, 0));
 	if (julia->color_type == 'S')
-		return standart_coloring(i, julia->max_iterations);
-	return rainbow_coloring(i, Z, julia->name);
+		return (standart_coloring(i, julia->max_iterations));
+	return (rainbow_coloring(i, Z, julia->name));
 }
-

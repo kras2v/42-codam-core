@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:17:31 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/04 18:26:49 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 12:18:12 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ int	standart_coloring(int i, int max_iterations)
 	return (create_rgb(color.r, color.g, color.b));
 }
 
-int newton_coloring(int root, t_color change)
+int	newton_coloring(int root, t_color change)
 {
-	t_color colors[4];
+	t_color	colors[4];
 
 	colors[0] = get_color(0, 0, 150);
 	colors[1] = get_color(150, 0, 0);
 	colors[2] = get_color(0, 150, 0);
 	colors[3] = get_color(0, 0, 150);
-	return create_rgb(colors[root].r + change.r, colors[root].g + change.g, colors[root].b + change.b);
+	return (create_rgb(colors[root].r + change.r, colors[root].g
+			+ change.g, colors[root].b + change.b));
 }
