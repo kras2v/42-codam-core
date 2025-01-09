@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:31:22 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 23:05:30 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/10 00:15:57 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,12 +148,8 @@ void			execute_fractal_rendering(t_img_data *img_data,
 					int change_color);
 
 void			my_put_pixel(t_img_data *img, int x, int y, int color);
-void			init_img_size(t_img_size *img_size, t_pixels min, t_pixels max);
-void			create_img_data(t_my_display *my_display);
 t_my_display	create_my_display(void);
 
-void			display_info(void);
-void			send_error_msg(char *msg);
 void			free_and_exit(t_my_display *my_display,
 					int exit_code, char *msg);
 t_scale			create_scale(double max_imag, double min_imag,

@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:25:46 by valeriia          #+#    #+#             */
-/*   Updated: 2025/01/09 23:16:53 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/01/10 00:15:05 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ double	ft_fractal_atof(char *argv, t_my_display *my_display)
 	double		res;
 	char		**dot_part;
 
+	_double.is_negative = 0;
 	if (!ft_argv_is_double(&_double, argv))
 		free_and_exit(my_display, 1, "One of the coordinates has wrong format");
 	dot_part = ft_split(argv, '.');
