@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_program.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:12:14 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/01/09 18:58:40 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/01/09 21:09:57 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	display_info(void)
 	ft_printf("\n");
 	ft_printf("Available parameters:\n");
 	ft_printf("  Mandelbrot		Generate the Mandelbrot set.\n");
-	ft_printf("  Julia			 "
-		"Generate the Julia set with default parameters (0.355, 0.355).\n");
-	ft_printf("  Julia <x> <y> "
+	ft_printf("  Julia			"
+		"Generate the Julia set with default parameters (0.4, -0.6).\n");
+	ft_printf("  Julia <x> <y>		"
 		"Generate the Julia set with custom parameters <x> and <y>.\n");
 	ft_printf("\n");
 	ft_printf("Example usage:\n");
