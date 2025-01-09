@@ -19,7 +19,6 @@ SRCS	:=	ft_printf.c \
 			ft_printf_p.c \
 			ft_printf_u.c \
 			ft_printf_i.c \
-			ft_printf_f.c \
 			ft_printf_percent.c \
 			ft_convert_to_base.c \
 
