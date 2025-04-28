@@ -1,0 +1,3 @@
+[submodule "minsh"]
+	path = minsh
+	url = git@github.com:codam-minishell-team/minsh.git
