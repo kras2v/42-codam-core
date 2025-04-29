@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/04/28 22:31:40 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:01:47 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ typedef enum e_state
 	DIE,
 	EAT,
 	SLEEP,
-	THINK
+	THINK,
+	FULL,
+	FORK
 } t_state;
 
 typedef struct s_fork
 {
+	pthread_mutex_t	mutex;
 	unsigned int	number;
 	bool			locked;
 } t_fork;
@@ -53,30 +56,31 @@ typedef struct s_philo_params
 
 typedef struct s_philo
 {
-	t_philo_params	params;
+	pthread_t		thread;
 	unsigned int	number;
+	t_state			state;
+	t_philo_params	params;
 	long			last_meal;
+	bool			*everyone_at_the_table;
+	bool			*is_someone_dead;
 	t_fork			*left_fork;
 	t_fork			*right_fork;
-	pthread_mutex_t	*left_fork_mutex;
-	pthread_mutex_t	*right_fork_mutex;
-	t_fork			*forks;
-	pthread_mutex_t	*forks_mutex;
-	pthread_t		thread;
-	bool			*everyone_at_the_table;
+	unsigned int	meals;
 	pthread_mutex_t	*print_state_mutex;
-	t_state			state;
+	pthread_mutex_t	*death_checker_mutex;
+	pthread_mutex_t	*meals_checker_mutex;
 }	t_philo;
 
 typedef struct s_philo_routine
 {
 	t_fork			*forks;
-	pthread_mutex_t	*forks_mutex;
 	t_philo			*philos;
-	pthread_mutex_t	portions_eaten_mutex;
-	pthread_mutex_t	print_state_mutex;
-	unsigned int	portions_eaten;
+	// long			start_time;
+	bool			is_someone_dead;
 	bool			everyone_at_the_table;
+	pthread_mutex_t	death_checker_mutex;
+	pthread_mutex_t	meals_checker_mutex;
+	pthread_mutex_t	print_state_mutex;
 }	t_philo_routine;
 
 long	ft_validate_number_input(char *string);
