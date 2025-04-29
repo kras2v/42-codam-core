@@ -1,2 +1,2 @@
 #!/bin/bash
-ARG=$1 && make && ./philo $ARG && make fclean 
+ARG=$1 && make && ./philo $ARG && make fclean

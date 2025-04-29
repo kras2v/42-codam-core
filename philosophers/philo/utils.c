@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 18:46:53 by valeriia          #+#    #+#             */
-/*   Updated: 2025/04/29 13:55:26 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/04/29 22:30:48 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	ft_cleanup_philos(t_philo *philos)
 	}
 }
 
-void	ft_cleanup_forks(t_philo_routine *routine, size_t	number_of_philosophers)
+void	ft_cleanup_forks(t_monitor *routine, size_t	number_of_philosophers)
 {
 	size_t	i;
 
@@ -130,11 +130,10 @@ void	ft_cleanup_forks(t_philo_routine *routine, size_t	number_of_philosophers)
 	}
 }
 
-void	ft_cleanup_routine(t_philo_routine *routine)
+void	ft_cleanup_waiter(t_monitor *routine)
 {
 	ft_cleanup_forks(routine, routine->philos->params.number_of_philosophers);
 	ft_cleanup_philos(routine->philos);
-	pthread_mutex_destroy(&routine->meals_checker_mutex);
 	pthread_mutex_destroy(&routine->print_state_mutex);
-	pthread_mutex_destroy(&routine->death_checker_mutex);
+	pthread_mutex_destroy(&routine->critical_region_mtx);
 }

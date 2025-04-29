@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/04/29 16:01:47 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/04/29 22:44:33 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,22 @@
 #	define OK 0
 #	define FAIL 1
 
-typedef enum e_state
+typedef enum	e_state
 {
-	DIE,
-	EAT,
-	SLEEP,
-	THINK,
-	FULL,
-	FORK
+	DIED,
+	EATING,
+	SLEEPING,
+	THINKING,
+	HUNGRY,
+	GOTFORK,
+	FINISH
 } t_state;
+
+typedef enum	e_pthread_kind
+{
+	WAITER,
+	PHILOSOPHER
+}	t_pthread_kind;
 
 typedef struct s_fork
 {
@@ -61,31 +68,32 @@ typedef struct s_philo
 	t_state			state;
 	t_philo_params	params;
 	long			last_meal;
-	bool			*everyone_at_the_table;
-	bool			*is_someone_dead;
 	t_fork			*left_fork;
 	t_fork			*right_fork;
 	unsigned int	meals;
-	pthread_mutex_t	*print_state_mutex;
-	pthread_mutex_t	*death_checker_mutex;
-	pthread_mutex_t	*meals_checker_mutex;
 }	t_philo;
 
-typedef struct s_philo_routine
+typedef struct s_request
+{
+	t_philo			*philo;
+} t_request;
+
+typedef struct s_monitor
 {
 	t_fork			*forks;
 	t_philo			*philos;
 	// long			start_time;
-	bool			is_someone_dead;
-	bool			everyone_at_the_table;
+	bool			*is_someone_dead;
+	bool			*everyone_at_the_table;
 	pthread_mutex_t	death_checker_mutex;
-	pthread_mutex_t	meals_checker_mutex;
+	pthread_mutex_t	everyone_at_the_table_mutex;
+	pthread_mutex_t	critical_region_mtx;
 	pthread_mutex_t	print_state_mutex;
-}	t_philo_routine;
+}	t_monitor;
 
 long	ft_validate_number_input(char *string);
 
-void	ft_cleanup_routine(t_philo_routine *routine);
+void	ft_cleanup_waiter(t_monitor *routine);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_calculate_num_len(int number);
 bool	ft_isanum(char character);
