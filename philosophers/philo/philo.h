@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/04/29 22:44:33 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:56:53 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@
 
 typedef enum	e_state
 {
-	DIED,
 	EATING,
 	SLEEPING,
 	THINKING,
 	HUNGRY,
 	GOTFORK,
-	FINISH
+	PUTFORK,
+	FINISH,
+	DIED,
+	FULL,
 } t_state;
 
 typedef enum	e_pthread_kind
@@ -85,6 +87,8 @@ typedef struct s_monitor
 	// long			start_time;
 	bool			*is_someone_dead;
 	bool			*everyone_at_the_table;
+	pthread_mutex_t	giveafork_mutex;
+	pthread_mutex_t	putafork_mutex;
 	pthread_mutex_t	death_checker_mutex;
 	pthread_mutex_t	everyone_at_the_table_mutex;
 	pthread_mutex_t	critical_region_mtx;
