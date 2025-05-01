@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:18:25 by valeriia          #+#    #+#             */
-/*   Updated: 2025/05/01 13:17:57 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:55:46 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ int	ft_assign_philo_params(char **argv, t_philo_params *philo_params)
 			philo_params->number_of_times_each_philosopher_must_eat = result;
 		i++;
 	}
+	long diff = (long)philo_params->time_to_die - ((long)philo_params->time_to_eat + (long)philo_params->time_to_sleep);
+	if (diff <= 10)
+	{
+		philo_params->sleep_gap = (diff - 3) / 2;
+		if (philo_params->sleep_gap < 0)
+		{
+			philo_params->sleep_gap = 0;
+		}
+		philo_params->sleep_gap *= 1000;
+	}
+	else
+	{
+		philo_params->sleep_gap = 10000;
+	}
 	ft_print_philo_params(*philo_params);
 	return (OK);
 }
@@ -81,18 +95,19 @@ void	print_state(t_philo *philo)
 		saved_monitor = set_and_get_monitor(NULL);
 		return ;
 	}
+	
 	pthread_mutex_lock(&(saved_monitor->print_state_mutex));
 	if (philo->state == THINKING)
 	{
-		printf("%ld %d is thinking\n", get_current_time(), philo->number);
+		printf(BLUE"%ld %d is thinking\n"RESET, get_current_time(), philo->number);
 	}
 	else if (philo->state == EATING)
 	{
-		printf("%ld %d is eating\n", get_current_time(), philo->number);
+		printf(RED"%ld %d is eating\n"RESET, get_current_time(), philo->number);
 	}
 	else if (philo->state == SLEEPING)
 	{
-		printf("%ld %d is sleeping\n", get_current_time(), philo->number);
+		printf(GREEN"%ld %d is sleeping\n"RESET, get_current_time(), philo->number);
 	}
 	else if (philo->state == DIED)
 	{
@@ -100,11 +115,11 @@ void	print_state(t_philo *philo)
 	}
 	else if (philo->state == GOTFORK)
 	{
-		printf("%ld %d has taken a fork\n", get_current_time(), philo->number);
+		printf(YELLOW"%ld %d has taken a fork\n"RESET, get_current_time(), philo->number);
 	}
 	else if (philo->state == PUTFORK)
 	{
-		printf("%ld %d PUT FORK\n", get_current_time(), philo->number);
+		printf(YELLOW"%ld %d PUT FORK\n"RESET, get_current_time(), philo->number);
 	}
 	pthread_mutex_unlock(&(saved_monitor->print_state_mutex));
 }
@@ -181,12 +196,10 @@ void	check_if_available(unsigned int philo_number)
 		saved_monitor = set_and_get_monitor(NULL);
 		return ;
 	}
-	pthread_mutex_lock(&(saved_monitor->check_fork_mutex));
 	if (saved_monitor->philos[philo_number - 1].state == HUNGRY
 		&& saved_monitor->philos[right_nbr_i(saved_monitor->philos[philo_number - 1]) - 1].state != EATING
 		&& saved_monitor->philos[left_nbr_i(saved_monitor->philos[philo_number - 1]) - 1].state != EATING)
 	{
-		pthread_mutex_unlock(&(saved_monitor->check_fork_mutex));
 		check_death(&(saved_monitor->philos[philo_number - 1]));
 		if (saved_monitor->philos[philo_number - 1].state == FINISH)
 		{
@@ -195,13 +208,11 @@ void	check_if_available(unsigned int philo_number)
 
 		pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
 		saved_monitor->philos[philo_number - 1].left_fork->locked = true;
-		printf("took left fork %d\n", philo_number);
+		// printf("took left fork %d\n", philo_number); 
 		pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
 
-		pthread_mutex_lock(&(saved_monitor->check_fork_mutex));
 		saved_monitor->philos[philo_number - 1].state = GOTFORK;
 		print_state(&(saved_monitor->philos[philo_number - 1]));
-		pthread_mutex_unlock(&(saved_monitor->check_fork_mutex));
 
 		check_death(&(saved_monitor->philos[philo_number - 1]));
 		if (saved_monitor->philos[philo_number - 1].state == FINISH)
@@ -222,13 +233,11 @@ void	check_if_available(unsigned int philo_number)
 
 		pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
 		saved_monitor->philos[philo_number - 1].right_fork->locked = true;
-		printf("took right fork %d\n", philo_number);
+		// printf("took right fork %d\n", philo_number);
 		pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
 		
-		pthread_mutex_lock(&(saved_monitor->check_fork_mutex));
 		print_state(&(saved_monitor->philos[philo_number - 1]));
 		saved_monitor->philos[philo_number - 1].state = GOTFORK;
-		pthread_mutex_unlock(&(saved_monitor->check_fork_mutex));
 
 		check_death(&(saved_monitor->philos[philo_number - 1]));
 		if (saved_monitor->philos[philo_number - 1].state == FINISH)
@@ -250,56 +259,51 @@ void	take_fork(unsigned int philo_number)
 		return;
 	}
 	check_death(&(saved_monitor->philos[philo_number - 1]));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
 	if (saved_monitor->philos[philo_number - 1].state == FINISH)
 	{
-		pthread_mutex_unlock(&(saved_monitor->philos[philo_number -1].left_fork->mutex));
 		return ;
 	}
 	saved_monitor->philos[philo_number - 1].state = HUNGRY;
-	printf("tries take fork %d\n", philo_number);
+	// printf("tries take fork %d\n", philo_number);
 	while (true)
 	{
-		pthread_mutex_lock(&(saved_monitor->philos[philo_number -1].left_fork->mutex));
-		if (saved_monitor->philos[philo_number - 1].left_fork->locked == false)
-		{
-			pthread_mutex_unlock(&(saved_monitor->philos[philo_number -1].left_fork->mutex));
-			break;
-		}
-		pthread_mutex_unlock(&(saved_monitor->philos[philo_number -1].left_fork->mutex));
 		check_death(&(saved_monitor->philos[philo_number - 1]));
 		if (saved_monitor->philos[philo_number - 1].state == FINISH)
 		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
 			return ;
 		}
+		pthread_mutex_lock(&(saved_monitor->giveafork_mutex));
+		if (saved_monitor->philos[philo_number - 1].left_fork->locked == false)
+		{
+			pthread_mutex_unlock(&(saved_monitor->giveafork_mutex));
+			break;
+		}
+		pthread_mutex_unlock(&(saved_monitor->giveafork_mutex));
 		usleep(1000);
 	}
 	while (true)
 	{
-		pthread_mutex_lock(&(saved_monitor->philos[philo_number -1].right_fork->mutex));
-		if (saved_monitor->philos[philo_number - 1].right_fork->locked == false)
-		{
-			pthread_mutex_unlock(&(saved_monitor->philos[philo_number -1].right_fork->mutex));
-			break;
-		}
-		pthread_mutex_unlock(&(saved_monitor->philos[philo_number -1].right_fork->mutex));
 		check_death(&(saved_monitor->philos[philo_number - 1]));
 		if (saved_monitor->philos[philo_number - 1].state == FINISH)
 		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
 			return ;
 		}
+		pthread_mutex_lock(&(saved_monitor->giveafork_mutex));
+		if (saved_monitor->philos[philo_number - 1].right_fork->locked == false)
+		{
+			pthread_mutex_unlock(&(saved_monitor->giveafork_mutex));
+			break;
+		}
+		pthread_mutex_unlock(&(saved_monitor->giveafork_mutex));
 		usleep(1000);
 	}
 	check_death(&(saved_monitor->philos[philo_number - 1]));
 	if (saved_monitor->philos[philo_number - 1].state == FINISH)
 	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
 		return ;
 	}
+	// printf("waited until getting fork %d\n", philo_number);
 	check_if_available(philo_number);
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
 }
 
 bool	wait_until_start_eating()
@@ -328,11 +332,21 @@ bool	wait_until_start_eating()
 
 void	eat(t_philo *philo)
 {
+	check_death(philo);
+	if (philo->state == FINISH)
+	{
+		return ;
+	}
 	print_state(philo);
 	// printf("eat ->%d<-\n", philo->number);
 	philo->meals++;
 	philo->last_meal = get_current_time();
 	usleep(1000 * philo->params.time_to_eat);
+	check_death(philo);
+	if (philo->state == FINISH)
+	{
+		return ;
+	}
 }
 
 void	psleep(t_philo *philo)
@@ -345,7 +359,11 @@ void	psleep(t_philo *philo)
 	}
 	print_state(philo);
 	usleep(1000 * philo->params.time_to_sleep);
-	usleep(10000);
+	check_death(philo);
+	if (philo->state == FINISH)
+	{
+		return ;
+	}
 }
 
 void	think(t_philo *philo)
@@ -355,8 +373,25 @@ void	think(t_philo *philo)
 	{
 		return ;
 	}
-	philo->state = THINKING;
-	print_state(philo);
+	if (philo->state == SLEEPING)
+	{
+		philo->state = THINKING;
+		print_state(philo);
+		pthread_mutex_lock(&(philo->left_fork->mutex));
+		if (philo->params.sleep_gap != 0)
+			usleep(philo->params.sleep_gap);
+		pthread_mutex_unlock(&(philo->left_fork->mutex));
+	}
+	else
+	{
+		philo->state = THINKING;
+		print_state(philo);
+	}
+	check_death(philo);
+	if (philo->state == FINISH)
+	{
+		return ;
+	}
 }
 
 void	put_forks(unsigned int philo_number)
@@ -368,19 +403,26 @@ void	put_forks(unsigned int philo_number)
 		saved_monitor = set_and_get_monitor(NULL);
 		return;
 	}
-	saved_monitor->philos[philo_number - 1].state = PUTFORK;
-	print_state(&(saved_monitor->philos[philo_number - 1]));
 
 	pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
+	saved_monitor->philos[philo_number - 1].state = PUTFORK;
+	print_state(&saved_monitor->philos[philo_number - 1]);
 	saved_monitor->philos[philo_number - 1].left_fork->locked = false;
 	pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
 
+
 	pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
+	saved_monitor->philos[philo_number - 1].state = PUTFORK;
+	print_state(&saved_monitor->philos[philo_number - 1]);
 	saved_monitor->philos[philo_number - 1].right_fork->locked = false;
 	pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
 
-	saved_monitor->philos[philo_number - 1].state = PUTFORK;
-	print_state(&(saved_monitor->philos[philo_number - 1]));
+	check_death(&(saved_monitor->philos[philo_number - 1]));
+	if (saved_monitor->philos[philo_number - 1].state == FINISH)
+	{
+		return ;
+	}
+	// usleep(1000);
 }
 
 void	*routine(void *arg)

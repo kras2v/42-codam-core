@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 18:47:09 by valeriia          #+#    #+#             */
-/*   Updated: 2025/04/28 18:47:24 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:16:19 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ void	ft_print_philo_params(t_philo_params philo_params)
 		"time_to_die:                                   %d\n"
 		"time_to_eat:                                   %d\n"
 		"time_to_sleep:                                 %d\n"
+		"sleep_gap:                                     %ld\n"
 		"[number_of_times_each_philosopher_must_eat]:   %ld\n\n" RESET,
 	philo_params.number_of_philosophers,
 	philo_params.time_to_die,
 	philo_params.time_to_eat,
 	philo_params.time_to_sleep,
+	philo_params.sleep_gap,
 	philo_params.number_of_times_each_philosopher_must_eat);
 }
