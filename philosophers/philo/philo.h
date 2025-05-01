@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/04/30 13:56:53 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:43:42 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_monitor
 	pthread_mutex_t	death_checker_mutex;
 	pthread_mutex_t	everyone_at_the_table_mutex;
 	pthread_mutex_t	critical_region_mtx;
+	pthread_mutex_t	check_fork_mutex;
 	pthread_mutex_t	print_state_mutex;
 }	t_monitor;
 
