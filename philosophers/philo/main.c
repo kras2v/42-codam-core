@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:18:25 by valeriia          #+#    #+#             */
-/*   Updated: 2025/05/01 17:55:46 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/05/02 09:58:55 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	print_state(t_philo *philo)
 	}
 	else if (philo->state == PUTFORK)
 	{
-		printf(YELLOW"%ld %d PUT FORK\n"RESET, get_current_time(), philo->number);
+		// printf(YELLOW"%ld %d PUT FORK\n"RESET, get_current_time(), philo->number);
 	}
 	pthread_mutex_unlock(&(saved_monitor->print_state_mutex));
 }
@@ -279,7 +279,7 @@ void	take_fork(unsigned int philo_number)
 			break;
 		}
 		pthread_mutex_unlock(&(saved_monitor->giveafork_mutex));
-		usleep(1000);
+		usleep(100);
 	}
 	while (true)
 	{
@@ -295,7 +295,7 @@ void	take_fork(unsigned int philo_number)
 			break;
 		}
 		pthread_mutex_unlock(&(saved_monitor->giveafork_mutex));
-		usleep(1000);
+		usleep(100);
 	}
 	check_death(&(saved_monitor->philos[philo_number - 1]));
 	if (saved_monitor->philos[philo_number - 1].state == FINISH)

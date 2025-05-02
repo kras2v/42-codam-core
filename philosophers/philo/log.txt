@@ -1,0 +1,97 @@
+[1;34m
+number_of_philosophers:                        4
+time_to_die:                                   410
+time_to_eat:                                   200
+time_to_sleep:                                 100
+sleep_gap:                                     10000
+[number_of_times_each_philosopher_must_eat]:   -42
+
+[0mphilo 1 left 1 right 2
+philo 2 left 2 right 3
+philo 3 left 3 right 4
+philo 4 left 4 right 1
+[1;34m1746173271524 2 is thinking
+[0m[1;34m1746173271524 1 is thinking
+[0m[0;33m1746173271524 1 has taken a fork
+[0m[0;33m1746173271524 1 has taken a fork
+[0m[0;31m1746173271524 1 is eating
+[0m[1;34m1746173271524 3 is thinking
+[0m[0;33m1746173271524 3 has taken a fork
+[0m[0;33m1746173271524 3 has taken a fork
+[0m[0;31m1746173271524 3 is eating
+[0m[1;34m1746173271524 4 is thinking
+[0m[0;32m1746173271724 1 is sleeping
+[0m[0;32m1746173271724 3 is sleeping
+[0m[0;33m1746173271730 4 has taken a fork
+[0m[0;33m1746173271730 4 has taken a fork
+[0m[0;31m1746173271730 4 is eating
+[0m[0;33m1746173271730 2 has taken a fork
+[0m[0;33m1746173271730 2 has taken a fork
+[0m[0;31m1746173271730 2 is eating
+[0m[1;34m1746173271824 3 is thinking
+[0m[1;34m1746173271824 1 is thinking
+[0m[0;32m1746173271930 4 is sleeping
+[0m[0;32m1746173271930 2 is sleeping
+[0m[0;33m1746173271930 1 has taken a fork
+[0m[0;33m1746173271930 1 has taken a fork
+[0m[0;31m1746173271930 1 is eating
+[0m[0;33m1746173271931 3 has taken a fork
+[0m[0;33m1746173271931 3 has taken a fork
+[0m[0;31m1746173271931 3 is eating
+[0m[1;34m1746173272030 4 is thinking
+[0m[1;34m1746173272031 2 is thinking
+[0m[0;32m1746173272131 1 is sleeping
+[0m[0;32m1746173272131 3 is sleeping
+[0m[0;33m1746173272131 2 has taken a fork
+[0m[0;33m1746173272131 2 has taken a fork
+[0m[0;31m1746173272131 2 is eating
+[0m[0;33m1746173272131 4 has taken a fork
+[0m[0;33m1746173272131 4 has taken a fork
+[0m[0;31m1746173272131 4 is eating
+[0m[1;34m1746173272231 1 is thinking
+[0m[1;34m1746173272231 3 is thinking
+[0m[0;32m1746173272331 2 is sleeping
+[0m[0;32m1746173272331 4 is sleeping
+[0m[0;33m1746173272331 3 has taken a fork
+[0m[0;33m1746173272331 3 has taken a fork
+[0m[0;31m1746173272331 3 is eating
+[0m[0;33m1746173272331 1 has taken a fork
+[0m[0;33m1746173272331 1 has taken a fork
+[0m[0;31m1746173272331 1 is eating
+[0m[1;34m1746173272431 4 is thinking
+[0m[1;34m1746173272431 2 is thinking
+[0m[0;32m1746173272531 1 is sleeping
+[0m[0;32m1746173272531 3 is sleeping
+[0m[0;33m1746173272531 4 has taken a fork
+[0m[0;33m1746173272531 4 has taken a fork
+[0m[0;31m1746173272531 4 is eating
+[0m[0;33m1746173272531 2 has taken a fork
+[0m[0;33m1746173272531 2 has taken a fork
+[0m[0;31m1746173272531 2 is eating
+[0m[1;34m1746173272631 3 is thinking
+[0m[1;34m1746173272631 1 is thinking
+[0m[0;32m1746173272731 4 is sleeping
+[0m[0;32m1746173272731 2 is sleeping
+[0m[0;33m1746173272731 3 has taken a fork
+[0m[0;33m1746173272731 3 has taken a fork
+[0m[0;31m1746173272731 3 is eating
+[0m[0;33m1746173272731 1 has taken a fork
+[0m[0;33m1746173272731 1 has taken a fork
+[0m[0;31m1746173272731 1 is eating
+[0m[1;34m1746173272832 4 is thinking
+[0m[1;34m1746173272832 2 is thinking
+[0m[0;32m1746173272931 3 is sleeping
+[0m[0;32m1746173272931 1 is sleeping
+[0m[0;33m1746173272931 4 has taken a fork
+[0m[0;33m1746173272931 4 has taken a fork
+[0m[0;31m1746173272931 4 is eating
+[0m[0;33m1746173272932 2 has taken a fork
+[0m[0;33m1746173272932 2 has taken a fork
+[0m[0;31m1746173272932 2 is eating
+[0m[1;34m1746173273031 3 is thinking
+[0m[1;34m1746173273032 1 is thinking
+[0m[0;32m1746173273132 4 is sleeping
+[0m[0;32m1746173273132 2 is sleeping
+[0m[0;33m1746173273132 3 has taken a fork
+[0m[0;33m1746173273132 3 has taken a fork
+[0m[0;31m1746173273132 3 is eatin
