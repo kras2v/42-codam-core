@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 18:46:53 by valeriia          #+#    #+#             */
-/*   Updated: 2025/04/29 22:30:48 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:05:23 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,13 @@ void	ft_cleanup_forks(t_monitor *routine, size_t	number_of_philosophers)
 	}
 }
 
-void	ft_cleanup_waiter(t_monitor *routine)
+void	ft_cleanup_waiter(t_monitor *monitor)
 {
-	ft_cleanup_forks(routine, routine->philos->params.number_of_philosophers);
-	ft_cleanup_philos(routine->philos);
-	pthread_mutex_destroy(&routine->print_state_mutex);
-	pthread_mutex_destroy(&routine->critical_region_mtx);
+	ft_cleanup_forks(monitor, monitor->philos->params.number_of_philosophers);
+	ft_cleanup_philos(monitor->philos);
+	pthread_mutex_destroy(&monitor->print_state_mutex);
+	pthread_mutex_destroy(&monitor->critical_region_mtx);
+	pthread_mutex_destroy(&monitor->death_checker_mutex);
+	pthread_mutex_destroy(&monitor->check_fork_mutex);
+	free(monitor);
 }

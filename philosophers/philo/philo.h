@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/05/01 15:55:42 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:04:31 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,11 @@ typedef struct s_monitor
 	t_fork			*forks;
 	t_philo			*philos;
 	// long			start_time;
-	bool			*is_someone_dead;
-	bool			*everyone_at_the_table;
-	pthread_mutex_t	giveafork_mutex;
-	pthread_mutex_t	putafork_mutex;
-	pthread_mutex_t	death_checker_mutex;
-	pthread_mutex_t	everyone_at_the_table_mutex;
-	pthread_mutex_t	critical_region_mtx;
+	bool			is_someone_dead;
+	bool			everyone_at_the_table;
 	pthread_mutex_t	check_fork_mutex;
+	pthread_mutex_t	critical_region_mtx;
+	pthread_mutex_t	death_checker_mutex;
 	pthread_mutex_t	print_state_mutex;
 }	t_monitor;
 
