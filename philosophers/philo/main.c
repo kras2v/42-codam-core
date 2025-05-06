@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:18:25 by valeriia          #+#    #+#             */
-/*   Updated: 2025/05/05 15:10:15 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:48:51 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_init_philo_params(t_philo_params *philo_params)
 	philo_params->time_to_die = 0;
 	philo_params->time_to_eat = 0;
 	philo_params->time_to_sleep = 0;
-	philo_params->number_of_times_each_philosopher_must_eat = -42;
+	philo_params->number_of_times_each_philosopher_must_eat = NOTSET;
 }
 
 unsigned int	get_max(unsigned int first, unsigned int second)
@@ -28,10 +28,32 @@ unsigned int	get_max(unsigned int first, unsigned int second)
 	return (second);
 }
 
+void	ft_get_sleep_gap_and_fork_retry_time(t_philo_params *philo_params)
+{
+	long	diff;
+	long	max_value;
+	int		uneven;
+
+	max_value = (long)get_max(philo_params->time_to_eat, philo_params->time_to_sleep);
+	uneven = philo_params->number_of_philosophers % 2 == 1;
+	diff = (long)philo_params->time_to_die - max_value * (2 + uneven);
+	if (diff <= 10)
+	{
+		philo_params->sleep_gap = diff / 4;
+		if (philo_params->sleep_gap < 0)
+			philo_params->sleep_gap = 0;
+	}
+	else
+	{
+		philo_params->sleep_gap = 10;
+	}
+	philo_params->sleep_gap *= 1000;
+	philo_params->ask_fork_retry = philo_params->sleep_gap / 10;
+}
+
 int	ft_assign_philo_params(char **argv, t_philo_params *philo_params)
 {
 	long			result;
-	long			diff;
 	size_t			i;
 
 	i = 0;
@@ -53,23 +75,7 @@ int	ft_assign_philo_params(char **argv, t_philo_params *philo_params)
 			philo_params->number_of_times_each_philosopher_must_eat = result;
 		i++;
 	}
-	if (philo_params->number_of_philosophers % 2 == 0)
-		diff = (long)philo_params->time_to_die - (long)get_max(philo_params->time_to_eat, philo_params->time_to_sleep) * 2;
-	else
-		diff = (long)philo_params->time_to_die - (long)get_max(philo_params->time_to_eat, philo_params->time_to_sleep) * 3;
-	if (diff <= 10)
-	{
-		philo_params->sleep_gap = diff / 4;
-		if (philo_params->sleep_gap < 0)
-		{
-			philo_params->sleep_gap = 0;
-		}
-		philo_params->sleep_gap *= 1000;
-	}
-	else
-	{
-		philo_params->sleep_gap = 10000;
-	}
+	ft_get_sleep_gap_and_fork_retry_time(philo_params);
 	ft_print_philo_params(*philo_params);
 	return (OK);
 }
@@ -82,7 +88,7 @@ long	get_current_time()
 	return (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 }
 
-t_monitor	*set_and_get_monitor(t_monitor *monitor)
+t_monitor	*save_monitor(t_monitor *monitor)
 {
 	static t_monitor	*saved_monitor;
 
@@ -97,121 +103,155 @@ t_monitor	*set_and_get_monitor(t_monitor *monitor)
 	return (saved_monitor);
 }
 
-void	print_state(t_philo *philo)
+int	get_monitor(t_monitor **saved_monitor)
+{
+	if (saved_monitor && (*saved_monitor) == NULL)
+	{
+		(*saved_monitor) = save_monitor(NULL);
+		return (1);
+	}
+	return (0);
+}
+
+t_state	get_current_philo_state(unsigned int philo_number)
+{
+	static t_monitor	*saved_monitor;
+	t_state	state;
+
+	get_monitor(&saved_monitor);
+	pthread_mutex_lock(&(saved_monitor->monitor_mutex));
+	state = saved_monitor->philos[philo_number - 1].state;
+	pthread_mutex_unlock(&(saved_monitor->monitor_mutex));
+	return (state);
+}
+
+t_state	is_fork_released(t_fork *fork)
+{
+	static t_monitor	*saved_monitor;
+	bool				locked;
+
+	get_monitor(&saved_monitor);
+	pthread_mutex_lock(&(fork->mutex));
+	locked = fork->locked;
+	pthread_mutex_unlock(&(fork->mutex));
+	if (locked == false)
+	{
+		return (true);
+	}
+	return (false);
+}
+
+void	show_philo_action(unsigned int philo_number, char *msg)
+{
+	static t_monitor	*saved_monitor;
+
+	get_monitor(&saved_monitor);
+	printf("%ld %d %s\n", get_current_time(), saved_monitor->philos[philo_number - 1].number, msg);
+}
+
+void	print_state(unsigned int philo_number)
 {
 	static t_monitor	*saved_monitor;
 	t_state				state;
 
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
-		return ;
-	}
-
+	get_monitor(&saved_monitor);
 	pthread_mutex_lock(&(saved_monitor->print_state_mutex));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	state = philo->state;
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+	state = get_current_philo_state(philo_number);
 	if (state == THINKING)
-	{
-		printf("%ld %d is thinking\n", get_current_time(), philo->number);
-	}
+		show_philo_action(philo_number, GREEN"is thinking"RESET);
 	else if (state == EATING)
-	{
-		printf("%ld %d is eating\n", get_current_time(), philo->number);
-	}
+		show_philo_action(philo_number, YELLOW"is eating"RESET);
 	else if (state == SLEEPING)
-	{
-		printf("%ld %d is sleeping\n", get_current_time(), philo->number);
-	}
+		show_philo_action(philo_number, BLUE"is sleeping"RESET);
 	else if (state == DIED)
-	{
-		printf("%ld %d died\n", get_current_time(), philo->number);
-	}
+		show_philo_action(philo_number, RED"died"RESET);
 	else if (state == GOTFORK)
-	{
-		printf("%ld %d has taken a fork\n", get_current_time(), philo->number);
-	}
+		show_philo_action(philo_number, MAGENTA"has taken a fork"RESET);
 	pthread_mutex_unlock(&(saved_monitor->print_state_mutex));
 }
 
-void	check_death(t_philo *philo)
+void	check_death(unsigned int philo_number)
 {
 	static t_monitor	*saved_monitor;
 	size_t				i;
 
-	if (saved_monitor == NULL)
+	get_monitor(&saved_monitor);
+	if (saved_monitor->philos[philo_number - 1].params.time_to_die <= get_current_time() - saved_monitor->philos[philo_number - 1].last_meal)
 	{
-		saved_monitor = set_and_get_monitor(NULL);
-		return ;
-	}
-
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->is_someone_dead == true)
-	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		return ;
-	}
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-	if (philo->params.time_to_die <= get_current_time() - philo->last_meal)
-	{
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		philo->state = DIED;
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
+		pthread_mutex_lock(&(saved_monitor->monitor_mutex));
+		saved_monitor->philos[philo_number - 1].state = DIED;
 		saved_monitor->is_someone_dead = true;
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-		print_state(philo);
-
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
+		pthread_mutex_unlock(&(saved_monitor->monitor_mutex));
+		print_state(saved_monitor->philos[philo_number - 1].number);
+		pthread_mutex_lock(&(saved_monitor->monitor_mutex));
 		i = 0;
-		while (i < philo->params.number_of_philosophers)
+		while (i < saved_monitor->philos[philo_number - 1].params.number_of_philosophers)
 		{
 			(saved_monitor->philos[i]).state = FINISH;
 			i++;
 		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+		pthread_mutex_unlock(&(saved_monitor->monitor_mutex));
 	}
 }
 
-void	check_meal(t_philo *philo)
+void	check_meal(unsigned int philo_number)
 {
 	static t_monitor	*saved_monitor;
 
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
-		return ;
-	}
-	if (philo->params.number_of_times_each_philosopher_must_eat == -42)
+	get_monitor(&saved_monitor);
+	if (saved_monitor->philos[philo_number - 1].params.number_of_times_each_philosopher_must_eat == NOTSET)
 	{
 		return ;
 	}
-	if (philo->params.number_of_times_each_philosopher_must_eat <= philo->meals)
+	if (saved_monitor->philos[philo_number - 1].params.number_of_times_each_philosopher_must_eat <= saved_monitor->philos[philo_number - 1].meals)
 	{
-		pthread_mutex_lock(&(saved_monitor->death_checker_mutex));
-		philo->state = FULL;
-		pthread_mutex_unlock(&(saved_monitor->death_checker_mutex));
+		pthread_mutex_lock(&(saved_monitor->monitor_mutex));
+		saved_monitor->philos[philo_number - 1].state = FULL;
+		pthread_mutex_unlock(&(saved_monitor->monitor_mutex));
 	}
 }
 
-int	left_nbr_i(t_philo philo)
+int	is_dinner_finished(unsigned int philo_number)
 {
-	if (philo.number == 1)
-		return (philo.params.number_of_philosophers);
-	else
-		return (philo.number - 1);
+	t_state				state;
+
+	check_death(philo_number);
+	state = get_current_philo_state(philo_number);
+	if (state == FINISH)
+		return (true);
+	return (false);
 }
 
-int	right_nbr_i(t_philo philo)
+void	change_fork_state(t_fork *fork, bool locked)
 {
-	if (philo.number == philo.params.number_of_philosophers)
-		return (1);
-	else
-		return (philo.number + 1);
+	pthread_mutex_lock(&(fork->mutex));
+	fork->locked = locked;
+	pthread_mutex_unlock(&(fork->mutex));
+}
+
+void	change_philo_state(unsigned int philo_number, t_state state)
+{
+	static t_monitor	*saved_monitor;
+
+	get_monitor(&saved_monitor);
+	pthread_mutex_lock(&(saved_monitor->monitor_mutex));
+	saved_monitor->philos[philo_number - 1].state = state;
+	pthread_mutex_unlock(&(saved_monitor->monitor_mutex));
+}
+
+int	protect_from_one_philo_table(unsigned int philo_number)
+{
+	static t_monitor	*saved_monitor;
+
+	get_monitor(&saved_monitor);
+	while (saved_monitor->philos[philo_number - 1].left_fork->number
+		==  saved_monitor->philos[philo_number - 1].right_fork->number)
+	{
+		usleep(1000);
+		if (is_dinner_finished(philo_number))
+			return (1);
+	}
+	return (0);
 }
 
 void	check_if_available(unsigned int philo_number)
@@ -219,79 +259,42 @@ void	check_if_available(unsigned int philo_number)
 	static t_monitor	*saved_monitor;
 	bool				is_legable_to_eat;
 
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
-		return ;
-	}
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	is_legable_to_eat = saved_monitor->philos[philo_number - 1].state == HUNGRY
-	&& saved_monitor->philos[right_nbr_i(saved_monitor->philos[philo_number - 1]) - 1].state != EATING
-	&& saved_monitor->philos[left_nbr_i(saved_monitor->philos[philo_number - 1]) - 1].state != EATING;
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+	get_monitor(&saved_monitor);
+	is_legable_to_eat = get_current_philo_state(philo_number) == HUNGRY;
 	if (is_legable_to_eat)
 	{
-		check_death(&(saved_monitor->philos[philo_number - 1]));
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (saved_monitor->philos[philo_number - 1].state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+		if (protect_from_one_philo_table(philo_number))
 			return ;
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-
-		pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
-		saved_monitor->philos[philo_number - 1].left_fork->locked = true;
-		// printf("took left fork %d\n", philo_number); 
-		pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
-
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		saved_monitor->philos[philo_number - 1].state = GOTFORK;
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-		print_state(&(saved_monitor->philos[philo_number - 1]));
-
-		check_death(&(saved_monitor->philos[philo_number - 1]));
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (saved_monitor->philos[philo_number - 1].state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+		if (is_dinner_finished(philo_number))
 			return ;
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-		while (saved_monitor->philos[philo_number - 1].left_fork->number
-			==  saved_monitor->philos[philo_number - 1].right_fork->number)
-		{
-			usleep(1000);
-			check_death(&(saved_monitor->philos[philo_number - 1]));
-			if (saved_monitor->philos[philo_number - 1].state == FINISH)
-			{
-				return ;
-			}
-		}
-
+		change_fork_state(saved_monitor->philos[philo_number - 1].left_fork, true);
+		change_philo_state(philo_number, GOTFORK);
+		print_state(philo_number);
+		if (is_dinner_finished(philo_number))
+			return ;
 		pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
 		saved_monitor->philos[philo_number - 1].right_fork->locked = true;
-		// printf("took right fork %d\n", philo_number);
 		pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
-	
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		saved_monitor->philos[philo_number - 1].state = GOTFORK;
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-		print_state(&(saved_monitor->philos[philo_number - 1]));
-
-		check_death(&(saved_monitor->philos[philo_number - 1]));
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (saved_monitor->philos[philo_number - 1].state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+		change_philo_state(philo_number, GOTFORK);
+		print_state(philo_number);
+		if (is_dinner_finished(philo_number))
 			return ;
-		}
-		saved_monitor->philos[philo_number - 1].state = EATING;
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+		change_philo_state(philo_number, EATING);
+	}
+}
+
+void	try_take_a_fork(unsigned int philo_number, t_fork *fork)
+{
+	static t_monitor	*saved_monitor;
+
+	get_monitor(&saved_monitor);
+	while (true)
+	{
+		if (is_dinner_finished(philo_number))
+			return ;
+		if (is_fork_released(fork))
+			break;
+		usleep(saved_monitor->philos[philo_number - 1].params.ask_fork_retry);
 	}
 }
 
@@ -299,317 +302,156 @@ void	take_fork(unsigned int philo_number)
 {
 	static t_monitor	*saved_monitor;
 
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
-		return;
-	}
-	check_death(&(saved_monitor->philos[philo_number - 1]));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == FINISH)
-	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+	get_monitor(&saved_monitor);
+	if (is_dinner_finished(philo_number))
 		return ;
-	}
-	saved_monitor->philos[philo_number - 1].state = HUNGRY;
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-	// printf("tries take fork %d\n", philo_number);
-	while (true)
-	{
-		check_death(&(saved_monitor->philos[philo_number - 1]));
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (saved_monitor->philos[philo_number - 1].state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-			return ;
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-		pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
-		if (saved_monitor->philos[philo_number - 1].left_fork->locked == false)
-		{
-			pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
-			break;
-		}
-		pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
-
-		usleep(1000);
-	}
-	while (true)
-	{
-
-		check_death(&(saved_monitor->philos[philo_number - 1]));
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (saved_monitor->philos[philo_number - 1].state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-			return ;
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-		pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
-		if (saved_monitor->philos[philo_number - 1].right_fork->locked == false)
-		{
-			pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
-			break;
-		}
-		pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
-
-		usleep(1000);
-	}
-	check_death(&(saved_monitor->philos[philo_number - 1]));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == FINISH)
-	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+	change_philo_state(philo_number, HUNGRY);
+	try_take_a_fork(philo_number, saved_monitor->philos[philo_number - 1].left_fork);
+	try_take_a_fork(philo_number, saved_monitor->philos[philo_number - 1].right_fork);
+	if (is_dinner_finished(philo_number))
 		return ;
-	}
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-	// printf("waited until getting fork %d\n", philo_number);
 	check_if_available(philo_number);
 }
 
-bool	wait_until_start_eating()
+void	wait_until_start_eating()
 {
 	static t_monitor	*saved_monitor;
 	bool				everyone_at_the_table;
 
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
-		return (false);
-	}
+	get_monitor(&saved_monitor);
 	while (true)
 	{
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
+		pthread_mutex_lock(&(saved_monitor->monitor_mutex));
 		everyone_at_the_table = saved_monitor->everyone_at_the_table;
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+		pthread_mutex_unlock(&(saved_monitor->monitor_mutex));
 		if (everyone_at_the_table == true)
 		{
 			break;
 		}
 		usleep(1000);
 	}
-	return (true);
+	return ;
 }
 
 void	eat(unsigned int philo_number)
 {
 	static t_monitor	*saved_monitor;
 
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
+	get_monitor(&saved_monitor);
+	if (is_dinner_finished(philo_number))
 		return ;
-	}
-	check_death(&(saved_monitor->philos[philo_number - 1]));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == FINISH)
-	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		return ;
-	}
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-	print_state(&(saved_monitor->philos[philo_number - 1]));
-
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
+	print_state(philo_number);
+	pthread_mutex_lock(&(saved_monitor->monitor_mutex));
 	saved_monitor->philos[philo_number - 1].meals++;
 	saved_monitor->philos[philo_number - 1].last_meal = get_current_time();
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
+	pthread_mutex_unlock(&(saved_monitor->monitor_mutex));
 	usleep(1000 * saved_monitor->philos[philo_number - 1].params.time_to_eat);
-
-	check_death(&(saved_monitor->philos[philo_number - 1]));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == FINISH)
-	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+	if (is_dinner_finished(philo_number))
 		return ;
-	}
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
 }
 
 void	psleep(unsigned int philo_number)
 {
 	static t_monitor	*saved_monitor;
 
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
+	get_monitor(&saved_monitor);
+	if (is_dinner_finished(philo_number))
 		return ;
-	}
-
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	saved_monitor->philos[philo_number - 1].state = SLEEPING;
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-	check_death(&(saved_monitor->philos[philo_number - 1]));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == FINISH)
-	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		return ;
-	}
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-	print_state(&(saved_monitor->philos[philo_number - 1]));
+	change_philo_state(philo_number, SLEEPING);
+	print_state(philo_number);
 	usleep(1000 * saved_monitor->philos[philo_number - 1].params.time_to_sleep);
-	
-	check_death(&(saved_monitor->philos[philo_number - 1]));
-
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == FINISH)
-	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+	if (is_dinner_finished(philo_number))
 		return ;
-	}
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
 }
 
 void	think(unsigned int philo_number)
 {
 	static t_monitor	*saved_monitor;
+	t_state				state;
 
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
+	get_monitor(&saved_monitor);
+	if (is_dinner_finished(philo_number))
 		return ;
-	}
-
-	check_death(&(saved_monitor->philos[philo_number - 1]));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == FINISH)
+	state = get_current_philo_state(philo_number);
+	change_philo_state(philo_number, THINKING);
+	print_state(philo_number);
+	if (state == SLEEPING)
 	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		return ;
-	}
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == SLEEPING)
-	{
-		saved_monitor->philos[philo_number - 1].state = THINKING;
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		print_state(&(saved_monitor->philos[philo_number - 1]));
 		if (saved_monitor->philos[philo_number - 1].params.sleep_gap != 0)
 			usleep(saved_monitor->philos[philo_number - 1].params.sleep_gap);
 	}
-	else
-	{
-		saved_monitor->philos[philo_number - 1].state = THINKING;
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		print_state(&(saved_monitor->philos[philo_number - 1]));
-	}
-
-	check_death(&(saved_monitor->philos[philo_number - 1]));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == FINISH)
-	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+	if (is_dinner_finished(philo_number))
 		return ;
-	}
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
 }
 
 void	put_forks(unsigned int philo_number)
 {
 	static t_monitor	*saved_monitor;
-	
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
-		return;
-	}
 
-	pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
-	saved_monitor->philos[philo_number - 1].right_fork->locked = false;
-	pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].right_fork->mutex));
-
-	pthread_mutex_lock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
-	saved_monitor->philos[philo_number - 1].left_fork->locked = false;
-	pthread_mutex_unlock(&(saved_monitor->philos[philo_number - 1].left_fork->mutex));
-
-	check_death(&(saved_monitor->philos[philo_number - 1]));
-	pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-	if (saved_monitor->philos[philo_number - 1].state == FINISH)
-	{
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+	get_monitor(&saved_monitor);
+	change_fork_state(saved_monitor->philos[philo_number - 1].right_fork, false);
+	change_fork_state(saved_monitor->philos[philo_number - 1].left_fork, false);
+	if (is_dinner_finished(philo_number))
 		return ;
+}
+
+void	delay_even_philos(t_philo *philo)
+{
+	if (philo->number % 2 == 0)
+	{
+		usleep((philo->params.time_to_die / 2) * 1000);
 	}
-	pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-	// usleep(1000);
+}
+
+int	is_state_finish(t_philo *philo)
+{
+	t_state				state;
+
+	state = get_current_philo_state(philo->number);
+	if (state == FINISH || state == FULL)
+		return (true);
+	return (false);
+}
+
+int	routine_process(t_philo *philo)
+{
+	static t_monitor	*saved_monitor;
+
+	get_monitor(&saved_monitor);
+	take_fork(philo->number);
+	if (is_state_finish(philo))
+		return (FAIL);
+	eat(philo->number);
+	if (is_state_finish(philo))
+		return (FAIL);
+	put_forks(philo->number);
+	check_meal(philo->number);
+	if (is_state_finish(philo))
+		return (FAIL);
+	psleep(philo->number);
+	if (is_state_finish(philo))
+		return (FAIL);
+	think(philo->number);
+	if (is_state_finish(philo))
+		return (FAIL);
+	return (OK);
 }
 
 void	*routine(void *arg)
 {
 	static t_monitor	*saved_monitor;
-	t_philo	*philo;
+	t_philo				*philo;
 
-	if (saved_monitor == NULL)
-	{
-		saved_monitor = set_and_get_monitor(NULL);
-		return (NULL);
-	}
-
+	get_monitor(&saved_monitor);
 	philo = (t_philo *)arg;
-	philo->last_meal = get_current_time();
 	wait_until_start_eating();
-	print_state(philo);
-	if (philo->number % 2 == 0)
+	philo->last_meal = get_current_time();
+	print_state(philo->number);
+	delay_even_philos(philo);
+	while (true)
 	{
-		usleep((philo->params.time_to_die / 2) * 1000);
-	}
-	while (1)
-	{
-		take_fork(philo->number);
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (philo->state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
+		if (routine_process(philo) == FAIL)
 			return (NULL);
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		eat(philo->number);
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (philo->state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-			return (NULL);
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		put_forks(philo->number);
-		check_meal(philo);
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (philo->state == FULL)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-			return (NULL);
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (philo->state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-			return (NULL);
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		psleep(philo->number);
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (philo->state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-			return (NULL);
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-		think(philo->number);
-		pthread_mutex_lock(&(saved_monitor->critical_region_mtx));
-		if (philo->state == FINISH)
-		{
-			pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
-			return (NULL);
-		}
-		pthread_mutex_unlock(&(saved_monitor->critical_region_mtx));
 	}
 	return (NULL);
 }
@@ -619,33 +461,7 @@ int	ft_create_threads(t_monitor *monitor)
 	size_t	i;
 
 	i = 0;
-	set_and_get_monitor(monitor);
-	wait_until_start_eating();
-	check_if_available(0);
-	print_state(NULL);
-	check_death(NULL);
-	take_fork(0);
-	check_meal(NULL);
-	put_forks(0);
-	eat(0);
-	psleep(0);
-	think(0);
-	routine(NULL);
-	while (i < monitor->philos->params.number_of_philosophers)
-	{
-		(monitor->philos + i)->left_fork = monitor->forks + i;
-		if (i == monitor->philos->params.number_of_philosophers - 1)
-		{
-			(monitor->philos + i)->right_fork = monitor->forks;
-		}
-		else
-		{
-			(monitor->philos + i)->right_fork = monitor->forks + i + 1;
-		}
-		// printf("philo %d left %d right %d\n", (monitor->philos + i)->number, (monitor->philos + i)->left_fork->number, (monitor->philos + i)->right_fork->number);
-		i++;
-	}
-	i = 0;
+	save_monitor(monitor);
 	while (i < monitor->philos->params.number_of_philosophers)
 	{
 		if (pthread_create(&(monitor->philos + i)->thread, NULL, &routine, (monitor->philos + i)) != 0)
@@ -655,9 +471,9 @@ int	ft_create_threads(t_monitor *monitor)
 		i++;
 	}
 	i = 0;
-	pthread_mutex_lock(&(monitor->critical_region_mtx));
+	pthread_mutex_lock(&(monitor->monitor_mutex));
 	monitor->everyone_at_the_table = true;
-	pthread_mutex_unlock(&(monitor->critical_region_mtx));
+	pthread_mutex_unlock(&(monitor->monitor_mutex));
 	while (i < monitor->philos->params.number_of_philosophers)
 	{
 		if (pthread_join((monitor->philos + i)->thread, NULL) != 0)
@@ -693,38 +509,59 @@ t_philo	*ft_assign_philos(t_philo_params philo_params)
 	return (philos);
 }
 
-t_monitor	*ft_assign_monitor(t_philo *philos)
+int	ft_init_forks(t_philo *philos, t_monitor *monitor)
 {
-	t_monitor *monitor;
 	size_t	i;
 
-	monitor = ft_calloc(1, sizeof(t_monitor));
-	if (monitor == NULL)
-	{
-		return (NULL);
-	}
-	monitor->philos = philos;
-	pthread_mutex_init(&monitor->print_state_mutex, NULL);
-	pthread_mutex_init(&monitor->critical_region_mtx, NULL);
-	pthread_mutex_init(&monitor->death_checker_mutex, NULL);
-	pthread_mutex_init(&monitor->check_fork_mutex, NULL);
-	monitor->forks = ft_calloc(philos->params.number_of_philosophers, sizeof(t_fork));
-	if (monitor->forks == NULL)
-	{
-		pthread_mutex_destroy(&monitor->print_state_mutex);
-		pthread_mutex_destroy(&monitor->critical_region_mtx);
-		pthread_mutex_destroy(&monitor->death_checker_mutex);
-		pthread_mutex_destroy(&monitor->check_fork_mutex);
-		free(monitor);
-		return (NULL);
-	}
 	i = 0;
 	while (i < philos->params.number_of_philosophers)
 	{
 		(monitor->forks + i)->locked = false;
 		(monitor->forks + i)->number = i + 1;
-		pthread_mutex_init(&((monitor->forks + i)->mutex), NULL);
+		if (pthread_mutex_init(&((monitor->forks + i)->mutex), NULL) == -1)
+		{
+			ft_puterror("Error joining thread");
+			return (ft_cleanup_forks(monitor, i), FAIL);
+		}
 		i++;
+	}
+	i = 0;
+	while (i < monitor->philos->params.number_of_philosophers)
+	{
+		(monitor->philos + i)->left_fork = monitor->forks + i;
+		if (i == monitor->philos->params.number_of_philosophers - 1)
+			(monitor->philos + i)->right_fork = monitor->forks;
+		else
+			(monitor->philos + i)->right_fork = monitor->forks + i + 1;
+		i++;
+	}
+	return (OK);
+}
+
+t_monitor	*ft_assign_monitor(t_philo *philos)
+{
+	t_monitor *monitor;
+
+	monitor = ft_calloc(1, sizeof(t_monitor));
+	if (monitor == NULL)
+		return (NULL);
+	monitor->philos = philos;
+	pthread_mutex_init(&monitor->print_state_mutex, NULL);
+	pthread_mutex_init(&monitor->monitor_mutex, NULL);
+	monitor->forks = ft_calloc(philos->params.number_of_philosophers, sizeof(t_fork));
+	if (monitor->forks == NULL)
+	{
+		pthread_mutex_destroy(&monitor->print_state_mutex);
+		pthread_mutex_destroy(&monitor->monitor_mutex);
+		free(monitor);
+		return (NULL);
+	}
+	if (ft_init_forks(philos, monitor) == FAIL)
+	{
+		pthread_mutex_destroy(&monitor->print_state_mutex);
+		pthread_mutex_destroy(&monitor->monitor_mutex);
+		free(monitor);
+		return (NULL);
 	}
 	return (monitor);
 }
@@ -748,15 +585,10 @@ int	main(int argc, char **argv)
 	}
 	philos = ft_assign_philos(philo_params);
 	if (philos == NULL)
-	{
 		return (EXIT_FAILURE);
-	}
 	monitor = ft_assign_monitor(philos);
 	if (monitor == NULL)
-	{
-		// ft_cleanup_waiter(&monitor);
-		return (EXIT_FAILURE);
-	}
+		return (ft_cleanup_philos(philos), EXIT_FAILURE);
 	ft_create_threads(monitor);
-	ft_cleanup_waiter(monitor);
+	ft_cleanup_monitor(monitor);
 }

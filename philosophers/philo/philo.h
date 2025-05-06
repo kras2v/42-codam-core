@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/05/04 17:04:31 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:48:31 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 
 #	define OK 0
 #	define FAIL 1
+#	define NOTSET -42
 
 typedef enum	e_state
 {
@@ -61,6 +62,7 @@ typedef struct s_philo_params
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	long			sleep_gap;
+	long			ask_fork_retry;
 	long			number_of_times_each_philosopher_must_eat;
 }	t_philo_params;
 
@@ -88,15 +90,14 @@ typedef struct s_monitor
 	// long			start_time;
 	bool			is_someone_dead;
 	bool			everyone_at_the_table;
-	pthread_mutex_t	check_fork_mutex;
-	pthread_mutex_t	critical_region_mtx;
-	pthread_mutex_t	death_checker_mutex;
+	pthread_mutex_t	monitor_mutex;
 	pthread_mutex_t	print_state_mutex;
 }	t_monitor;
 
 long	ft_validate_number_input(char *string);
 
-void	ft_cleanup_waiter(t_monitor *routine);
+void	ft_cleanup_forks(t_monitor *routine, size_t	number_of_philosophers);
+void	ft_cleanup_monitor(t_monitor *monitor);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_calculate_num_len(int number);
 bool	ft_isanum(char character);
@@ -106,5 +107,11 @@ long	ft_atol(char *str);
 
 void	ft_print_info_message(void);
 void	ft_print_philo_params(t_philo_params philo_params);
+
+
+//CLEANUP UTILS
+void	ft_cleanup_philos(t_philo *philos);
+void	ft_cleanup_forks(t_monitor *monitor, size_t	number_of_philosophers);
+void	ft_cleanup_monitor(t_monitor *monitor);
 
 #endif
