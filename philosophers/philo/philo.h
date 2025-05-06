@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/05/04 17:04:31 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:25:38 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_philo_params
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	long			sleep_gap;
+	long			ask_fork_retry;
 	long			number_of_times_each_philosopher_must_eat;
 }	t_philo_params;
 
@@ -73,6 +74,7 @@ typedef struct s_philo
 	long			last_meal;
 	t_fork			*left_fork;
 	t_fork			*right_fork;
+	pthread_mutex_t	philo_state_mutex;
 	unsigned int	meals;
 }	t_philo;
 
@@ -88,9 +90,8 @@ typedef struct s_monitor
 	// long			start_time;
 	bool			is_someone_dead;
 	bool			everyone_at_the_table;
-	pthread_mutex_t	check_fork_mutex;
-	pthread_mutex_t	critical_region_mtx;
 	pthread_mutex_t	death_checker_mutex;
+	pthread_mutex_t	shared_info_mutex;
 	pthread_mutex_t	print_state_mutex;
 }	t_monitor;
 

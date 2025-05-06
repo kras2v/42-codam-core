@@ -9,6 +9,9 @@
 		"file_utils.h": "c",
 		"utils.h": "c",
 		"get_next_line_bonus.h": "c",
-		"functional": "c"
-	}
+		"functional": "c",
+		"philo.h": "c",
+		"unistd.h": "c"
+	},
+	"C_Cpp.default.compilerPath": "/usr/bin/clang"
 }

@@ -6,7 +6,7 @@
 /*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 18:46:53 by valeriia          #+#    #+#             */
-/*   Updated: 2025/05/04 17:05:23 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:27:05 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,14 @@ void	*ft_calloc(size_t nmemb, size_t size)
 
 void	ft_cleanup_philos(t_philo *philos)
 {
+	size_t	i;
+
+	i = 0;
+	while (i < philos->params.number_of_philosophers)
+	{
+		pthread_mutex_destroy(&((philos + i)->philo_state_mutex));
+		i++;
+	}
 	if (philos != NULL)
 	{
 		free(philos);
@@ -135,8 +143,7 @@ void	ft_cleanup_waiter(t_monitor *monitor)
 	ft_cleanup_forks(monitor, monitor->philos->params.number_of_philosophers);
 	ft_cleanup_philos(monitor->philos);
 	pthread_mutex_destroy(&monitor->print_state_mutex);
-	pthread_mutex_destroy(&monitor->critical_region_mtx);
+	pthread_mutex_destroy(&monitor->shared_info_mutex);
 	pthread_mutex_destroy(&monitor->death_checker_mutex);
-	pthread_mutex_destroy(&monitor->check_fork_mutex);
 	free(monitor);
 }
