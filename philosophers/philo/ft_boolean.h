@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helpers.c                                          :+:      :+:    :+:   */
+/*   ft_boolean.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 18:47:09 by valeriia          #+#    #+#             */
-/*   Updated: 2025/05/07 12:50:05 by valeriia         ###   ########.fr       */
+/*   Created: 2024/08/29 10:25:48 by kvalerii          #+#    #+#             */
+/*   Updated: 2025/05/07 12:53:22 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#ifndef FT_BOOLEAN_H
+# define FT_BOOLEAN_H
 
-void	ft_print_info_message(void)
+typedef enum s_bool
 {
-	printf(YELLOW"The program ./philo must take following arguments:\n"
-		"number_of_philosophers\n"
-		"time_to_die\n"
-		"time_to_eat\n"
-		"time_to_sleep\n"
-		"[number_of_times_each_philosopher_must_eat]\n\n"RESET);
-}
+	TRUE = 1,
+	FALSE = 0
+}	t_bool;
+
+#endif

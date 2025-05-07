@@ -3,33 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/05/06 20:48:31 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:07:52 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#	include <stdio.h>
-#	include <stdlib.h>
-#	include <limits.h>
-#	include <pthread.h>
-#	include <unistd.h>
-#	include <sys/time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <limits.h>
+# include <pthread.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include "colors.h"
+# include "ft_boolean.h"
 
-//!REMOVE
-#	include <stdbool.h>
-#	include "colors.h"
-#	include <string.h>
+# define OK 0
+# define FAIL 1
+# define NOTSET -42
 
-#	define OK 0
-#	define FAIL 1
-#	define NOTSET -42
-
-typedef enum	e_state
+typedef enum e_state
 {
 	EATING,
 	SLEEPING,
@@ -40,20 +37,14 @@ typedef enum	e_state
 	FINISH,
 	DIED,
 	FULL,
-} t_state;
-
-typedef enum	e_pthread_kind
-{
-	WAITER,
-	PHILOSOPHER
-}	t_pthread_kind;
+}	t_state;
 
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex;
 	unsigned int	number;
-	bool			locked;
-} t_fork;
+	t_bool			locked;
+}	t_fork;
 
 typedef struct s_philo_params
 {
@@ -81,37 +72,65 @@ typedef struct s_philo
 typedef struct s_request
 {
 	t_philo			*philo;
-} t_request;
+}	t_request;
 
 typedef struct s_monitor
 {
 	t_fork			*forks;
 	t_philo			*philos;
-	// long			start_time;
-	bool			is_someone_dead;
-	bool			everyone_at_the_table;
+	t_bool			is_someone_dead;
+	t_bool			everyone_at_the_table;
 	pthread_mutex_t	monitor_mutex;
 	pthread_mutex_t	print_state_mutex;
 }	t_monitor;
 
-long	ft_validate_number_input(char *string);
+//UTILS
+long		ft_validate_number_input(char *string);
+void		*ft_calloc(size_t nmemb, size_t size);
+int			ft_calculate_num_len(int number);
+t_bool		ft_isanum(char character);
+void		ft_puterror(char *msg);
+int			ft_strlen(char *str);
+long		ft_atol(char *str);
+long		ft_get_current_time(void);
 
-void	ft_cleanup_forks(t_monitor *routine, size_t	number_of_philosophers);
-void	ft_cleanup_monitor(t_monitor *monitor);
-void	*ft_calloc(size_t nmemb, size_t size);
-int		ft_calculate_num_len(int number);
-bool	ft_isanum(char character);
-void	ft_puterror(char *msg);
-int		ft_strlen(char *str);
-long	ft_atol(char *str);
+//PRINT
+void		ft_print_info_message(void);
+void		ft_print_state(unsigned int philo_number);
 
-void	ft_print_info_message(void);
-void	ft_print_philo_params(t_philo_params philo_params);
+//ROUTINE
+int			ft_create_threads(t_monitor *monitor);
+void		ft_wait_until_start_eating(void);
+void		ft_eat(unsigned int philo_number);
+void		ft_psleep(unsigned int philo_number);
+void		ft_think(unsigned int philo_number);
 
+//FORKS
+t_bool		ft_is_fork_released(t_fork *fork);
+void		ft_put_forks(unsigned int philo_number);
+void		ft_take_fork(unsigned int philo_number);
+int			ft_init_forks(t_philo *philos, t_monitor *monitor);
+void		ft_change_fork_state(t_fork *fork, t_bool locked);
 
-//CLEANUP UTILS
-void	ft_cleanup_philos(t_philo *philos);
-void	ft_cleanup_forks(t_monitor *monitor, size_t	number_of_philosophers);
-void	ft_cleanup_monitor(t_monitor *monitor);
+//PHILO
+int			ft_assign_philo_params(char **argv, t_philo_params *philo_params);
+t_philo		*ft_assign_philos(t_philo_params philo_params);
+t_state		ft_get_current_philo_state(unsigned int philo_number);
+void		ft_change_philo_state(unsigned int philo_number, t_state state);
+
+//MONITOR
+t_monitor	*ft_save_monitor(t_monitor *monitor);
+int			ft_get_monitor(t_monitor **saved_monitor);
+t_monitor	*ft_assign_monitor(t_philo *philos);
+
+//CHECKER
+int			ft_is_dinner_finished(unsigned int philo_number);
+void		ft_check_meal(unsigned int philo_number);
+void		ft_check_if_available(unsigned int philo_number);
+
+//CLEANUP
+void		ft_cleanup_philos(t_philo *philos);
+void		ft_cleanup_forks(t_monitor *monitor, size_t	number_of_philosophers);
+void		ft_cleanup_monitor(t_monitor *monitor);
 
 #endif

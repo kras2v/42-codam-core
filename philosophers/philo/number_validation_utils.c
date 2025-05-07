@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   number_validation_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
+/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 20:46:34 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/05/06 20:46:41 by kvalerii         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:06:33 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-bool	ft_isanum(char character)
+t_bool	ft_isanum(char character)
 {
 	return (character >= '0' && character <= '9');
 }
