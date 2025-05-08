@@ -6,17 +6,14 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:26:14 by valeriia          #+#    #+#             */
-/*   Updated: 2025/05/07 13:07:42 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:34:42 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	ft_try_take_a_fork(unsigned int philo_number, t_fork *fork)
+static void	ft_try_take_a_fork(unsigned int philo_number, t_fork *fork, t_monitor *saved_monitor)
 {
-	static t_monitor	*saved_monitor;
-
-	ft_get_monitor(&saved_monitor);
 	while (TRUE)
 	{
 		if (ft_is_dinner_finished(philo_number))
@@ -29,10 +26,8 @@ static void	ft_try_take_a_fork(unsigned int philo_number, t_fork *fork)
 
 t_bool	ft_is_fork_released(t_fork *fork)
 {
-	static t_monitor	*saved_monitor;
-	t_bool				locked;
+	t_bool	locked;
 
-	ft_get_monitor(&saved_monitor);
 	pthread_mutex_lock(&(fork->mutex));
 	locked = fork->locked;
 	pthread_mutex_unlock(&(fork->mutex));
@@ -43,11 +38,8 @@ t_bool	ft_is_fork_released(t_fork *fork)
 	return (FALSE);
 }
 
-void	ft_put_forks(unsigned int philo_number)
+void	ft_put_forks(unsigned int philo_number, t_monitor *saved_monitor)
 {
-	static t_monitor	*saved_monitor;
-
-	ft_get_monitor(&saved_monitor);
 	ft_change_fork_state(
 		saved_monitor->philos[philo_number - 1].right_fork, FALSE);
 	ft_change_fork_state(
@@ -85,19 +77,16 @@ int	ft_init_forks(t_philo *philos, t_monitor *monitor)
 	return (OK);
 }
 
-void	ft_take_fork(unsigned int philo_number)
+void	ft_take_fork(unsigned int philo_number, t_monitor *saved_monitor)
 {
-	static t_monitor	*saved_monitor;
-
-	ft_get_monitor(&saved_monitor);
 	if (ft_is_dinner_finished(philo_number))
 		return ;
-	ft_change_philo_state(philo_number, HUNGRY);
+	ft_change_philo_state(philo_number, HUNGRY, saved_monitor);
 	ft_try_take_a_fork(philo_number,
-		saved_monitor->philos[philo_number - 1].left_fork);
+		saved_monitor->philos[philo_number - 1].left_fork, saved_monitor);
 	ft_try_take_a_fork(philo_number,
-		saved_monitor->philos[philo_number - 1].right_fork);
+		saved_monitor->philos[philo_number - 1].right_fork, saved_monitor);
 	if (ft_is_dinner_finished(philo_number))
 		return ;
-	ft_check_if_available(philo_number);
+	ft_check_if_available(philo_number, saved_monitor);
 }
