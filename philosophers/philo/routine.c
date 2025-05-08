@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:20:05 by valeriia          #+#    #+#             */
-/*   Updated: 2025/05/07 12:59:31 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:21:00 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,36 @@ static int	ft_is_state_finish(t_philo *philo)
 	return (FALSE);
 }
 
-static int	ft_routine_process(t_philo *philo)
+static int	ft_proceed_request_monitor(unsigned int philo_number, t_request request)
 {
 	static t_monitor	*saved_monitor;
 
-	ft_get_monitor(&saved_monitor);
+	if (saved_monitor == NULL)
+	{
+		ft_get_monitor(&saved_monitor);
+		return (OK);
+	}
+	ft_take_fork(philo->number);
+	if (ft_is_state_finish(philo))
+		return (FAIL);
+	ft_eat(philo->number);
+	if (ft_is_state_finish(philo))
+		return (FAIL);
+	ft_put_forks(philo->number);
+	ft_check_meal(philo->number);
+	if (ft_is_state_finish(philo))
+		return (FAIL);
+	ft_psleep(philo->number);
+	if (ft_is_state_finish(philo))
+		return (FAIL);
+	ft_think(philo->number);
+	if (ft_is_state_finish(philo))
+		return (FAIL);
+	return (OK);
+}
+
+static int	ft_routine_process(t_philo *philo)
+{
 	ft_take_fork(philo->number);
 	if (ft_is_state_finish(philo))
 		return (FAIL);

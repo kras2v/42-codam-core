@@ -6,7 +6,7 @@
 /*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/05/07 13:07:52 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:20:16 by valeriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,20 @@ typedef enum e_state
 	THINKING,
 	HUNGRY,
 	GOTFORK,
-	PUTFORK,
 	FINISH,
 	DIED,
 	FULL,
 }	t_state;
+
+typedef enum e_request
+{
+	TO_EATING,
+	TO_SLEEPING,
+	TO_THINKING,
+	TO_HUNGRY,
+	TO_GOTFORK,
+	TO_FINISH,
+}	t_request;
 
 typedef struct s_fork
 {
@@ -71,7 +80,8 @@ typedef struct s_philo
 
 typedef struct s_request
 {
-	t_philo			*philo;
+	unsigned int	philo_number;
+	
 }	t_request;
 
 typedef struct s_monitor
