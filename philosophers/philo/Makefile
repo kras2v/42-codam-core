@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/08 13:09:11 by kvalerii          #+#    #+#              #
+#    Updated: 2025/05/08 13:39:52 by kvalerii         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRCS =		\
 main.c \
 validation.c \
@@ -16,7 +28,8 @@ monitor_utils.c
 
 OBJS =		$(SRCS:.c=.o)
 
-CC =		cc -g
+CC =		clang -fsanitize=thread -g -O1
+# CC =		cc
 CFLAGS =	-Wall -Wextra -Werror
 
 NAME =		philo

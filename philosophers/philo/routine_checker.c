@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   routine_checker.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:39:50 by valeriia          #+#    #+#             */
-/*   Updated: 2025/05/08 10:56:27 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:24:50 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	ft_protect_from_one_philo_table(unsigned int philo_number, t_monitor *saved_monitor)
+static int	ft_protect_from_one_philo_table(
+	unsigned int philo_number, t_monitor *saved_monitor)
 {
 	while (saved_monitor->philos[philo_number - 1].left_fork->number
 		== saved_monitor->philos[philo_number - 1].right_fork->number)
@@ -41,11 +42,13 @@ void	ft_check_meal(unsigned int philo_number, t_monitor *saved_monitor)
 	}
 }
 
-void	ft_check_if_available(unsigned int philo_number, t_monitor *saved_monitor)
+void	ft_check_if_available(
+	unsigned int philo_number, t_monitor *saved_monitor)
 {
 	t_bool				is_legable_to_eat;
 
-	is_legable_to_eat = ft_get_current_philo_state(philo_number, saved_monitor) == HUNGRY;
+	is_legable_to_eat
+		= ft_get_current_philo_state(philo_number, saved_monitor) == HUNGRY;
 	if (is_legable_to_eat)
 	{
 		if (ft_protect_from_one_philo_table(philo_number, saved_monitor))

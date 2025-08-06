@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valeriia <valeriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kvalerii <kvalerii@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:06:30 by kvalerii          #+#    #+#             */
-/*   Updated: 2025/05/08 10:48:23 by valeriia         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:32:48 by kvalerii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ typedef enum e_state
 
 typedef enum e_request
 {
-	TO_EATING,
-	TO_SLEEPING,
-	TO_THINKING,
-	TO_HUNGRY,
-	TO_GOTFORK,
-	TO_FINISH,
+	TO_EAT,
+	TO_SLEEP,
+	TO_THINK,
+	TO_GETFORK,
 	TO_PUTFORK,
 	TO_CHECKMEAL,
 	TO_START_DINNER,
@@ -122,18 +120,24 @@ void		ft_change_fork_state(t_fork *fork, t_bool locked);
 //PHILO
 int			ft_assign_philo_params(char **argv, t_philo_params *philo_params);
 t_philo		*ft_assign_philos(t_philo_params philo_params);
-t_state		ft_get_current_philo_state(unsigned int philo_number, t_monitor *monitor);
-void		ft_change_philo_state(unsigned int philo_number, t_state state, t_monitor *monitor);
+t_state		ft_get_current_philo_state(
+				unsigned int philo_number, t_monitor *monitor);
+void		ft_change_philo_state(
+				unsigned int philo_number, t_state state, t_monitor *monitor);
 
 //MONITOR
-t_monitor	*ft_save_monitor(t_monitor *monitor);
-int			ft_get_monitor(t_monitor **saved_monitor);
+t_monitor	*ft_set_monitor(t_monitor *monitor);
 t_monitor	*ft_assign_monitor(t_philo *philos);
+int			ft_get_monitor(t_monitor **saved_monitor);
+int			ft_proceed_request_monitor(
+				unsigned int philo_number, t_request request);
 
 //CHECKER
-int			ft_is_dinner_finished(unsigned int philo_number, t_monitor *monitor);
+int			ft_is_dinner_finished(
+				unsigned int philo_number, t_monitor *monitor);
 void		ft_check_meal(unsigned int philo_number, t_monitor *monitor);
-void		ft_check_if_available(unsigned int philo_number, t_monitor *monitor);
+void		ft_check_if_available(
+				unsigned int philo_number, t_monitor *monitor);
 
 //CLEANUP
 void		ft_cleanup_philos(t_philo *philos);
